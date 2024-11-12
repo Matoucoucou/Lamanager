@@ -2,7 +2,7 @@ name: Laravel
 
 on:
   push:
-    branches: [ "TestPipeline" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
