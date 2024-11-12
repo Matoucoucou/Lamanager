@@ -62,7 +62,7 @@ function EnseignementComponent({ selectedEnseignements, onRemoveEnseignement }) 
                 {selectedEnseignements.map((enseignement) => enseignement && (
                     <div 
                         key={enseignement.id}
-                        className={enseignement.nom}
+                        className={`tab-item ${activeTableau === enseignement.nom ? 'active' : ''}`}
                         onClick={() => handleTableauClick(enseignement.nom)}
                     >
                         <span style={{ display: 'flex', justifyContent: 'center', width: '45px'}} className="mr-2">{enseignement.nom || 'Sans nom'}</span>

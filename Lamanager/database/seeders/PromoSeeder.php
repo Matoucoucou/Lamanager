@@ -17,21 +17,21 @@ class PromoSeeder extends Seeder
             // Création d'un pack de 3 promos pour chaque année
             $promos = [
                 [
-                    'nom' => 'BUT1',
+                    'nom' => 'BUT 1',
                     'nombre_td' => 2,
                     'nombre_tp' => 4,
                     'alternant' => false,
                     'annee_id' => $annee_id,
                 ],
                 [
-                    'nom' => 'BUT2',
+                    'nom' => 'BUT 2',
                     'nombre_td' => 2,
                     'nombre_tp' => 4,
                     'alternant' => false,
                     'annee_id' => $annee_id,
                 ],
                 [
-                    'nom' => 'BUT3',
+                    'nom' => 'BUT 3',
                     'nombre_td' => 2,
                     'nombre_tp' => 4,
                     'alternant' => true,
