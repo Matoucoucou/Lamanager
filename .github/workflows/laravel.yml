@@ -8,8 +8,7 @@ on:
 
 jobs:
   laravel-tests:
-
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     services:
       mariadb:
@@ -38,7 +37,7 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
       - name: Set directory permissions
-        run: chmod -R 777 storage bootstrap/cache
+        run: icacls storage /grant Everyone:(OI)(CI)F /T && icacls bootstrap/cache /grant Everyone:(OI)(CI)F /T
       - name: Run migrations
         env:
           DB_CONNECTION: mysql
