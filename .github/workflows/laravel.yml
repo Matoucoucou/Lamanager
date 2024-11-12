@@ -23,6 +23,8 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
+        volumes:
+          - ./my.cnf:/etc/mysql/my.cnf
 
     steps:
       - uses: actions/checkout@v4
@@ -37,7 +39,7 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
       - name: Set directory permissions
-        run: icacls storage /grant Everyone:(OI)(CI)F /T && icacls bootstrap/cache /grant Everyone:(OI)(CI)F /T
+        run: chmod -R 777 storage bootstrap/cache
       - name: Run migrations
         env:
           DB_CONNECTION: mysql
