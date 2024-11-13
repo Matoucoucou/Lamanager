@@ -17,8 +17,7 @@ jobs:
           php-version: '8.2'
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-      - name: Installation de dépendances
-        run: composer install
+
       - name: Generation de la clée
         run: php artisan key:generate
       - name: permissions du répertoire
