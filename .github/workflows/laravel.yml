@@ -8,28 +8,29 @@ on:
 
 jobs:
   laravel-tests:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-      with:
-        php-version: '8.2'
-    - uses: actions/checkout@v4
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-    - name: Installation de dépendances
-      run: composer install
-    - name: Generation de la clée
-      run: php artisan key:generate
-    - name: permissions du répertoire
-      run: chmod -R 777 storage bootstrap/cache
-    - name: création de la base
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
-    - name: Execution des tests via PHPUnit/Pest
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: php artisan test
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: '8.2'
+      - uses: actions/checkout@v4
+      - name: Set up working directory
+        run: cd /home/runner/work/Lamanager/Lamanager
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Installation de dépendances
+        run: composer install
+      - name: Generation de la clée
+        run: php artisan key:generate
+      - name: permissions du répertoire
+        run: chmod -R 777 storage bootstrap/cache
+      - name: création de la base
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+      - name: Execution des tests via PHPUnit/Pest
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: php artisan test
