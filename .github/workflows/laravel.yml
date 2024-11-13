@@ -16,7 +16,7 @@ jobs:
           php-version: '8.2'
       - uses: actions/checkout@v4
       - name: Set up working directory
-        run: cd /home/runner/work/Lamanager/Lamanager
+        run: cd /home/runner/work/Lamanager/Lamanager/Lamanager
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Installation de dépendances
