@@ -19,9 +19,17 @@ jobs:
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Installation de dépendances
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      run: composer install
     - name: Generation de la clée
       run: php artisan key:generate
     - name: permissions du répertoire
       run: chmod -R 777 storage bootstrap/cache
-
+    - name: création de la base
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+    - name: Execution des tests via PHPUnit/Pest
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: php artisan test
