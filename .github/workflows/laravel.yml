@@ -16,7 +16,7 @@ jobs:
           php-version: '8.2'
       - uses: actions/checkout@v4
       - name: Copy composer.json
-        run: cp ../../Lamanager/composer.json /home/runner/work/Lamanager/Lamanager/composer.json
+        run: cp Lamanager/Lamanager/composer.json /home/runner/work/Lamanager/Lamanager/composer.json
       - name: Set up working directory
         run: cd /home/runner/work/Lamanager/Lamanager
       - name: Copy .env
