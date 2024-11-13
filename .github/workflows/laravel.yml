@@ -15,8 +15,10 @@ jobs:
         with:
           php-version: '8.2'
       - uses: actions/checkout@v4
+      - name: Copy composer.json
+        run: cp /wsl.localhost/Ubuntu/home/kadxx/projet/A_SAE/Lamanager/Lamanager/composer.json /home/runner/work/Lamanager/Lamanager/composer.json
       - name: Set up working directory
-        run: cd /home/runner/work/Lamanager/Lamanager/Lamanager
+        run: cd /home/runner/work/Lamanager/Lamanager
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Installation de dépendances
