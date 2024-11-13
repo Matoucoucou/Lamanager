@@ -15,8 +15,6 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-      - name: Set up working directory
-        run: cd Lamanager/Lamanager
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Installation de dépendances
