@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CircleX } from "lucide-react";
 import TableHeader from './TableauComponents/TableHeader';
 import TableTotal from './TableauComponents/TableTotal';
@@ -9,6 +9,7 @@ import { traitementNom } from '../utils';
 function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseignement, selectedTime, onCellClick, showIcons }) {
     const [activeTableau, setActiveTableau] = useState(null);
     const [isLoading, setIsLoading] = useState(false); // Ajout de isLoading et setIsLoading
+    const [popupTotal, setPopupTotal] = useState({ visible: false, x: 0, y: 0, content: '' });
     const enseignantId = new URLSearchParams(window.location.search).get('enseignant');
 
     const {
@@ -41,7 +42,8 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
         <>
             <div className="liste-ressources">
                 {selectedEnseignements.map((enseignement) => enseignement && (
-                    <div 
+
+                    <div
                         key={enseignement.id}
                         className={`tab-item ${activeTableau === enseignement.nom ? 'active' : ''}`}
                         onClick={() => handleTableauClick(enseignement.nom)}
@@ -54,9 +56,40 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                     </div>
                 ))}
             </div>
-            
+            <>
+                {/* Popup affichée en dehors du tableau */}
+                {popupTotal.visible && (
+                    <div
+                        style={{
+                            position: 'fixed',
+                            width: popupTotal.width,
+                            height: popupTotal.height,
+                            top: popupTotal.y - 1,
+                            left: popupTotal.x,
+                            backgroundColor: 'white',
+                            border: '1px solid black',
+                            paddingTop : '5px',
+                            borderRadius: '5px',
+                            zIndex: 1000,
+                            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                            display: 'flex',
+
+
+                        }}
+                    >
+
+                {(Object.entries(popupTotal.content).map(([groupIndex, total]) => {
+                            return <div key={groupIndex}
+                                        style={{
+                                            fontSize: popupTotal.frontSize,
+                                            width: (popupTotal.width / popupTotal.content.length),
+                                            color : popupTotal.color_list[groupIndex]}}>
+                                        {total}</div>;}))}
+                    </div>
+                )}
+                </>
             {selectedEnseignements.map((enseignement) => enseignement && (
-                <div 
+                <div
                     key={enseignement.id}
                     className="Tableau"
                     id={enseignement.nom}
@@ -66,7 +99,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                         <div className="mb-4 relative">
                             <table className="w-full border-collapse border border-black">
                                 <thead>
-                                <TableHeader 
+                                <TableHeader
                                     enseignement={enseignement}
                                     nbGroupe={nbGroupe}
                                     nbCM={nbCM}
@@ -75,7 +108,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                                     groupNames={groupNames}
                                 />
                                 </thead>
-                                <TableBody 
+                                <TableBody
                                     semaines={semaines}
                                     semainesID={semainesID}
                                     nbGroupe={nbGroupe}
@@ -95,13 +128,14 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                                 />
                             </table>
                             <table className="w-full border-collapse border border-black sticky bottom-0 bg-white">
-                            <TableTotal 
+                                <TableTotal
                                     nbGroupe={nbGroupe}
                                     nbCM={nbCM}
                                     nbTD={nbTD}
                                     nbTP={nbTP}
                                     longueurSemaines={longueurSemaines}
                                     clickedCells={clickedCells}
+                                    setPopupTotal={setPopupTotal}
                                 />
                             </table>
                         </div>

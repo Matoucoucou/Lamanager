@@ -318,7 +318,7 @@ p {
 
 .btn-add-year {
     background-color: #ffffff;
-    box-shadow: '0px 4px 4px rgba(0, 0, 0, 0.50)' ;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.50);
 }
 
 .btn-add-year:hover {
@@ -482,7 +482,7 @@ p {
 
 button:disabled,
 button[disabled]
-{ 
+{
     background-color: grey;
     color: white;
     cursor: not-allowed
@@ -538,7 +538,7 @@ button[disabled]
     transition: background-color 0.3s ease;
   }
   .tab-item.active {
-    background-color: #e0e0e0; 
+    background-color: #e0e0e0;
   }
 
 .tableau-import{
