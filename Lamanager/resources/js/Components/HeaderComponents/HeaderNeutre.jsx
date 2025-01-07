@@ -7,7 +7,7 @@ import ProfileButton from "@/Components/ButtonComponents/ProfileButton.jsx";
 function HeaderNeutre({ }) {
     return (
         <>
-        <Link href="/public">
+        <Link href="/">
           <div className="header-content">
             <img src={logo} alt="Logo" className="logo" />
             <h1 className="title">Lamanager</h1>
