@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../../css/GestionCompte.css"; // Ajustez le chemin d'importation
+import "../../../css/GestionCompte.css"; // Ajustez le chemin d'importation
 
 const GestionCompte = () => {
   const [accounts, setAccounts] = useState([]);

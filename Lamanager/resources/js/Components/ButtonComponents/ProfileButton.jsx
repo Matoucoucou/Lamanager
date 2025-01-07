@@ -1,7 +1,7 @@
 import { CircleUser } from "lucide-react";
 import { Link } from '@inertiajs/react';
 
-function BoutonProfil() {
+function ProfileButton() {
     return (
         <Link href="/profil">
             <CircleUser size={35} className="circle-user"/>
@@ -9,4 +9,4 @@ function BoutonProfil() {
     )
 }
 
-export default BoutonProfil;
+export default ProfileButton;

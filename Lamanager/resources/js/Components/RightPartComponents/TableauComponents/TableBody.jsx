@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { handleCellClick } from '../../utils';
-import { getColorClass } from '../../utils';
+import { handleCellClick } from '../../../utils.js';
+import { getColorClass } from '../../../utils.js';
 
-function TableBody({ 
+function TableBody({
     semaines,
     semainesID,
     nbGroupe,
@@ -93,18 +93,18 @@ function TableBody({
         if (!showIcons) {
             handleCellClick(
                 rowIndex,
-                colIndex, 
-                semaineId, 
-                enseignantId, 
-                enseignement.id, 
-                groupeId, 
-                isSemaineColumn, 
-                nbGroupe, 
-                groupesID, 
-                semainesID, 
-                enseignantCode, 
+                colIndex,
+                semaineId,
+                enseignantId,
+                enseignement.id,
+                groupeId,
+                isSemaineColumn,
+                nbGroupe,
+                groupesID,
+                semainesID,
+                enseignantCode,
                 heures,
-                minutes, 
+                minutes,
                 setClickedCells
             );
         } else if (clickedCells[`${rowIndex}-${colIndex}`]?.text) {
@@ -180,17 +180,17 @@ function TableBody({
                         >
                             {semaine}
                             {showIcons && Object.keys(clickedCells).some(key => key.startsWith(`${rowIndex}-`) && clickedCells[key]?.text) && (
-                                <div 
-                                    style={{ 
-                                        position: 'absolute', 
-                                        top: '4px', 
-                                        right: '4px', 
-                                        width: '8px', 
-                                        height: '8px', 
-                                        borderRadius: '50%', 
-                                        border: '1px solid black', 
-                                        backgroundColor: clickedCells[`semaine-${rowIndex}`]?.selected ? 'black' : 'transparent' 
-                                    }} 
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: '4px',
+                                        right: '4px',
+                                        width: '8px',
+                                        height: '8px',
+                                        borderRadius: '50%',
+                                        border: '1px solid black',
+                                        backgroundColor: clickedCells[`semaine-${rowIndex}`]?.selected ? 'black' : 'transparent'
+                                    }}
                                 />
                             )}
                         </td>
@@ -198,8 +198,8 @@ function TableBody({
                             <td
                                 key={index}
                                 className={`border border-black p-2 ${
-                                    clickedCells[`${rowIndex}-${index}`]?.clicked 
-                                        ? getColorClass(index, nbCM, nbTD) 
+                                    clickedCells[`${rowIndex}-${index}`]?.clicked
+                                        ? getColorClass(index, nbCM, nbTD)
                                         : ''
                                 }`}
                                 style={{ cursor: contextMenu ? 'default' : 'pointer', width: `${100 / (nbGroupe+2)}%`, position: 'relative' }}
@@ -213,17 +213,17 @@ function TableBody({
                                 onContextMenu={(event) => handleContextMenu(event, rowIndex, index)}
                             >
                                 {showIcons && clickedCells[`${rowIndex}-${index}`]?.text && (
-                                    <div 
-                                        style={{ 
-                                            position: 'absolute', 
-                                            top: '4px', 
-                                            right: '4px', 
-                                            width: '8px', 
-                                            height: '8px', 
-                                            borderRadius: '50%', 
-                                            border: '1px solid black', 
-                                            backgroundColor: clickedCells[`${rowIndex}-${index}`]?.selected ? 'black' : 'transparent' 
-                                        }} 
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            top: '4px',
+                                            right: '4px',
+                                            width: '8px',
+                                            height: '8px',
+                                            borderRadius: '50%',
+                                            border: '1px solid black',
+                                            backgroundColor: clickedCells[`${rowIndex}-${index}`]?.selected ? 'black' : 'transparent'
+                                        }}
                                     />
                                 )}
                                 {clickedCells[`${rowIndex}-${index}`]?.text && (

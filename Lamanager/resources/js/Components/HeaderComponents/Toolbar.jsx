@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import logo from '../../img/testlogo.png';
+import logo from '../../../img/testlogo.png';
 import { Link } from '@inertiajs/react';
 import { Table, ChartColumnIncreasing, MousePointer2, Settings, BookUser, FileUser, Download } from "lucide-react";
 import axios from 'axios';
-import ImportPopup from "@/Components/ImportPopup.jsx";
-import RolePopup from "@/Components/RolePopup.jsx";
+import ImportPopup from "@/Components/PopupComponents/ImportPopup.jsx";
+import RolePopup from "@/Components/PopupComponents/RolePopup.jsx";
 
-function BarreOutils({ toggleIcons }) {
+function Toolbar({ toggleIcons }) {
     const [showCustomPopup, setShowCustomPopup] = useState(false);
     const [showRolePopup, setShowRolePopup] = useState(false);
     const [promoName, setPromoName] = useState('');
@@ -33,13 +33,13 @@ function BarreOutils({ toggleIcons }) {
 
     return (
         <>
-            <Link href="/">
+            <Link href="/public">
                 <div className="header-content">
                     <img src={logo} alt="Logo" className="logo" />
                     <h1 className="title">Lamanager</h1>
                 </div>
             </Link>
-    
+
             {window.location.pathname === '/tableau' && (
                 <div className="NomPromo">
                     <h2>{promoName}</h2>
@@ -76,4 +76,4 @@ function BarreOutils({ toggleIcons }) {
     );
 }
 
-export default BarreOutils;
+export default Toolbar;

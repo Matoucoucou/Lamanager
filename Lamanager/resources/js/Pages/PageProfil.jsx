@@ -1,16 +1,16 @@
 import React from 'react';
-import Header from '@/Components/Header';
-import LeftPart from '@/Components/LeftPart';
-import RightPart from '@/Components/RightPart';
-import BarreOutils from '@/Components/BarreOutils';
-import ProfilLeftPart from '@/Components/ProfilLeftPart';
-import ProfilRightPart from '@/Components/ProfilRightPart';
+import Header from '@/Components/HeaderComponents/Header.jsx';
+import LeftPart from '@/Components/LeftPartComponents/LeftPart.jsx';
+import RightPart from '@/Components/RightPartComponents/RightPart.jsx';
+import Toolbar from '@/Components/HeaderComponents/Toolbar.jsx';
+import ProfilLeftPart from '@/Components/LeftPartComponents/ProfilLeftPart.jsx';
+import ProfilRightPart from '@/Components/RightPartComponents/ProfilRightPart.jsx';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import GestionCompte from '@/Components/GestionCompte';
+import GestionCompte from '@/Components/RightPartComponents/GestionCompte.jsx';
 
 export default function PageProfil() {
-    
+
     const [userData, setUserData] = useState(null);
     const [id, setId] = useState(null);
     const urlParams = new URLSearchParams(window.location.search);
@@ -57,7 +57,7 @@ export default function PageProfil() {
     if(urlParams.get('from') === 'tableau'){
         return (
             <>
-                <Header ComposantProp={BarreOutils} />
+                <Header ComposantProp={Toolbar} />
                 <div className="app">
                     <LeftPart ComposantProp={ProfilLeftPart} userName={nom+" "+prenom} />
                     <RightPart ComposantProp={GestionCompte}/>
@@ -67,7 +67,7 @@ export default function PageProfil() {
     }else{
     return (
         <>
-            <Header ComposantProp={BarreOutils} />
+            <Header ComposantProp={Toolbar} />
             <div className="app">
                 <LeftPart ComposantProp={ProfilLeftPart} userName={nom+" "+prenom} />
                 <RightPart ComposantProp={ProfilRightPart} userData={userProfile} />

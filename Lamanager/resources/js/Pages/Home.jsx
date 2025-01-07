@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Header from '../Components/Header';
-import LeftPart from '../Components/LeftPart';
-import RightPart from '../Components/RightPart';
-import PromoRightPart from '@/Components/PromoRightPart';
-import HeaderNeutre from '@/Components/HeaderNeutre';
-import MenuAnnee from '@/Components/MenuAnnee';
+import Header from '../Components/HeaderComponents/Header.jsx';
+import LeftPart from '../Components/LeftPartComponents/LeftPart.jsx';
+import RightPart from '../Components/RightPartComponents/RightPart.jsx';
+import PromoRightPart from '@/Components/RightPartComponents/PromoComponents/PromoRightPart.jsx';
+import HeaderNeutre from '@/Components/HeaderComponents/HeaderNeutre.jsx';
+import MenuAnnee from '@/Components/LeftPartComponents/MenuAnnee.jsx';
 
 const Home = () => {
     const [selectedAnnee, setSelectedAnnee] = useState(null);
@@ -14,9 +14,9 @@ const Home = () => {
     };
 
     const MenuAnneeWithProps = () => (
-        <MenuAnnee 
-            selectedAnnee={selectedAnnee} 
-            onAnneeSelect={handleAnneeSelect} 
+        <MenuAnnee
+            selectedAnnee={selectedAnnee}
+            onAnneeSelect={handleAnneeSelect}
         />
     );
 

@@ -1,11 +1,11 @@
 import React from "react";
-import BoutonProfil from "@/Components/BoutonProfil";
+import ProfileButton from "@/Components/ButtonComponents/ProfileButton.jsx";
 
 function Header({ ComposantProp }) {
   return (
     <header>
       <ComposantProp/>
-      <BoutonProfil />
+      <ProfileButton />
     </header>
 
   );

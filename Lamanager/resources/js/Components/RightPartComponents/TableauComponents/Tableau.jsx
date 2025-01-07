@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { CircleX } from "lucide-react";
-import TableHeader from './TableauComponents/TableHeader';
-import TableTotal from './TableauComponents/TableTotal';
-import TableBody from './TableauComponents/TableBody';
-import useFetchData from './../hooks/useFetchData';
-import { traitementNom } from '../utils';
+import TableHeader from '@/Components/RightPartComponents/TableauComponents/TableHeader.jsx';
+import TableTotal from '@/Components/RightPartComponents/TableauComponents/TableTotal.jsx';
+import TableBody from '@/Components/RightPartComponents/TableauComponents/TableBody.jsx';
+import useFetchData from '../../../hooks/useFetchData.js';
+import { traitementNom } from '../../../utils.js';
 
 function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseignement, selectedTime, onCellClick, showIcons }) {
     const [activeTableau, setActiveTableau] = useState(null);
@@ -40,7 +40,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
         <>
             <div className="liste-ressources">
                 {selectedEnseignements.map((enseignement) => enseignement && (
-                    <div 
+                    <div
                         key={enseignement.id}
                         className={`tab-item ${activeTableau === enseignement.nom ? 'active' : ''}`}
                         onClick={() => handleTableauClick(enseignement.nom)}
@@ -53,9 +53,9 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                     </div>
                 ))}
             </div>
-            
+
             {selectedEnseignements.map((enseignement) => enseignement && (
-                <div 
+                <div
                     key={enseignement.id}
                     className="Tableau"
                     id={enseignement.nom}
@@ -65,7 +65,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                         <div className="mb-4 relative">
                             <table className="w-full border-collapse border border-black">
                                 <thead>
-                                <TableHeader 
+                                <TableHeader
                                     enseignement={enseignement}
                                     nbGroupe={nbGroupe}
                                     nbCM={nbCM}
@@ -74,7 +74,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                                     groupNames={groupNames}
                                 />
                                 </thead>
-                                <TableBody 
+                                <TableBody
                                     semaines={semaines}
                                     semainesID={semainesID}
                                     nbGroupe={nbGroupe}
@@ -93,7 +93,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                                 />
                             </table>
                             <table className="w-full border-collapse border border-black sticky bottom-0 bg-white">
-                            <TableTotal 
+                            <TableTotal
                                     nbGroupe={nbGroupe}
                                     nbCM={nbCM}
                                     nbTD={nbTD}

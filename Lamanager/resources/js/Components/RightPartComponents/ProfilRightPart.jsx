@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import GestionCompte from './GestionCompte';
+import GestionCompte from './GestionCompte.jsx';
 
 export default function ProfilRightPart({ userData = {} }) {
     const [currentPassword, setCurrentPassword] = useState('');
@@ -58,28 +58,28 @@ export default function ProfilRightPart({ userData = {} }) {
                     <div className="space-y-4">
                         <div className="flex flex-col">
                             <label className="text-gray-600">Nom</label>
-                            <input 
-                                type="text" 
-                                value={userData.nom || ''} 
-                                readOnly 
+                            <input
+                                type="text"
+                                value={userData.nom || ''}
+                                readOnly
                                 className="bg-pink-50 p-2 rounded-md"
                             />
-                        </div>  
+                        </div>
                         <div className="flex flex-col">
                             <label className="text-gray-600">Prénom</label>
-                            <input 
-                                type="text" 
-                                value={userData.prenom || ''} 
-                                readOnly 
+                            <input
+                                type="text"
+                                value={userData.prenom || ''}
+                                readOnly
                                 className="bg-pink-50 p-2 rounded-md"
                             />
                         </div>
                         <div className="flex flex-col">
                             <label className="text-gray-600">Mail</label>
-                            <input 
-                                type="email" 
-                                value={userData.mail || ''} 
-                                readOnly 
+                            <input
+                                type="email"
+                                value={userData.mail || ''}
+                                readOnly
                                 className="bg-pink-50 p-2 rounded-md"
                             />
                         </div>
@@ -119,7 +119,7 @@ export default function ProfilRightPart({ userData = {} }) {
                         </div>
                     </div>
                     <div className="fixed bottom-4 right-4">
-                        <button 
+                        <button
                             className="bg-pink-100 text-gray-700 px-4 py-2 rounded-md hover:bg-pink-200"
                             onClick={() => setShowGestionCompte(true)}
                         >

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import ChoixPromo from "./ChoixPromo";
-import AjoutPromo from "@/Components/AjoutPromo.jsx";
-import BoutonModificationsPromos from "./BoutonsModificationsPromos";
+import ChoixPromo from "./ChoixPromo.jsx";
+import AjoutPromo from "@/Components/PopupComponents/AjoutPromo.jsx";
+import BoutonModificationsPromos from "../../BoutonsModificationsPromos.jsx";
 import { Trash2, Edit } from "lucide-react";
 import { Link } from '@inertiajs/react';
-import PopupModifPromo from "./PopupModifPromo";
+import PopupModifPromo from "../../PopupModifPromo.jsx";
 
 function PromoRightPart({ selectedAnnee }) {
     const [promos, setPromos] = useState([]);
@@ -19,11 +19,11 @@ function PromoRightPart({ selectedAnnee }) {
         const fetchPromos = async () => {
             if (!selectedAnnee) return;
             try {
-                
+
                 const response = await axios.get(`/api/promos/${selectedAnnee.id}`);
-                
-                
-                //console.log(response.data); 
+
+
+                //console.log(response.data);
                 setPromos(response.data);
                 setLoading(false);
             } catch (err) {

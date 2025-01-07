@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../Components/Header';
-import ListesEnseignementsEnseignants from '../Components/TableauLeftPart/ListesEnseignementsEnseignants';
-import LeftPart from '@/Components/LeftPart';
-import RightPart from '@/Components/RightPart';
-import Tableau from '@/Components/Tableau';
-import BarreOutils from '@/Components/BarreOutils';
-import BoutonProfil from '@/Components/BoutonProfil';
+import Header from '../Components/HeaderComponents/Header.jsx';
+import ListesEnseignementsEnseignants from '@/Components/LeftPartComponents/TableauLeftPart/ListesEnseignementsEnseignants';
+import LeftPart from '@/Components/LeftPartComponents/LeftPart.jsx';
+import RightPart from '@/Components/RightPartComponents/RightPart.jsx';
+import Tableau from '@/Components/RightPartComponents/TableauComponents/Tableau.jsx';
+import Toolbar from '@/Components/HeaderComponents/Toolbar.jsx';
+import ProfileButton from '@/Components/ButtonComponents/ProfileButton.jsx';
 
 export default function PageTableau() {
     // Déplacer la déclaration de urlParams avant son utilisation
@@ -62,10 +62,10 @@ export default function PageTableau() {
     };
 
     const ListesEnseignementsEnseignantsWithProps = () => (
-        <ListesEnseignementsEnseignants 
-            promoId={promoId} 
+        <ListesEnseignementsEnseignants
+            promoId={promoId}
             anneeId={anneeId}
-            onEnseignementSelect={handleEnseignementSelect} 
+            onEnseignementSelect={handleEnseignementSelect}
             selectedEnseignant={selectedEnseignant}
             onEnseignantSelect={handleEnseignantSelect}
             onTimeSelect={handleTimeSelect}
@@ -76,8 +76,8 @@ export default function PageTableau() {
 
     // Rendu du composant Tableau avec les enseignements sélectionnés
     const TableauWithProps = () => (
-        <Tableau 
-            promoId={currentPromoId} 
+        <Tableau
+            promoId={currentPromoId}
             selectedEnseignements={selectedEnseignements}
             onRemoveEnseignement={handleRemoveEnseignement}
             selectedTime={selectedTime}
@@ -88,7 +88,7 @@ export default function PageTableau() {
 
     return (
         <>
-            <Header ComposantProp={() => <BarreOutils toggleIcons={toggleIcons} />} />
+            <Header ComposantProp={() => <Toolbar toggleIcons={toggleIcons} />} />
             <div className="app">
                 <LeftPart ComposantProp={ListesEnseignementsEnseignantsWithProps} />
                 <RightPart ComposantProp={TableauWithProps} />
