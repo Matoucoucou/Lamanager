@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function EnseignantList({ selectedEnseignant, onEnseignantSelect }) {
+function TeacherList({ selectedEnseignant, onEnseignantSelect }) {
     const [enseignants, setEnseignants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -41,7 +41,7 @@ function EnseignantList({ selectedEnseignant, onEnseignantSelect }) {
             <h2 className="menu-title">Enseignants</h2>
             <div className="menu-container">
                 {enseignants.map((enseignant) => (
-                    <div 
+                    <div
                         key={enseignant.id}
                         id={enseignant.id}
                         className={`menu-item cursor-pointer ${selectedEnseignant?.id === enseignant.id ? 'bg-[#564787] text-white' : 'hover:bg-purple-100'}`}
@@ -58,4 +58,4 @@ function EnseignantList({ selectedEnseignant, onEnseignantSelect }) {
     );
 }
 
-export default EnseignantList;
+export default TeacherList;

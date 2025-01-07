@@ -3,8 +3,8 @@ import Header from '../Components/HeaderComponents/Header.jsx';
 import LeftPart from '../Components/LeftPartComponents/LeftPart.jsx';
 import RightPart from '../Components/RightPartComponents/RightPart.jsx';
 import PromoRightPart from '@/Components/RightPartComponents/PromoComponents/PromoRightPart.jsx';
-import HeaderNeutre from '@/Components/HeaderComponents/HeaderNeutre.jsx';
-import MenuAnnee from '@/Components/LeftPartComponents/MenuAnnee.jsx';
+import NeutralHeader from '@/Components/HeaderComponents/NeutralHeader.jsx';
+import LeftPartYears from '@/Components/LeftPartComponents/LeftPartYears.jsx';
 
 const Home = () => {
     const [selectedAnnee, setSelectedAnnee] = useState(null);
@@ -14,7 +14,7 @@ const Home = () => {
     };
 
     const MenuAnneeWithProps = () => (
-        <MenuAnnee
+        <LeftPartYears
             selectedAnnee={selectedAnnee}
             onAnneeSelect={handleAnneeSelect}
         />
@@ -22,7 +22,7 @@ const Home = () => {
 
     return (
         <>
-            <Header ComposantProp={HeaderNeutre}/>
+            <Header ComposantProp={NeutralHeader}/>
             <div className="app">
                 <LeftPart ComposantProp={MenuAnneeWithProps} />
                 <RightPart ComposantProp={() => <PromoRightPart selectedAnnee={selectedAnnee} />}/>

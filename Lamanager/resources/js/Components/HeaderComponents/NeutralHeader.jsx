@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/react';
 import ProfileButton from "@/Components/ButtonComponents/ProfileButton.jsx";
 
 
-function HeaderNeutre({ }) {
+function NeutralHeader({ }) {
     return (
         <>
         <Link href="/">
@@ -18,4 +18,4 @@ function HeaderNeutre({ }) {
     )
 }
 
-export default HeaderNeutre;
+export default NeutralHeader;

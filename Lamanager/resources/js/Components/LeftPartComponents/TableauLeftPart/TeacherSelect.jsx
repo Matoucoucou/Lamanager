@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function EnseignementSelect({ promoId, anneeId, onEnseignementSelect }) {
+function TeacherSelect({ promoId, anneeId, onEnseignementSelect }) {
     const [enseignements, setEnseignements] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ function EnseignementSelect({ promoId, anneeId, onEnseignementSelect }) {
 
     return (
         <div className="select-container">
-            <select 
+            <select
                 className="w-full p-2 rounded-md border border-gray-300 focus:border-[#564787] focus:ring focus:ring-[#564787] focus:ring-opacity-50"
                 onChange={(e) => {
                     const selectedId = parseInt(e.target.value);
@@ -51,4 +51,4 @@ function EnseignementSelect({ promoId, anneeId, onEnseignementSelect }) {
     );
 }
 
-export default EnseignementSelect;
+export default TeacherSelect;

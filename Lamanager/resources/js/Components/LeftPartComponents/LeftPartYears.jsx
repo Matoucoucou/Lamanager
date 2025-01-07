@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-const MenuAnnee = ({ selectedAnnee, onAnneeSelect }) => {
+const LeftPartYears = ({ selectedAnnee, onAnneeSelect }) => {
     const [annees, setAnnees] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -47,8 +47,8 @@ const MenuAnnee = ({ selectedAnnee, onAnneeSelect }) => {
             <h2 className="menu-title">Année Scolaire</h2>
             <div className="menu-container">
                 {annees.map((annee) => (
-                    <div 
-                        key={annee.id} 
+                    <div
+                        key={annee.id}
                         className={`menu-item cursor-pointer ${selectedAnnee?.id === annee.id ? 'bg-[#564787] text-white' : 'hover:bg-purple-100'}`}
                         onClick={() => onAnneeSelect(annee)}
                     >
@@ -56,14 +56,14 @@ const MenuAnnee = ({ selectedAnnee, onAnneeSelect }) => {
                     </div>
                 ))}
             </div>
-            <button 
+            <button
                 onClick={() => setShowAddForm(true)}
                 className="cursor-pointer btn-add-year"
                 style={{ width: '100%', marginTop: '1vh', borderRadius: '10px', padding: '0.5rem 1rem' , boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}
             >
             + Ajouter une année
             </button>
-            
+
 
             {showAddForm && (
                 <div className="popup-overlay">
@@ -80,8 +80,8 @@ const MenuAnnee = ({ selectedAnnee, onAnneeSelect }) => {
                                 required
                             />
                             <div className="button-container">
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     onClick={() => setShowAddForm(false)}
                                     className="mr-2"
                                 >
@@ -99,4 +99,4 @@ const MenuAnnee = ({ selectedAnnee, onAnneeSelect }) => {
     );
 };
 
-export default MenuAnnee;
+export default LeftPartYears;

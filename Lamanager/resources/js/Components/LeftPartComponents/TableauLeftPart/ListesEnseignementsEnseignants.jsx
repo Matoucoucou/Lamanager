@@ -1,6 +1,6 @@
 import React from 'react';
-import EnseignementSelect from './EnseignementSelect.jsx';
-import EnseignantList from './EnseignantList.jsx';
+import TeacherSelect from './TeacherSelect.jsx';
+import TeacherList from './TeacherList.jsx';
 import TimeSelector from './TimeSelector.jsx';
 import SwitchAlternant from './SwitchAlternant.jsx';
 
@@ -17,12 +17,12 @@ function ListesEnseignementsEnseignants({
 }) {
     return (
         <>
-            <EnseignementSelect
+            <TeacherSelect
                 promoId={promoId}
                 anneeId={anneeId}
                 onEnseignementSelect={onEnseignementSelect}
             />
-            <EnseignantList
+            <TeacherList
                 selectedEnseignant={selectedEnseignant}
                 onEnseignantSelect={onEnseignantSelect}
             />
