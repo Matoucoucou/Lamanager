@@ -1,15 +1,14 @@
-import React from 'react';
-
-function TableTotal({ nbGroupe, nbCM, nbTD, nbTP, longueurSemaines, clickedCells }) {
+// TableTotal.jsx
+function TableTotal({ nbGroupe, nbCM, nbTD, nbTP, longueurSemaines, clickedCells, enseignement }) {
     const categories = [
-        { width: nbCM },
-        { width: nbTD },
-        { width: nbTP }
+        { width: nbCM, plannedHours: enseignement.nombre_heures_cm },
+        { width: nbTD, plannedHours: enseignement.nombre_heures_td },
+        { width: nbTP, plannedHours: enseignement.nombre_heures_tp }
     ];
 
     const calculateTotal = (startIndex, width) => {
         const groupTotals = {};
-        
+
         Object.entries(clickedCells).forEach(([key, cell]) => {
             if (cell?.clicked) {
                 const [_, colIndex] = key.split('-').map(Number);
@@ -46,7 +45,7 @@ function TableTotal({ nbGroupe, nbCM, nbTD, nbTP, longueurSemaines, clickedCells
                 maxValidTotal = total;
             }
         }
-        
+
         const hours = Math.floor(maxValidTotal / 60);
         const minutes = maxValidTotal % 60;
         return minutes > 0 ? `${hours}h${minutes}` : `${hours}h`;
@@ -54,35 +53,35 @@ function TableTotal({ nbGroupe, nbCM, nbTD, nbTP, longueurSemaines, clickedCells
 
     return (
         <tbody>
-            <tr>
-                <td 
-                    className="border border-black p-2" 
-                    style={{ 
-                        height: '70px',
-                        width: `${100 / (nbGroupe + 2)}%` 
-                    }}
-                >
-                    Total
-                </td>
-                {categories.map(({ width }, index) => {
-                    const startIndex = index === 0 ? 0 : 
-                                     index === 1 ? nbCM : 
-                                     nbCM + nbTD;
-                    const total = calculateTotal(startIndex, width);
-                    
-                    return (
-                        <td
-                            key={index}
-                            className="border border-black p-2"
-                            style={{ 
-                                width: `${100 / (nbGroupe + 2) * width}%`
-                            }}
-                        >
-                            {total}
-                        </td>
-                    );
-                })}
-            </tr>
+        <tr>
+            <td
+                className="border border-black p-2"
+                style={{
+                    height: '70px',
+                    width: `${100 / (nbGroupe + 2)}%`
+                }}
+            >
+                Total
+            </td>
+            {categories.map(({ width, plannedHours }, index) => {
+                const startIndex = index === 0 ? 0 :
+                    index === 1 ? nbCM :
+                        nbCM + nbTD;
+                const total = calculateTotal(startIndex, width);
+
+                return (
+                    <td
+                        key={index}
+                        className="border border-black p-2"
+                        style={{
+                            width: `${100 / (nbGroupe + 2) * width}%`
+                        }}
+                    >
+                        {total} / {plannedHours}h
+                    </td>
+                );
+            })}
+        </tr>
         </tbody>
     );
 }

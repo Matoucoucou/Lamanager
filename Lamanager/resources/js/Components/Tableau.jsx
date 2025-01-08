@@ -40,7 +40,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
         <>
             <div className="liste-ressources">
                 {selectedEnseignements.map((enseignement) => enseignement && (
-                    <div 
+                    <div
                         key={enseignement.id}
                         className={`tab-item ${activeTableau === enseignement.nom ? 'active' : ''}`}
                         onClick={() => handleTableauClick(enseignement.nom)}
@@ -53,9 +53,9 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                     </div>
                 ))}
             </div>
-            
+
             {selectedEnseignements.map((enseignement) => enseignement && (
-                <div 
+                <div
                     key={enseignement.id}
                     className="Tableau"
                     id={enseignement.nom}
@@ -65,7 +65,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                         <div className="mb-4 relative">
                             <table className="w-full border-collapse border border-black">
                                 <thead>
-                                <TableHeader 
+                                <TableHeader
                                     enseignement={enseignement}
                                     nbGroupe={nbGroupe}
                                     nbCM={nbCM}
@@ -74,7 +74,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                                     groupNames={groupNames}
                                 />
                                 </thead>
-                                <TableBody 
+                                <TableBody
                                     semaines={semaines}
                                     semainesID={semainesID}
                                     nbGroupe={nbGroupe}
@@ -93,13 +93,14 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                                 />
                             </table>
                             <table className="w-full border-collapse border border-black sticky bottom-0 bg-white">
-                            <TableTotal 
+                                <TableTotal
                                     nbGroupe={nbGroupe}
                                     nbCM={nbCM}
                                     nbTD={nbTD}
                                     nbTP={nbTP}
                                     longueurSemaines={longueurSemaines}
                                     clickedCells={clickedCells}
+                                    enseignement={enseignement} // Pass the enseignement object
                                 />
                             </table>
                         </div>
