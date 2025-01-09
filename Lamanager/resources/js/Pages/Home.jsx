@@ -6,6 +6,8 @@ import PromoRightPart from '@/Components/PromoRightPart';
 import HeaderNeutre from '@/Components/HeaderNeutre';
 import MenuAnnee from '@/Components/MenuAnnee';
 
+
+
 const Home = () => {
     const [selectedAnnee, setSelectedAnnee] = useState(null);
 
