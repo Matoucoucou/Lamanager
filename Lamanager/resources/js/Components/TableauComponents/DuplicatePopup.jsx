@@ -52,8 +52,8 @@ function DuplicatePopup({ duplicateOption, setDuplicateOption, customWeeks, setC
                     </label>
                 </div>
                 <div style={buttonContainerStyle}>
-                    <button onClick={handleDuplicateConfirm} style={buttonStyle}>Confirmer</button>
                     <button onClick={() => setShowDuplicatePopup(false)} style={buttonStyle}>Annuler</button>
+                    <button onClick={handleDuplicateConfirm} style={buttonStyle}>Confirmer</button>
                 </div>
             </div>
         </div>

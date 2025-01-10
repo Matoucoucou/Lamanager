@@ -19,7 +19,7 @@ function DeletePopup({ handleDeleteConfirm, setShowDeletePopup }) {
     return (
         <div className="popup-overlay" style={overlayStyle}>
             <div className="popup-content" style={contentStyle}>
-                <h2>Confirmer la suppression</h2>
+                <h2>Supprimer</h2>
                 <div style={radioContainerStyle}>
                     <label style={radioLabelStyle}>
                         <input
@@ -77,7 +77,7 @@ const contentStyle = {
     padding: '20px',
     borderRadius: '8px',
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.25)',
-    maxWidth: '700px',
+    maxWidth: '600px',
     width: '100%',
     textAlign: 'center',
 };
