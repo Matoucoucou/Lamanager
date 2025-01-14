@@ -59,7 +59,7 @@ const HistogrammeTousEnseignements = ({ data }) => {
       />
       <VictoryLabel
         x={window.innerWidth * 0.5}
-        y={window.innerHeight * 0}  
+        y={window.innerHeight * 1}  
         style={{ fontSize: 30 }}
         textAnchor="middle"
         text="Répartition des heures par enseignement"

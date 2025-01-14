@@ -19,8 +19,6 @@ const HistogrammeGroupe = ({ data }) => {
     <VictoryChart theme={VictoryTheme.material} domainPadding={dynamicDomainPadding} containerComponent={<VictoryVoronoiContainer />} width={window.innerWidth * 0.9} height={window.innerHeight * 0.9}>
       
       <VictoryLegend
-        x={chartWidth * 0.05}
-        y={chartHeight * 0.1}
         orientation="horizontal"
         gutter={20}
         style={{ border: { stroke: "black" }, title: { fontSize: 24 }, labels: { fontSize: 18 } }}
@@ -44,8 +42,8 @@ const HistogrammeGroupe = ({ data }) => {
      
       />
       <VictoryLabel
-        x={window.innerWidth * 0.5}
-        y={window.innerHeight * 0}  
+        x={window.innerWidth * 0.4}
+        y={window.innerHeight * 0.9}  
         style={{ fontSize: 30 }}
         textAnchor="middle"
         text="Répartition des heures par type de cours"
