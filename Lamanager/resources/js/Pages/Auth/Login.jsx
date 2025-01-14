@@ -67,7 +67,7 @@ export default function LoginApp() {
                             />
                         </div>
                     </div>
-                    {errors.email && <p>{errors.email}</p>}
+                    {errors.email && <p>Adresse mail ou mot de passe incorrectes</p>}
                 </div>
 
                 <div className="button-container">
