@@ -46,7 +46,7 @@ function ImportPopup({ onClose }) {
             setErrorMessage("Veuillez selectionner un fichier CSV en premier.");
         } else {
             setErrorMessage("");
-            //console.log("Valeurs modifiées : ", listeHeures);
+            console.log("Valeurs modifiées : ", listeHeures);
 
             try {
                 const promo = await axios.get(`/api/promo/${promoId}`);
@@ -59,14 +59,16 @@ function ImportPopup({ onClose }) {
                             nom: item, 
                             promo_id: promo.data.alternant_id, 
                             alternant: isAlternance,
-                            nombre_heures_cm: listeHeures[index][0], 
-                            nombre_heures_td: listeHeures[index][1], 
-                            nombre_heures_tp: listeHeures[index][2], 
+                            nombre_heures_cm: listeHeures[index][4], 
+                            nombre_heures_td: listeHeures[index][5], 
+                            nombre_heures_tp: listeHeures[index][6], 
                             semestre: semestre, 
-                            nombre_heures_projet: listeHeures[index][3], 
+                            nombre_heures_projet: listeHeures[index][7], 
                         }); 
+                        console.log("données alternant",donnes_alternant.data);
                     };
                     const item = listeRecherche[index]; 
+                    console.log("item",item);
                     const response = await axios.post('api/enseignements', { 
                         nom: item, 
                         promo_id: promoId, 
@@ -77,7 +79,7 @@ function ImportPopup({ onClose }) {
                         semestre: semestre, 
                         nombre_heures_projet: listeHeures[index][3], 
                     }); 
-                    //console.log(response.data);
+                    console.log("données promo classico",response.data);
                     setIsDisabled(false);
                     onClose();
                 }
@@ -144,8 +146,8 @@ function ImportPopup({ onClose }) {
                             i++;
                         }
                         let semestre = liste_recherche[i][1];
-                        //console.log("Liste des heures : ", liste_heures);
-                        //console.log("Liste des ressources :", liste_recherche);        
+                        console.log("Liste des heures : ", liste_heures);
+                        console.log("Liste des ressources :", liste_recherche);        
                         //console.log(semestre);
                         
                         setIsAlternance(alternance);
