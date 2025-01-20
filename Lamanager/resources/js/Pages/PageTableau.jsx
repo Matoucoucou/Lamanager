@@ -21,6 +21,7 @@ export default function PageTableau() {
     const [currentPromoId, setCurrentPromoId] = useState(promoId);
     const [alternantId, setAlternantId] = useState(null);
 
+
     const handleEnseignementSelect = (enseignement) => {
         if (enseignement && !selectedEnseignements.some(e => e.id === enseignement.id)) {
             setSelectedEnseignements([...selectedEnseignements, enseignement]);
@@ -38,6 +39,7 @@ export default function PageTableau() {
 
     const handleTimeSelect = (time) => {
         setSelectedTime(time);
+
     };
 
     const toggleIcons = () => {
@@ -62,10 +64,10 @@ export default function PageTableau() {
     };
 
     const ListesEnseignementsEnseignantsWithProps = () => (
-        <ListesEnseignementsEnseignants 
-            promoId={promoId} 
+        <ListesEnseignementsEnseignants
+            promoId={promoId}
             anneeId={anneeId}
-            onEnseignementSelect={handleEnseignementSelect} 
+            onEnseignementSelect={handleEnseignementSelect}
             selectedEnseignant={selectedEnseignant}
             onEnseignantSelect={handleEnseignantSelect}
             onTimeSelect={handleTimeSelect}
@@ -76,8 +78,8 @@ export default function PageTableau() {
 
     // Rendu du composant Tableau avec les enseignements sélectionnés
     const TableauWithProps = () => (
-        <Tableau 
-            promoId={currentPromoId} 
+        <Tableau
+            promoId={currentPromoId}
             selectedEnseignements={selectedEnseignements}
             onRemoveEnseignement={handleRemoveEnseignement}
             selectedTime={selectedTime}
@@ -88,7 +90,7 @@ export default function PageTableau() {
 
     return (
         <>
-            <Header ComposantProp={() => <BarreOutils toggleIcons={toggleIcons} />} />
+            <Header ComposantProp={() => <BarreOutils lockButton = {false} toggleIcons={toggleIcons} />} />
             <div className="app">
                 <LeftPart ComposantProp={ListesEnseignementsEnseignantsWithProps} />
                 <RightPart ComposantProp={TableauWithProps} />

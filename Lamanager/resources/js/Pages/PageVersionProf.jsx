@@ -15,7 +15,7 @@ export default function PageVersionProf() {
 
   return (
     <>
-      <Header ComposantProp={BarreOutils} />
+      <Header ComposantProp={() => <BarreOutils lockButton = {true} />} />
       <div className="app">
         <LeftPart ComposantProp={() => <VersionProfLeftPart onSelectionChange={handleSelectionChange} />} />
         <RightPart ComposantProp={() => <VersionProfRightPart selections={selections} />} />

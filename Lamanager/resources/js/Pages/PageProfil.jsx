@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import GestionCompte from '@/Components/GestionCompte';
 
 export default function PageProfil() {
-    
+
     const [userData, setUserData] = useState(null);
     const [id, setId] = useState(null);
     const urlParams = new URLSearchParams(window.location.search);
@@ -57,7 +57,7 @@ export default function PageProfil() {
     if(urlParams.get('from') === 'tableau'){
         return (
             <>
-                <Header ComposantProp={BarreOutils} />
+                <Header ComposantProp={() => <BarreOutils lockButton = {true} />} />
                 <div className="app">
                     <LeftPart ComposantProp={ProfilLeftPart} userName={nom+" "+prenom} />
                     <RightPart ComposantProp={GestionCompte}/>
@@ -67,7 +67,7 @@ export default function PageProfil() {
     }else{
     return (
         <>
-            <Header ComposantProp={BarreOutils} />
+            <Header ComposantProp={() => <BarreOutils lockButton = {true} />} />
             <div className="app">
                 <LeftPart ComposantProp={ProfilLeftPart} userName={nom+" "+prenom} />
                 <RightPart ComposantProp={ProfilRightPart} userData={userProfile} />

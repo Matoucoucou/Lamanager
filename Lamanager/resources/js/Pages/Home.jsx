@@ -12,20 +12,21 @@ import AddAnneeForm from '@/Components/AddAnneeForm';
 const Home = () => {
     const [selectedAnnee, setSelectedAnnee] = useState(null);
 
+
     const handleAnneeSelect = (annee) => {
         setSelectedAnnee(annee);
     };
 
     const MenuAnneeWithProps = () => (
-        <MenuAnnee 
-            selectedAnnee={selectedAnnee} 
-            onAnneeSelect={handleAnneeSelect} 
+        <MenuAnnee
+            selectedAnnee={selectedAnnee}
+            onAnneeSelect={handleAnneeSelect}
         />
     );
 
     const AddAnneeFormWithProps = () => (
-        <AddAnneeForm 
-            onAnneeAdded={handleAnneeSelect} 
+        <AddAnneeForm
+            onAnneeAdded={handleAnneeSelect}
             onClose={() => {}}
         />
     );
