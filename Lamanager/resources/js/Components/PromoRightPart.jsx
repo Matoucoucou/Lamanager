@@ -46,6 +46,13 @@ function PromoRightPart({ selectedAnnee }) {
             temp.push(promos[i]);
         }
     }
+    
+    temp.sort((a, b) => {
+        // Extract the number from the 'nom' attribute
+        const numA = parseInt(a.nom.replace(/\D/g, ''), 10);
+        const numB = parseInt(b.nom.replace(/\D/g, ''), 10);
+        return numA - numB;
+    });
 
     return (
         <>
