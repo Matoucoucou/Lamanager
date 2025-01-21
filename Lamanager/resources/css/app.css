@@ -103,14 +103,14 @@ header a {
     display: flex;
     list-style-type: none;
     padding: 0;
-    margin-left: 45vh;
+    margin-left: 21vw;
 }
 
 .barre-outils-list li {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 5vh;
+    margin-right: 3vw;
     width: 7vh;
     height: 5vh;
     font-size: 3vh;
