@@ -21,9 +21,9 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
         const countTP = groupesData.filter((g) => g.type === 'TP').length;
         const countTD = groupesData.filter((g) => g.type === 'TD').length;
 
-        const cmGroups = groupesData.filter((g) => g.type === 'CM');
-        const tdGroups = groupesData.filter((g) => g.type === 'TD');
-        const tpGroups = groupesData.filter((g) => g.type === 'TP');
+        const cmGroups = groupesData.filter((g) => g.type === 'CM').sort((a, b) => a.nom.localeCompare(b.nom));
+        const tdGroups = groupesData.filter((g) => g.type === 'TD').sort((a, b) => a.nom.localeCompare(b.nom));
+        const tpGroups = groupesData.filter((g) => g.type === 'TP').sort((a, b) => a.nom.localeCompare(b.nom));
 
         const ids = [...cmGroups.map((g) => g.id), ...tdGroups.map((g) => g.id), ...tpGroups.map((g) => g.id)];
         const names = [...cmGroups.map((g) => g.nom), ...tdGroups.map((g) => g.nom), ...tpGroups.map((g) => g.nom)];
@@ -46,6 +46,9 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
             const semaineIndex = semainesData.findIndex((s) => s.id === caseItem.semaine_id);
             const groupeIndex = ids.findIndex((g) => g === caseItem.groupe_id);
 
+            console.log('caseItem.groupe_id:', caseItem.groupe_id); // Ajout de log
+            console.log('ids:', ids); // Ajout de log
+
             if (semaineIndex !== -1 && groupeIndex !== -1) {
                 const key = `${semaineIndex}-${groupeIndex}`;
                 newClickedCells[key] = {
@@ -58,6 +61,9 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
                 };
             }
         });
+
+        console.log('newClickedCells', newClickedCells);
+        console.log('casesData',casesData);
 
         setCasesData(casesData);
         setClickedCells(newClickedCells);
@@ -99,7 +105,7 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
                 if (activeTableau) {
                     const enseignementId = selectedEnseignements.find((e) => e.nom === activeTableau)?.id;
                     if (enseignementId) {
-                        await handleCasesData(enseignementId, groupesData.map((g) => g.id), semainesData);
+                        await handleCasesData(enseignementId, groupesID, semainesData);
                     }
                 }
             } catch (error) {
