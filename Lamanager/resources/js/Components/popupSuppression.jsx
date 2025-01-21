@@ -6,14 +6,31 @@ function PopupSuppression({ onClose, promos, onDelete }) {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleDelete = async () => {
-    if (!selectedPromoId) return;
+    if (!selectedPromoId) {
+      setErrorMessage("Veuillez sélectionner une promo.");
+      return;
+    }
     try {
-      const response = await axios.delete(`/api/promos/${selectedPromoId}`);
-      if (response.status === 200) {
-        onDelete(selectedPromoId);
-        onClose();
-        window.location.reload(); // Rafraîchir la page après la suppression
+      console.log("Selected Promo ID:", selectedPromoId);
+
+      // Vérifier l'existence des cases de prévisionnel pour la promo et la promo alternante
+      const checkResponse = await axios.get(`/api/promos/check-cases/${selectedPromoId}`);
+      if (checkResponse.data.exists) {
+        setErrorMessage("Impossible de supprimer la promo car des cases de prévisionnel existent.");
+        return;
       }
+
+      // Supprimer les enseignements liés à la promo
+      await axios.delete(`/api/enseignements/${selectedPromoId}`);
+      console.log(`Enseignements for promo ${selectedPromoId} deleted`);
+
+      // Supprimer la promo
+      await axios.delete(`/api/promos/${selectedPromoId}`);
+      console.log(`Promo ${selectedPromoId} deleted`);
+
+      onDelete(selectedPromoId);
+      onClose();
+      window.location.reload(); // Rafraîchir la page après la suppression
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setErrorMessage(error.response.data.error);
@@ -23,6 +40,9 @@ function PopupSuppression({ onClose, promos, onDelete }) {
     }
   };
 
+  // Filtrer les promos pour ne pas afficher les promos miroir
+  const filteredPromos = promos.filter(promo => !promo.alternant);
+
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-content" onClick={(e) => e.stopPropagation()}>
@@ -30,7 +50,7 @@ function PopupSuppression({ onClose, promos, onDelete }) {
         <p>Veuillez sélectionner la promo à supprimer :</p>
         <select onChange={(e) => setSelectedPromoId(e.target.value)} value={selectedPromoId}>
           <option value="">Sélectionner une promo</option>
-          {promos.map((promo) => (
+          {filteredPromos.map((promo) => (
             <option key={promo.id} value={promo.id}>
               {promo.nom}
             </option>

@@ -20,7 +20,8 @@ class EnseignementController extends Controller
         return response()->json($enseignements);
     }
 
-    public function store(Request $request) :JsonResponse{
+    public function store(Request $request): JsonResponse
+    {
         $enseignement = new Enseignement();
         $enseignement->nom = $request->nom;
         $enseignement->promo_id = $request->promo_id; 
@@ -33,7 +34,12 @@ class EnseignementController extends Controller
         $enseignement->save();
 
         return response()->json($enseignement);
-            
+    }
+
+    public function destroy($promo_id): JsonResponse
+    {
+        Enseignement::where('promo_id', $promo_id)->delete();
+        return response()->json(['message' => 'Enseignements supprimés avec succès']);
     }
 
     public function enseignementParAnnee($annee_id)
@@ -45,5 +51,11 @@ class EnseignementController extends Controller
         
         $enseignements = $query->get();
         return response()->json($enseignements);
+    }
+
+    public function getPromo($id): JsonResponse
+    {
+        $promo = Promo::find($id);
+        return response()->json($promo);
     }
 }

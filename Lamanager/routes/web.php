@@ -78,7 +78,7 @@ require __DIR__.'/auth.php';
     Route::post('/api/liaison', [LiaisonGroupeController::class, 'store'])->name('api.liaison.store');
 
     Route::delete('/api/cases', [CaseController::class, 'destroy'])->name('api.cases.destroy');
-
+    Route::delete('/api/enseignements/{promo_id}', [EnseignementController::class, 'destroy'])->name('api.enseignements.destroy');
 
     Route::post('/api/enseignements', [EnseignementController::class, 'store'])->name('api.enseignements.store');
     Route::delete('/api/groupes/{id}', [GroupeController::class, 'destroy'])->name('api.groupes.destroy');
@@ -116,3 +116,5 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::post('api/groupes', [GroupeController::class, 'store']);
+
+Route::get('/api/promos/check-cases/{id}', [PromoController::class, 'checkCasesExist'])->name('api.promos.checkCases');
