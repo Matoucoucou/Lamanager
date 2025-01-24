@@ -309,6 +309,7 @@ export const handleDeleteConfirm = async (
 };
 
 export const handleUpdate = (setShowUpdatePopup, setSelectedGroups, clickedCells, groupNames, groupIds, semainesID) => {
+    console.log("clickedCells", clickedCells);
     const selectedGroups = Object.keys(clickedCells)
         .filter(key => clickedCells[key]?.selected && clickedCells[key]?.clicked)
         .map(key => {
@@ -320,7 +321,15 @@ export const handleUpdate = (setShowUpdatePopup, setSelectedGroups, clickedCells
                 name: groupNames[colIndex]
             };
         });
-    setSelectedGroups(selectedGroups);
+
+    // Trier les groupes par nom et type de cours
+    const sortedGroups = selectedGroups.sort((a, b) => {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+    });
+
+    setSelectedGroups(sortedGroups);
     setShowUpdatePopup(true);
 };
 

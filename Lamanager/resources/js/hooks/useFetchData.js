@@ -16,23 +16,21 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
     const [casesData, setCasesData] = useState([]);
     const [clickedCells, setClickedCells] = useState({});
 
-    const processGroupes = (groupesData) => {
-        const countCM = groupesData.filter((g) => g.type === 'CM').length;
-        const countTP = groupesData.filter((g) => g.type === 'TP').length;
-        const countTD = groupesData.filter((g) => g.type === 'TD').length;
+    const processGroupes = (cmGroups, tdGroups, tpGroups, groupesIDs, groupesData) => {
 
-        const cmGroups = groupesData.filter((g) => g.type === 'CM').sort((a, b) => a.nom.localeCompare(b.nom));
-        const tdGroups = groupesData.filter((g) => g.type === 'TD').sort((a, b) => a.nom.localeCompare(b.nom));
-        const tpGroups = groupesData.filter((g) => g.type === 'TP').sort((a, b) => a.nom.localeCompare(b.nom));
+        const sortedGroupesData = [...cmGroups, ...tdGroups, ...tpGroups];
 
-        const ids = [...cmGroups.map((g) => g.id), ...tdGroups.map((g) => g.id), ...tpGroups.map((g) => g.id)];
-        const names = [...cmGroups.map((g) => g.nom), ...tdGroups.map((g) => g.nom), ...tpGroups.map((g) => g.nom)];
+        const countCM = cmGroups.length;
+        const countTP = tpGroups.length;
+        const countTD = tdGroups.length;
+
+        const names = sortedGroupesData.map((g) => g.nom);
 
         setNbCM(countCM);
         setNbTP(countTP);
         setNbTD(countTD);
         setNbGroupe(groupesData.length);
-        setGroupesID(ids);
+        setGroupesID(groupesIDs);
         setGroupNames(names);
     };
 
@@ -45,9 +43,6 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
         casesData.forEach((caseItem) => {
             const semaineIndex = semainesData.findIndex((s) => s.id === caseItem.semaine_id);
             const groupeIndex = ids.findIndex((g) => g === caseItem.groupe_id);
-
-            console.log('caseItem.groupe_id:', caseItem.groupe_id); // Ajout de log
-            console.log('ids:', ids); // Ajout de log
 
             if (semaineIndex !== -1 && groupeIndex !== -1) {
                 const key = `${semaineIndex}-${groupeIndex}`;
@@ -90,8 +85,17 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
                     setActiveTableau(dernierEnseignement.nom);
                 }
 
-                const groupesData = await fetchGroupes(promoId);
-                processGroupes(groupesData);
+                let groupesData = await fetchGroupes(promoId);
+                
+                const cmGroups = groupesData.filter((g) => g.type === 'CM').sort((a, b) => a.nom.localeCompare(b.nom));
+                const tdGroups = groupesData.filter((g) => g.type === 'TD').sort((a, b) => a.nom.localeCompare(b.nom));
+                const tpGroups = groupesData.filter((g) => g.type === 'TP').sort((a, b) => a.nom.localeCompare(b.nom));
+
+                groupesData = [...cmGroups, ...tdGroups, ...tpGroups];
+
+                const groupesIDs = groupesData.map((g) => g.id);
+
+                processGroupes(cmGroups, tdGroups, tpGroups, groupesIDs, groupesData);
 
                 const semainesData = await fetchSemaines();
                 setSemainesID(semainesData.map((s) => s.id));
@@ -105,7 +109,7 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
                 if (activeTableau) {
                     const enseignementId = selectedEnseignements.find((e) => e.nom === activeTableau)?.id;
                     if (enseignementId) {
-                        await handleCasesData(enseignementId, groupesID, semainesData);
+                        await handleCasesData(enseignementId, groupesIDs, semainesData);
                     }
                 }
             } catch (error) {

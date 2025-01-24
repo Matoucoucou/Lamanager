@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function UpdatePopup({ setShowUpdatePopup, initialData, selectedGroups, handleUpdateConfirm, enseignementId }) {
+    console.log('initialData', selectedGroups);
     const [heures, setHeures] = useState(selectedGroups.map(() => `${initialData.heures}:${initialData.minutes}`));
     const [enseignants, setEnseignants] = useState([]);
     const [enseignantsMap, setEnseignantsMap] = useState({});
@@ -77,6 +78,10 @@ function UpdatePopup({ setShowUpdatePopup, initialData, selectedGroups, handleUp
         acc[cell.groupeId].push(cell);
         return acc;
     }, {});
+
+    console.log('selectedGroups', selectedGroups);
+
+    console.log('groupedCells', groupedCells);
 
     return (
         <div className="popup-overlay" style={overlayStyle}>
