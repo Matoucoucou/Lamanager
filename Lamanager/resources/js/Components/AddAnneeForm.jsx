@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
 const AddAnneeForm = ({ onAnneeAdded, onClose }) => {
     const [showAddForm, setShowAddForm] = useState(false);
     const [newAnnee, setNewAnnee] = useState('');
     const [error, setError] = useState(null);
+    const popupRef = useRef(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -12,11 +13,31 @@ const AddAnneeForm = ({ onAnneeAdded, onClose }) => {
             const response = await axios.post('/api/annees', { annee: newAnnee });
             onAnneeAdded(response.data);
             setNewAnnee('');
-            onClose();
+            handleClose();
         } catch (err) {
             setError('Erreur lors de l\'ajout de l\'année');
         }
     };
+
+    const handleClose = () => {
+        setShowAddForm(false);
+        onClose();
+        setNewAnnee('');
+        setError(null);
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (popupRef.current && !popupRef.current.contains(event.target)) {
+                handleClose();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <>
@@ -32,8 +53,10 @@ const AddAnneeForm = ({ onAnneeAdded, onClose }) => {
 
         {showAddForm && (
         <div className="popup-overlay">
-            <div className="popup-content">
-                <h2>Ajouter une année</h2>
+            <div className="popup-content" ref={popupRef} style={{ width: '400px',height: '200px' }}>
+                <div className="popup-header">
+                    <h2>Ajouter une année</h2>
+                </div>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <input
@@ -48,7 +71,7 @@ const AddAnneeForm = ({ onAnneeAdded, onClose }) => {
                     <div className="button-container">
                         <button 
                             type="button" 
-                            onClick={onClose}
+                            onClick={handleClose}
                             className="mr-2"
                         >
                             Annuler

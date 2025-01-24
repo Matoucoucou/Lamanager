@@ -24,6 +24,7 @@ function PopupSuppression({ onClose, promos, onDelete }) {
   };
 
   return (
+    <>
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-content" onClick={(e) => e.stopPropagation()}>
         <h2>Confirmation de suppression</h2>
@@ -43,6 +44,7 @@ function PopupSuppression({ onClose, promos, onDelete }) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

@@ -14,7 +14,6 @@ function PromoRightPart({ selectedAnnee }) {
     const [error, setError] = useState(null);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [showEditPopup, setShowEditPopup] = useState(false);
-    const [showAddPopup, setShowAddPopup] = useState(false);
     const [showCustomPopup, setShowCustomPopup] = useState(false);
 
     useEffect(() => {
