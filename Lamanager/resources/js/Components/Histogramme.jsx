@@ -2,6 +2,7 @@ import React from "react";
 import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme, VictoryTooltip, VictoryVoronoiContainer, VictoryLabel } from 'victory';
 
 const Histogramme = ({ data }) => {
+  console.log("les data pour l'histogramme", data);
   const chartWidth = window.innerWidth * 0.9;
   const chartHeight = window.innerHeight * 0.9;
   const numberOfBars = data.length;

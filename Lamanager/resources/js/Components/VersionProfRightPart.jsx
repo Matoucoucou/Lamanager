@@ -13,6 +13,7 @@ export default function VersionProfRightPart({ selections }) {
   const [isAllEnseignementsSelected, setIsAllEnseignementsSelected] = useState(false);
 
   useEffect(() => {
+    console.log('Enseignement sélectionné right:', selections);
     if (selections.selectedAnnee && selections.selectedEnseignement) {
       fetchCaseTableauData(selections.selectedAnnee.id, selections.selectedEnseignement.id);
     }
@@ -108,7 +109,7 @@ export default function VersionProfRightPart({ selections }) {
       TP: groupesData[weekId].TP,
     }));
 
-    //console.log('Formatted Data:', formattedData);
+    console.log('data groupes:', formattedGroupesData);
   
     if (isAllEnseignementsSelected) {
       setDataForEnseignements(formattedEnseignementsData);
