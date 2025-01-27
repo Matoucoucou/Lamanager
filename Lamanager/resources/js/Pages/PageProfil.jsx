@@ -1,16 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Header from '@/Components/Header';
 import LeftPart from '@/Components/LeftPart';
 import RightPart from '@/Components/RightPart';
 import BarreOutils from '@/Components/BarreOutils';
 import ProfilLeftPart from '@/Components/ProfilLeftPart';
 import ProfilRightPart from '@/Components/ProfilRightPart';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import GestionCompte from '@/Components/GestionCompte';
 
 export default function PageProfil() {
-
     const [userData, setUserData] = useState(null);
     const [id, setId] = useState(null);
     const urlParams = new URLSearchParams(window.location.search);
@@ -48,31 +46,34 @@ export default function PageProfil() {
     const nom = userData.nom;
     const prenom = userData.prenom;
     const mail = userData.mail;
+    const admin = userData.admin;
 
     const userProfile = {
-        nom : nom,
-        prenom : prenom,
-        mail : mail
+        nom: nom,
+        prenom: prenom,
+        mail: mail,
+        admin: admin
     };
-    if(urlParams.get('from') === 'tableau'){
+
+    if (urlParams.get('from') === 'tableau') {
         return (
             <>
-                <Header ComposantProp={() => <BarreOutils lockButton = {true} />} />
+                <Header ComposantProp={() => <BarreOutils lockButton={true} />} />
                 <div className="app">
-                    <LeftPart ComposantProp={ProfilLeftPart} userName={nom+" "+prenom} />
-                    <RightPart ComposantProp={GestionCompte}/>
+                    <LeftPart ComposantProp={ProfilLeftPart} userName={nom + " " + prenom} />
+                    <RightPart ComposantProp={GestionCompte} />
                 </div>
             </>
         );
-    }else{
-    return (
-        <>
-            <Header ComposantProp={() => <BarreOutils lockButton = {true} />} />
-            <div className="app">
-                <LeftPart ComposantProp={ProfilLeftPart} userName={nom+" "+prenom} />
-                <RightPart ComposantProp={ProfilRightPart} userData={userProfile} />
-            </div>
-        </>
-    );
-}
+    } else {
+        return (
+            <>
+                <Header ComposantProp={() => <BarreOutils lockButton={true} />} />
+                <div className="app">
+                    <LeftPart ComposantProp={ProfilLeftPart} userName={nom + " " + prenom} />
+                    <RightPart ComposantProp={ProfilRightPart} userData={userProfile} />
+                </div>
+            </>
+        );
+    }
 }

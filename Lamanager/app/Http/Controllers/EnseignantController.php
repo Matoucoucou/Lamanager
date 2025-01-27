@@ -20,7 +20,7 @@ class EnseignantController extends Controller
     public function avoirInfo($id): JsonResponse
     {
         $enseignant = Enseignant::where('id', $id)
-                                ->select( 'nom', 'prenom','mail')
+                                ->select( 'nom', 'prenom','mail','admin')
                                 ->first();
     
         return response()->json($enseignant);

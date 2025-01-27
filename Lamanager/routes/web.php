@@ -18,14 +18,22 @@ use App\Http\Controllers\RoleController;
 use Inertia\Inertia;
 use App\Models\Promo;
 use Illuminate\Http\Request;
+use App\Http\Middleware\Authenticate;
+use Illuminate\Support\Facades\Auth;
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
-        return Inertia::render('Home');
+        if (Auth::user()->admin) {
+            return Inertia::render('Home');
+        }
+        return redirect()->route('versionProf');
     })->name('home');
 
     Route::get('/tableau', function () {
-        return Inertia::render('PageTableau');
+        if (Auth::user()->admin) {
+            return Inertia::render('PageTableau');
+        }
+        return redirect()->route('versionProf');
     })->name('tableau');
 
     Route::get('/profil', function () {
@@ -34,7 +42,30 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/versionProf', function () {
+        return Inertia::render('PageVersionProf');
+    })->name('versionProf');
+
+    // Routes accessibles uniquement aux administrateurs
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/gestion-utilisateurs', function () {
+            if (Auth::user()->admin) {
+                return Inertia::render('GestionUtilisateurs');
+            }
+            return redirect()->route('versionProf');
+        })->name('gestion-utilisateurs');
+
+        Route::post('/api/enseignements', [EnseignementController::class, 'store'])->name('api.enseignements.store');
+        Route::delete('/api/groupes/{id}', [GroupeController::class, 'destroy'])->name('api.groupes.destroy');
+        Route::post('/api/promos/update', [PromoController::class, 'updatePromos'])->name('api.promos.update');
+        Route::put('/api/groupes/{id}', [GroupeController::class, 'update'])->name('api.groupes.update');
+        Route::post('/api/update-groupes', [GroupeController::class, 'updateGroupes'])->name('api.update-groupes');
+        Route::post('/api/groupes', [GroupeController::class, 'stored'])->name('api.groupes.store');
+        Route::post('/api/enseignants', [EnseignantController::class, 'store'])->name('api.enseignants.store');
+        Route::put('/api/enseignants/{id}', [EnseignantController::class, 'update'])->name('api.enseignants.update');
+        Route::delete('/api/enseignants/{id}', [EnseignantController::class, 'destroy'])->name('api.enseignants.destroy');
+    });
 });
 
 Route::get('/test', function () {
@@ -103,10 +134,6 @@ Route::post('/api/groupes', [GroupeController::class, 'stored'])->name('api.grou
 Route::get('/login', function () {
     return Inertia::render('Login');
 })->name('login');
-
-Route::get('/versionProf', function () {
-    return Inertia::render('PageVersionProf');
-})->name('versionProf')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/api/session', [AuthenticatedSessionController::class, 'index'])->name('api.session');
