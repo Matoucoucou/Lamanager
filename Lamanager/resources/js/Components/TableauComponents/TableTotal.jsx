@@ -70,6 +70,7 @@ function TableTotal({ nbGroupe, nbCM, nbTD, nbTP, clickedCells, setPopupTotal })
             }
         }
 
+
         const hours = Math.floor(maxValidTotal / 60);
         const minutes = maxValidTotal % 60;
         return minutes > 0 ? `${hours}h${minutes}` : `${hours}h`;
@@ -195,3 +196,4 @@ x
 }
 
 export default TableTotal;
+

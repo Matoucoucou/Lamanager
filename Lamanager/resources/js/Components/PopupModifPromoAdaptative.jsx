@@ -80,7 +80,6 @@ function PopupModifPromoAdaptative({ onClose, promoName, promos, updatePromoData
         }
         try {
             const payload = { promo_id: promo.id, type: 'TP', nom: newGroupName };
-            console.log("Payload:", payload); // Ajoutez cette ligne pour vérifier le payload
             const response = await axios.post('/api/groupes', payload);
 
             const newGroup = response.data;
@@ -147,12 +146,9 @@ function PopupModifPromoAdaptative({ onClose, promoName, promos, updatePromoData
         setTdGroupToDelete(null);
     };
 
-    const handleDeleteTPGroup = async (tdGroupName, tpGroupName) => {
-        const tdGroup = groupesData.find(groupe => groupe.nom === tdGroupName && groupe.type === 'TD');
+    const handleDeleteTPGroup = async (tpGroupName) => {
         const tpGroup = groupesData.find(groupe => groupe.nom === tpGroupName && groupe.type === 'TP');
-        const liaisonExists = liaisons.some(liaison => liaison.groupe_td_id === tdGroup.id && liaison.groupe_tp_id === tpGroup.id);
-
-        if (tdGroup && tpGroup && liaisonExists) {
+        if (tpGroup) {
             try {
                 await axios.delete(`/api/groupes/${tpGroup.id}`);
                 setGroupesData(groupesData.filter(groupe => groupe.id !== tpGroup.id));
@@ -162,7 +158,7 @@ function PopupModifPromoAdaptative({ onClose, promoName, promos, updatePromoData
                 console.error("Error deleting TP group:", error);
             }
         } else {
-            alert("Groupe TP non trouvé ou n'appartient pas au groupe TD spécifié.");
+            alert("Groupe TP non trouvé.");
         }
     };
 
@@ -219,21 +215,33 @@ function PopupModifPromoAdaptative({ onClose, promoName, promos, updatePromoData
                                                 value={groupeTP.nom}
                                                 onChange={(e) => handleInputChange(groupeTP.id, 'nom', e.target.value)}
                                             />
+                                            <div className="tp-group-buttons">
+
+                                                <button onClick={() => handleDeleteTPGroup(groupeTP.nom)}>-</button>
+                                            </div>
                                         </div>
                                     ))
                                 ))}
                             </div>
                             <div className="custom-button-container-block">
-                                <button onClick={() => handleAddTPGroup(groupeTD.nom)}>+</button>
-                                <button onClick={() => { setTdGroupName(groupeTD.nom); setModalType('deleteTP'); setInputModalOpen(true); }}>-</button>
-                                <button onClick={() => handleDeleteTDGroup(groupeTD.nom)}>X</button>
+                                <button onClick={() => handleAddTPGroup(groupeTD.nom)}>Ajout TP</button>
+                                <button onClick={() => handleDeleteTDGroup(groupeTD.nom)}>Supprimer TD</button>
                             </div>
                         </div>
                     ))}
+                    <div className="td-block-aj">
+                        <div className="td-group-aj">
+                            <button onClick={() => handleAddGroup('TD')} style={{ width: '100%', height: '100%' }}>
+                                Ajouter TD
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
+
+
                 <div className="custom-button-container-mod">
-                    <button onClick={() => handleAddGroup('TD')}>Ajouter TD</button>
+
                     <button onClick={handleSubmit}>Valider</button>
                 </div>
 
