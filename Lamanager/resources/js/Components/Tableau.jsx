@@ -134,6 +134,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                                     nbCM={nbCM}
                                     nbTD={nbTD}
                                     nbTP={nbTP}
+                                    enseignement={enseignement}
                                     longueurSemaines={longueurSemaines}
                                     clickedCells={clickedCells}
                                     setPopupTotal={setPopupTotal}
