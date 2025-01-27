@@ -113,7 +113,7 @@ export default function ProfilRightPart({ userData = {} }) {
                             </form>
                         </div>
                     </div>
-                    {userData.admin === true && (
+                    {userData.admin == true && (
                         <div className="fixed bottom-4 right-4">
                             <button 
                                 className="bg-pink-100 text-gray-700 px-4 py-2 rounded-md hover:bg-pink-200"

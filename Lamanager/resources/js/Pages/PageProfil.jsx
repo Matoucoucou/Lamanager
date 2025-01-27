@@ -58,7 +58,7 @@ export default function PageProfil() {
     if (urlParams.get('from') === 'tableau') {
         return (
             <>
-                <Header ComposantProp={() => <BarreOutils lockButton={true} />} />
+                <Header ComposantProp={() => <BarreOutils lockButton={true} />} isAdmin={userData.admin} />
                 <div className="app">
                     <LeftPart ComposantProp={ProfilLeftPart} userName={nom + " " + prenom} />
                     <RightPart ComposantProp={GestionCompte} />
@@ -68,7 +68,7 @@ export default function PageProfil() {
     } else {
         return (
             <>
-                <Header ComposantProp={() => <BarreOutils lockButton={true} />} />
+                <Header ComposantProp={() => <BarreOutils lockButton={true} />} isAdmin={userData.admin} />
                 <div className="app">
                     <LeftPart ComposantProp={ProfilLeftPart} userName={nom + " " + prenom} />
                     <RightPart ComposantProp={ProfilRightPart} userData={userProfile} />

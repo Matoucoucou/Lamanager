@@ -150,12 +150,7 @@ function BarreOutils({ lockButton,toggleIcons }) {
                     {popupInfoButton.text}
                 </div>
             )}
-                <Link href="/">
-                    <div className="header-content">
-                        <img src={logo} alt="Logo" className="logo"/>
-                        <h1 className="title">Lamanager</h1>
-                    </div>
-                </Link>
+                
 
             {window.location.pathname === '/tableau' && (
                 <div className="NomPromo">
