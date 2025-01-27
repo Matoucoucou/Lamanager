@@ -132,7 +132,7 @@ function TableTotal({ nbGroupe, nbCM, nbTD, nbTP, clickedCells, setPopupTotal })
             const time = minutes > 0 ? `${hours}h${minutes}` : `${hours}h`;
             return `${label}${parseInt(groupIndex) + 1}: ${time}`;
         })
-
+x
         setPopupTotal({
             visible: true,
             x: rect.left, // Centré horizontalement

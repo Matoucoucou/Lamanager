@@ -103,25 +103,31 @@ header a {
     display: flex;
     list-style-type: none;
     padding: 0;
-    margin-left: 45vh;
+    margin-left: 21vw;
 }
 
 .barre-outils-list li {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 5vh;
-    background-color: #f2f2f2;
+    margin-right: 3vw;
     width: 7vh;
     height: 5vh;
     font-size: 3vh;
     border-radius: 1vh;
 }
 
+.barre-outils-item{
+    background-color: lightgrey;
+}
+
 .barre-outils-item:hover{
     background-color: #ffffff;
 }
 
+.barre-outils-item-lock{
+    background-color: grey;
+}
 
 
 .app {
