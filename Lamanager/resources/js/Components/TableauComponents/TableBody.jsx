@@ -81,6 +81,14 @@ function TableBody({
         ).finally(() => setIsLoading(false));
     };
 
+    const isEvenSemester = enseignement.semestre % 2 === 0;
+    const midIndex = Math.ceil(semaines.length / 2);
+    const filteredSemaines = isEvenSemester ? semaines.slice(midIndex) : semaines.slice(0, midIndex);
+    const filteredSemainesID = isEvenSemester ? semainesID.slice(midIndex) : semainesID.slice(0, midIndex);
+    const startIndex = filteredSemainesID[0]-1;
+
+    console.log('satrtIndex', startIndex);
+
     return (
         <>
             {isLoading && (
@@ -90,19 +98,19 @@ function TableBody({
             )}
             {!isLoading && (
                 <tbody>
-                    {semaines.map((semaine, rowIndex) => (
+                    {filteredSemaines.map((semaine, rowIndex) => (
                         <tr key={semaine}>
                             <td
                                 className="border border-black p-2"
                                 style={{ height: '70px', cursor: contextMenu ? 'default' : 'pointer', position: 'relative' }}
                                 onClick={() => handleClick(
-                                    rowIndex, 0, null, null, true, contextMenu, enseignantId, onCellClick, 
-                                    showIcons, setClickedCells, nbGroupe, enseignement, groupesID, semainesID, 
+                                    rowIndex + startIndex, 0, null, null, true, contextMenu, enseignantId, onCellClick, 
+                                    showIcons, setClickedCells, nbGroupe, enseignement, groupesID, filteredSemainesID, 
                                     enseignantCode, heures, minutes, clickedCells, handleCellClick
                                 )}
                             >
                                 {semaine}
-                                {showIcons && Object.keys(clickedCells).some(key => key.startsWith(`${rowIndex}-`) && clickedCells[key]?.text) && (
+                                {showIcons && Object.keys(clickedCells).some(key => key.startsWith(`${rowIndex + startIndex}-`) && clickedCells[key]?.text) && (
                                     <div 
                                         style={{ 
                                             position: 'absolute', 
@@ -112,7 +120,7 @@ function TableBody({
                                             height: '8px', 
                                             borderRadius: '50%', 
                                             border: '1px solid black', 
-                                            backgroundColor: clickedCells[`semaine-${rowIndex}`]?.selected ? 'black' : 'transparent' 
+                                            backgroundColor: clickedCells[`semaine-${rowIndex + startIndex}`]?.selected ? 'black' : 'transparent' 
                                         }} 
                                     />
                                 )}
@@ -121,19 +129,19 @@ function TableBody({
                                 <td
                                     key={index}
                                     className={`border border-black p-2 ${
-                                        clickedCells[`${rowIndex}-${index}`]?.clicked 
+                                        clickedCells[`${rowIndex + startIndex}-${index}`]?.clicked 
                                             ? getColorClass(index, nbCM, nbTD) 
                                             : ''
                                     }`}
                                     style={{ cursor: contextMenu ? 'default' : 'pointer', width: `${100 / (nbGroupe+2)}%`, position: 'relative' }}
                                     onClick={() => handleClick(
-                                        rowIndex, index, semainesID[rowIndex], groupesID[index], false, contextMenu, 
+                                        rowIndex + startIndex, index, filteredSemainesID[rowIndex], groupesID[index], false, contextMenu, 
                                         enseignantId, onCellClick, showIcons, setClickedCells, nbGroupe, enseignement, 
-                                        groupesID, semainesID, enseignantCode, heures, minutes, clickedCells, handleCellClick
+                                        groupesID, filteredSemainesID, enseignantCode, heures, minutes, clickedCells, handleCellClick
                                     )}
-                                    onContextMenu={(event) => handleContextMenu(event, rowIndex, index, showIcons, clickedCells, setContextMenu)}
+                                    onContextMenu={(event) => handleContextMenu(event, rowIndex + startIndex, index, showIcons, clickedCells, setContextMenu)}
                                 >
-                                    {showIcons && clickedCells[`${rowIndex}-${index}`]?.text && (
+                                    {showIcons && clickedCells[`${rowIndex + startIndex}-${index}`]?.text && (
                                         <div 
                                             style={{ 
                                                 position: 'absolute', 
@@ -143,12 +151,12 @@ function TableBody({
                                                 height: '8px', 
                                                 borderRadius: '50%', 
                                                 border: '1px solid black', 
-                                                backgroundColor: clickedCells[`${rowIndex}-${index}`]?.selected ? 'black' : 'transparent' 
+                                                backgroundColor: clickedCells[`${rowIndex + startIndex}-${index}`]?.selected ? 'black' : 'transparent' 
                                             }} 
                                         />
                                     )}
-                                    {clickedCells[`${rowIndex}-${index}`]?.text && (
-                                        <h3>{clickedCells[`${rowIndex}-${index}`].text}</h3>
+                                    {clickedCells[`${rowIndex + startIndex}-${index}`]?.text && (
+                                        <h3>{clickedCells[`${rowIndex + startIndex }-${index}`].text}</h3>
                                     )}
                                 </td>
                             ))}
@@ -160,7 +168,7 @@ function TableBody({
                 <ContextMenu
                     contextMenu={contextMenu}
                     handleDuplicate={() => handleDuplicate(setShowDuplicatePopup)}
-                    handleEdit={() => handleUpdate(setShowUpdatePopup, setSelectedGroups, clickedCells, groupNames, groupesID, semainesID)}
+                    handleEdit={() => handleUpdate(setShowUpdatePopup, setSelectedGroups, clickedCells, groupNames, groupesID, filteredSemainesID)}
                     handleMove={() => handleMove(setShowMovePopup)}
                     handleDelete={handleDeleteClick}
                     handleCloseContextMenu={() => handleCloseContextMenu(setContextMenu)}
@@ -197,7 +205,7 @@ function TableBody({
                     groupesID={groupesID}
                     handleUpdateConfirm={handleUpdateConfirmClick}
                     enseignementId={enseignement.id}
-                    semainesID={semainesID}
+                    semainesID={filteredSemainesID}
                 />
             )}
         </>
