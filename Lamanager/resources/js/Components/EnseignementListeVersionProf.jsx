@@ -37,15 +37,15 @@ function EnseignementListeVersionProf({ anneeId, onEnseignementSelect, setIsAllE
                 onChange={(e) => {
                     const selectedId = parseInt(e.target.value);
                     const selectedEnseignement = enseignements.find(e => e.id === selectedId);
-                    console.log("selectedId:", selectedId);
-                    console.log("selectedEnseignement trouvé:", selectedEnseignement);
+                    //console.log("selectedId:", selectedId);
+                    //console.log("selectedEnseignement trouvé:", selectedEnseignement);
                     if (selectedEnseignement) {
                         onEnseignementSelect(selectedEnseignement);
                         setIsAllEnseignementsSelected(false);
-                        console.log('Enseignement sélectionné:', selectedEnseignement);
+                        //console.log('Enseignement sélectionné:', selectedEnseignement);
                     }
                     if(e.target.value === 'all') {
-                        console.log('Tous les enseignements');
+                        //console.log('Tous les enseignements');
                         setIsAllEnseignementsSelected(true);
                     }
                 }}

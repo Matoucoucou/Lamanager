@@ -13,7 +13,7 @@ export default function VersionProfRightPart({ selections }) {
   const [isAllEnseignementsSelected, setIsAllEnseignementsSelected] = useState(false);
 
   useEffect(() => {
-    console.log('Enseignement sélectionné right:', selections);
+    //console.log('Enseignement sélectionné right:', selections);
     if (selections.selectedAnnee && selections.selectedEnseignement) {
       fetchCaseTableauData(selections.selectedAnnee.id, selections.selectedEnseignement.id);
     }
@@ -32,6 +32,7 @@ export default function VersionProfRightPart({ selections }) {
       const userId = sessionResponse.data.userId;
 
       const response = await axios.get(`/api/cases/recherche/${anneeId}/${enseignementId}/${userId}`);
+      //console.log('data:', response.data);
       processData(response.data, false);
       setLoading(false);
     } catch (err) {
@@ -109,7 +110,8 @@ export default function VersionProfRightPart({ selections }) {
       TP: groupesData[weekId].TP,
     }));
 
-    console.log('data groupes:', formattedGroupesData);
+    //console.log('data groupes:', formattedGroupesData);
+    //console.log('data histogramme:', formattedData);
   
     if (isAllEnseignementsSelected) {
       setDataForEnseignements(formattedEnseignementsData);
@@ -130,7 +132,7 @@ export default function VersionProfRightPart({ selections }) {
         isAllEnseignementsSelected ? (
           <HistogrammeTousEnseignements data={dataForEnseignements} />
         ) : (
-          dataForChart.length > 1 && (
+          dataForChart.length >=   1 && (
             <Histogramme data={dataForChart} />
           )
         )

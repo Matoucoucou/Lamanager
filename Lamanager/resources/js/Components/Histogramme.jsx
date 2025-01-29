@@ -5,15 +5,15 @@ const Histogramme = ({ data }) => {
   console.log("les data pour l'histogramme", data);
   const chartWidth = window.innerWidth * 0.9;
   const chartHeight = window.innerHeight * 0.9;
-  const numberOfBars = data.length;
-  const dynamicDomainPadding = Math.max(10, chartWidth / (numberOfBars * 2)); 
+  const numberOfBars = data.length;const dynamicDomainPadding = numberOfBars === 1 ? chartWidth / 2 : Math.max(10, chartWidth / (numberOfBars * 2));
+  const barWidth = numberOfBars === 1 ? chartWidth / 6 : undefined;
   return (
     <VictoryChart
       theme={VictoryTheme.material}
       domainPadding={dynamicDomainPadding}
       containerComponent={<VictoryVoronoiContainer />}
-      width={window.innerWidth * 0.9}
-      height={window.innerHeight * 0.9}
+      width={chartWidth}
+      height={chartHeight}
     >
       <VictoryAxis
         tickValues={data.map(item => item.semaine)}
@@ -37,6 +37,7 @@ const Histogramme = ({ data }) => {
         data={data}
         x="semaine"
         y="heures"
+        barWidth={barWidth}
         style={{ data: { fill: "#AD71C1" } }}
         labels={({ datum }) => `${datum.heures}h`}
         labelComponent={<VictoryTooltip style={{ fontSize: 20 }} />}
