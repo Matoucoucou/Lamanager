@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-function DuplicatePopup({ duplicateOption, setDuplicateOption, customWeeks, setCustomWeeks, handleDuplicateConfirm, setShowDuplicatePopup }) {
-    const [pairStart, setPairStart] = useState('');
-    const [pairEnd, setPairEnd] = useState('');
-    const [impairStart, setImpairStart] = useState('');
-    const [impairEnd, setImpairEnd] = useState('');
+function DuplicatePopup({ duplicateOption, setDuplicateOption, customWeeks, setCustomWeeks, handleDuplicateConfirm, setShowDuplicatePopup, errorMessage }) {
+    const [localErrorMessage, setLocalErrorMessage] = useState('');
+
+    useEffect(() => {
+        setLocalErrorMessage('');
+        setCustomWeeks('');
+    }, [setShowDuplicatePopup]);
+
+    const handleConfirm = () => {
+        setLocalErrorMessage('');
+        handleDuplicateConfirm(setLocalErrorMessage);
+    };
 
     return (
         <div className="popup-overlay" style={overlayStyle}>
             <div className="popup-content" style={contentStyle}>
                 <h2>Dupliquer</h2>
+                <div style={errorContainerStyle}>
+                    {(errorMessage || localErrorMessage) && <p style={errorStyle}>{errorMessage || localErrorMessage}</p>}
+                </div>
                 <div style={radioContainerStyle}>
                     <label style={radioLabelStyle}>
                         <input
@@ -53,7 +63,7 @@ function DuplicatePopup({ duplicateOption, setDuplicateOption, customWeeks, setC
                 </div>
                 <div style={buttonContainerStyle}>
                     <button onClick={() => setShowDuplicatePopup(false)} style={buttonStyle}>Annuler</button>
-                    <button onClick={handleDuplicateConfirm} style={buttonStyle}>Confirmer</button>
+                    <button onClick={handleConfirm} style={buttonStyle}>Confirmer</button>
                 </div>
             </div>
         </div>
@@ -80,6 +90,10 @@ const contentStyle = {
     maxWidth: '600px',
     width: '100%',
     textAlign: 'center',
+};
+
+const errorContainerStyle = {
+    minHeight: '27px',
 };
 
 const radioContainerStyle = {
@@ -121,10 +135,9 @@ const inputStyle = {
     width: '50%',
 };
 
-const inputContainerStyle = {
-    display: 'flex',
-    gap: '10px',
-    marginTop: '10px',
+const errorStyle = {
+    color: 'red',
+    fontSize: '18px',
 };
 
 export default DuplicatePopup;

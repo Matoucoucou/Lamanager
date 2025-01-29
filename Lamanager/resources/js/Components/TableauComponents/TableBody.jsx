@@ -35,6 +35,13 @@ function TableBody({
     const [customWeeks, setCustomWeeks] = useState('');
     const [isLoading, setIsLoadingState] = useState(false);
     const [selectedGroups, setSelectedGroups] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const isEvenSemester = enseignement.semestre % 2 === 0;
+    const midIndex = Math.ceil(semaines.length / 2);
+    const filteredSemaines = isEvenSemester ? semaines.slice(midIndex) : semaines.slice(0, midIndex);
+    const filteredSemainesID = isEvenSemester ? semainesID.slice(midIndex) : semainesID.slice(0, midIndex);
+    const startIndex = filteredSemainesID[0]-1;
 
     useEffect(() => {
         const handleClickOutside = () => {
@@ -59,18 +66,24 @@ function TableBody({
             .finally(() => setIsLoading(false));
     };
 
+    const handleDuplicateClick = () => {
+        setErrorMessage('');
+        setCustomWeeks('');
+        setShowDuplicatePopup(true);
+    };
+
     const handleDuplicateConfirmClick = () => {
         setIsLoading(true);
         handleDuplicateConfirm(
-            clickedCells, semainesID, enseignement, groupesID, setClickedCells, setIsLoading, setShowDuplicatePopup, handleCloseContextMenu, 
-            duplicateOption, customWeeks, parseWeeks
+            clickedCells, filteredSemainesID, enseignement, groupesID, setClickedCells, setIsLoading, setShowDuplicatePopup, handleCloseContextMenu, 
+            duplicateOption, customWeeks, parseWeeks, setErrorMessage
         ).finally(() => setIsLoading(false));
     };
 
     const handleMoveConfirmClick = (selectedWeek) => {
         setIsLoading(true);
         handleMoveConfirm(
-            selectedWeek, clickedCells, semainesID, enseignement, groupesID, setClickedCells, setIsLoading, setShowMovePopup, handleCloseContextMenu
+            selectedWeek, clickedCells, filteredSemainesID, enseignement, groupesID, setClickedCells, setIsLoading, setShowMovePopup, handleCloseContextMenu
         ).finally(() => setIsLoading(false));
     };
 
@@ -80,14 +93,6 @@ function TableBody({
              enseignantCode, setShowUpdatePopup, setIsLoading
         ).finally(() => setIsLoading(false));
     };
-
-    const isEvenSemester = enseignement.semestre % 2 === 0;
-    const midIndex = Math.ceil(semaines.length / 2);
-    const filteredSemaines = isEvenSemester ? semaines.slice(midIndex) : semaines.slice(0, midIndex);
-    const filteredSemainesID = isEvenSemester ? semainesID.slice(midIndex) : semainesID.slice(0, midIndex);
-    const startIndex = filteredSemainesID[0]-1;
-
-    console.log('satrtIndex', startIndex);
 
     return (
         <>
@@ -167,7 +172,7 @@ function TableBody({
             {contextMenu && (
                 <ContextMenu
                     contextMenu={contextMenu}
-                    handleDuplicate={() => handleDuplicate(setShowDuplicatePopup)}
+                    handleDuplicate={handleDuplicateClick}
                     handleEdit={() => handleUpdate(setShowUpdatePopup, setSelectedGroups, clickedCells, groupNames, groupesID, filteredSemainesID)}
                     handleMove={() => handleMove(setShowMovePopup)}
                     handleDelete={handleDeleteClick}
@@ -182,6 +187,7 @@ function TableBody({
                     setCustomWeeks={setCustomWeeks}
                     handleDuplicateConfirm={handleDuplicateConfirmClick}
                     setShowDuplicatePopup={setShowDuplicatePopup}
+                    errorMessage={errorMessage}
                 />
             )}
             {showDeletePopup && (
@@ -192,7 +198,7 @@ function TableBody({
             )}
             {showMovePopup && (
                 <MovePopup
-                    semaines={semaines}
+                    semaines={filteredSemaines}
                     handleMoveConfirm={handleMoveConfirmClick}
                     setShowMovePopup={setShowMovePopup}
                 />

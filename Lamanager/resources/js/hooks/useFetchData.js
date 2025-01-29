@@ -36,7 +36,6 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
 
     const handleCasesData = async (enseignementId, ids, semainesData) => {
         const casesData = await fetchCases(enseignementId);
-        console.log('casesData', casesData);
         const enseignantIds = [...new Set(casesData.map((item) => item.enseignant_id))];
         const enseignantCodes = await fetchEnseignantCodes(enseignantIds);
 
@@ -57,9 +56,6 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
                 };
             }
         });
-
-        console.log('newClickedCells', newClickedCells);
-        console.log('casesData',casesData);
 
         setCasesData(casesData);
         setClickedCells(newClickedCells);

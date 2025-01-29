@@ -131,7 +131,7 @@ export const handleDuplicate = (setShowDuplicatePopup) => {
 
 export const handleDuplicateConfirm = async (
     clickedCells, semainesID, enseignement, groupesID, setClickedCells, setIsLoading, setShowDuplicatePopup, handleCloseContextMenu, 
-    duplicateOption, customWeeks, parseWeeks
+    duplicateOption, customWeeks, parseWeeks, setErrorMessage
 ) => {
     setIsLoading(true);
     const selectedCells = Object.keys(clickedCells).filter(key => clickedCells[key]?.selected && !key.startsWith('semaine-'));
@@ -139,23 +139,58 @@ export const handleDuplicateConfirm = async (
 
     let weeksToDuplicate = [];
 
+    console.log('semainesID', semainesID);
+
+    console.log('selectedRows', selectedRows);
+
     if (selectedRows.length === 1) {
         if (duplicateOption === 'pairs') {
-            weeksToDuplicate = semainesID.filter((_, index) => index % 2 === 0);
-        } else if (duplicateOption === 'impairs') {
             weeksToDuplicate = semainesID.filter((_, index) => index % 2 !== 0);
+        } else if (duplicateOption === 'impairs') {
+            weeksToDuplicate = semainesID.filter((_, index) => index % 2 === 0);
         } else if (duplicateOption === 'custom') {
-            weeksToDuplicate = parseWeeks(customWeeks).map(week => semainesID[week - 1]);
+            weeksToDuplicate = parseWeeks(customWeeks).map(week => week);
         }
     } else {
         weeksToDuplicate = semainesID.slice(selectedRows[0], selectedRows[selectedRows.length - 1] + 1);
     }
+
+    // Vérifier si toutes les valeurs de weeksToDuplicate sont présentes dans semainesID
+    const invalidWeeks = weeksToDuplicate.filter(week => !semainesID.includes(week));
+    console.log('invalidWeeks', invalidWeeks);
+    if (invalidWeeks.length > 0) {
+        setErrorMessage(`Les semaines suivantes ne sont pas valides: ${invalidWeeks.join(', ')}`);
+        setIsLoading(false);
+        return;
+    }
+
+    // Vérifier si weeksToDuplicate contient uniquement la valeur de selectedRows
+    if (weeksToDuplicate.length === 1 && weeksToDuplicate[0] === parseInt(selectedRows[0]) + 1) {
+        setErrorMessage(`Veuillez saisir une semaine différente de la semaine sélectionnée.`);
+        setIsLoading(false);
+        return;
+    }
+
+    console.log('weeksToDuplicate', weeksToDuplicate); 
 
     for (const cellKey of selectedCells) {
         const [rowIndex, colIndex] = cellKey.split('-').map(Number);
         const cellData = clickedCells[cellKey];
 
         for (const week of weeksToDuplicate) {
+            const newCellKey = `${week-1}-${colIndex}`;
+            if (clickedCells[newCellKey]?.text) {
+                try {
+                    await deleteCellFromDatabase(
+                        week,
+                        groupesID[colIndex],
+                        enseignement.id
+                    );
+                } catch (error) {
+                    console.error('Erreur lors de la suppression de la base de données:', error);
+                }
+            }
+
             try {
                 await addCellToDatabase(
                     week,
@@ -168,7 +203,6 @@ export const handleDuplicateConfirm = async (
 
                 setClickedCells((prev) => {
                     const updatedCells = { ...prev };
-                    const newCellKey = `${semainesID.indexOf(week)}-${colIndex}`;
                     updatedCells[newCellKey] = {
                         clicked: true,
                         text: `${cellData.heures}h${cellData.minutes !== 0 ? cellData.minutes : ''} - ${cellData.enseignantCode}`,
@@ -202,7 +236,7 @@ export const handleMoveConfirm = async (
     const selectedCells = Object.keys(clickedCells).filter(key => clickedCells[key]?.selected && !key.startsWith('semaine-'));
     const selectedRows = [...new Set(selectedCells.map(key => key.split('-')[0]))].sort((a, b) => a - b);
 
-    if (parseInt(selectedWeek) === parseInt(selectedRows[0])) {
+    if (parseInt(semainesID[selectedWeek]) === parseInt(selectedRows[0])) {
         setIsLoading(false);
         setShowMovePopup(false);
         handleCloseContextMenu();
@@ -211,7 +245,7 @@ export const handleMoveConfirm = async (
 
     for (const cellKey of selectedCells) {
         const [rowIndex, colIndex] = cellKey.split('-').map(Number);
-        const newRowIndex = parseInt(selectedWeek) + (rowIndex - parseInt(selectedRows[0]));
+        const newRowIndex = parseInt(semainesID[selectedWeek]) + (rowIndex - parseInt(selectedRows[0]));
         const cellData = clickedCells[cellKey];
 
         try {
@@ -309,7 +343,6 @@ export const handleDeleteConfirm = async (
 };
 
 export const handleUpdate = (setShowUpdatePopup, setSelectedGroups, clickedCells, groupNames, groupIds, semainesID) => {
-    console.log("clickedCells", clickedCells);
     const selectedGroups = Object.keys(clickedCells)
         .filter(key => clickedCells[key]?.selected && clickedCells[key]?.clicked)
         .map(key => {
@@ -335,15 +368,12 @@ export const handleUpdate = (setShowUpdatePopup, setSelectedGroups, clickedCells
 
 export const handleUpdateConfirm = async (updatedData, clickedCells, setClickedCells) => {
     let selectedCells = Object.keys(clickedCells).filter(key => clickedCells[key]?.selected && !key.startsWith('semaine-'));
-    console.log("selectedCells", selectedCells);
     
     selectedCells = selectedCells.sort((a, b) => {
         const [rowA, colA] = a.split('-').map(Number);
         const [rowB, colB] = b.split('-').map(Number);
         return colA - colB || rowA - rowB;
     });
-
-    console.log("selectedCells sorted", selectedCells);
 
     for (const { groupeId, heures, minutes, enseignantId, enseignementId, semaineId } of updatedData) {
         await deleteCellFromDatabase(semaineId, groupeId, enseignementId);
@@ -356,8 +386,6 @@ export const handleUpdateConfirm = async (updatedData, clickedCells, setClickedC
         const cellData = clickedCells[cellKey];
 
         const { groupeId, heures, minutes, enseignantId, enseignantCode, enseignementId, semaineId } = updatedData[index];
-
-        console.log(`Cellule ${cellKey} - Gr: ${groupeId} - H: ${heures} - M: ${minutes} - E: ${enseignantId} - EC: ${enseignantCode} - EI: ${enseignementId} - S: ${semaineId}`);
 
         setClickedCells((prev) => {
             const updatedCells = { ...prev };
