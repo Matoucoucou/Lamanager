@@ -37,16 +37,11 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
     const handleSelectionChange = () => {
         if (selectedAnnee && selectedEnseignement) {    
             onSelectionChange({ selectedAnnee, selectedEnseignement, showGroupes });
-            console.log(selectedAnnee, selectedEnseignement, showGroupes);
         }
-    };
-
-    useEffect(() => {
         if (isAllEnseignementsSelected) {
             onSelectionChange({selectedAnnee, all: "all"});
         }
-    }, [isAllEnseignementsSelected]);
-
+    };
     return (
         <div>
             <MenuAnnee 
