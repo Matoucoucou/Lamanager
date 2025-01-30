@@ -54,7 +54,7 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
                     setIsAllEnseignementsSelected={setIsAllEnseignementsSelected}
                 />
             )}
-            <div className="button-container">
+            <div className="flex items-center">
                 <label className="flex items-center">
                     <input 
                         type="checkbox" 
@@ -64,10 +64,12 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
                     />
                     Groupes
                 </label>
+            </div>
+            <div className="button-container">  
                 <button onClick={handleTableauClick}>Tableau</button>
+                <button onClick={handleAlertesClick}>Alertes</button>
             </div> 
             <div className="button-container">
-                <button onClick={handleAlertesClick}>Alertes</button>
                 <button onClick={handleSelectionChange}>Appliquer Sélection</button>
             </div>
 
