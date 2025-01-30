@@ -245,18 +245,18 @@ export const handleMoveConfirm = async (
 
     for (const cellKey of selectedCells) {
         const [rowIndex, colIndex] = cellKey.split('-').map(Number);
-        const newRowIndex = parseInt(semainesID[selectedWeek]) + (rowIndex - parseInt(selectedRows[0]));
+        const newRowIndex = parseInt(semainesID[selectedWeek]) + (rowIndex - 1 - parseInt(selectedRows[0]));
         const cellData = clickedCells[cellKey];
 
         try {
             await deleteCellFromDatabase(
-                semainesID[rowIndex],
+                rowIndex+1,
                 groupesID[colIndex],
                 enseignement.id
             );
 
             await addCellToDatabase(
-                semainesID[newRowIndex],
+                newRowIndex+1,
                 cellData.enseignantId,
                 enseignement.id,
                 groupesID[colIndex],
