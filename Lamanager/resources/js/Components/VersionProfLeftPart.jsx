@@ -12,19 +12,6 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
     const [showTableauPopup, setShowTableauPopup] = useState(false);
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
 
-    useEffect(() => {
-        if (selectedAnnee && selectedEnseignement) {    
-            onSelectionChange({ selectedAnnee, selectedEnseignement, showGroupes });
-        }
-    }, [selectedAnnee, selectedEnseignement, showGroupes, onSelectionChange]);
-
-    const handleGroupesClick = () => {
-        setShowGroupes(prevShowGroupes => !prevShowGroupes);
-        if (selectedAnnee && selectedEnseignement) {
-          onSelectionChange({ selectedAnnee, selectedEnseignement, showGroupes: !showGroupes });
-        }
-      };
-
     const handleTableauClick = () => {
         setShowTableauPopup(true);
     };
@@ -39,6 +26,13 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
 
     const handleCloseDetailsPopup = () => {
         setShowDetailsPopup(false);
+    };
+
+    const handleSelectionChange = () => {
+        if (selectedAnnee && selectedEnseignement) {    
+            onSelectionChange({ selectedAnnee, selectedEnseignement, showGroupes });
+            console.log(selectedAnnee, selectedEnseignement, showGroupes);
+        }
     };
 
     useEffect(() => {
@@ -60,10 +54,21 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
                 />
             )}
             <div className="button-container">
-                <button onClick={handleGroupesClick}>Groupes</button>
+                <label className="flex items-center">
+                    <input 
+                        type="checkbox" 
+                        checked={showGroupes}
+                        onChange={() => setShowGroupes(!showGroupes)}  
+                        className="mr-2"
+                    />
+                    Groupes
+                </label>
                 <button onClick={handleTableauClick}>Tableau</button>
-                <button>Alertes</button>
             </div> 
+            <div className="button-container">
+                <button>Alertes</button>
+                <button onClick={handleSelectionChange}>Appliquer Sélection</button>
+            </div>
 
             {showTableauPopup && selectedAnnee && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
