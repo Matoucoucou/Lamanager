@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\SemaineController;
 use App\Http\Controllers\CaseController;
+use App\Http\Controllers\AlerteController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnneeController;
@@ -53,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/cases/recherche/{annee_id}/{enseignement_id}/{enseignant_id}', [CaseController::class, 'listeCasesParEnseignant']);
     Route::get('/api/cases/rechercheComplete/{annee_id}/{enseignant_id}', [CaseController::class, 'listeEnseignement']);
     Route::get('/api/enseignements/{anneeId}',[EnseignementController::class, 'enseignementParAnnee'])->name('api.enseignements');
+    
 
     Route::post('/api/annees', [AnneeController::class, 'store'])->name('api.annees.store');
     Route::post('/api/cases', [CaseController::class, 'store'])->name('api.cases.store');
@@ -77,6 +79,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/enseignants/{annee_id}/{id}', [EnseignantController::class, 'listeEnseignementParEnseignant']);
     Route::put('/api/enseignants/{id}', [EnseignantController::class, 'update'])->name('api.enseignants.update');
     Route::delete('/api/enseignants/{id}', [EnseignantController::class, 'destroy'])->name('api.enseignants.destroy');
+
+    Route::get('/api/alertes/{enseignant_id}', [AlerteController::class, 'index'])->name('api.alertes');
+    Route::put('/api/alertes/{id}', [AlerteController::class, 'update'])->name('api.alertes.update');
 });
 
 Route::get('/login', function () {

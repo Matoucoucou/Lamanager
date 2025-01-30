@@ -3,6 +3,7 @@ import MenuAnnee from './MenuAnnee';
 import EnseignementListeVersionProf from './EnseignementListeVersionProf';
 import TableauVersionProf from './TableauVersionProf';
 import TableauVersionProfDetail from './TableauVersionProfDetail';
+import AlertesVersionProf from './AlertesVersionProf';
 
 export default function VersionProfLeftPart({ onSelectionChange }) {
     const [selectedAnnee, setSelectedAnnee] = useState(null);
@@ -11,6 +12,7 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
     const [showGroupes, setShowGroupes] = useState(false);
     const [showTableauPopup, setShowTableauPopup] = useState(false);
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+    const [showAlertesPopup,setShowAlertesPopup] = useState(false);
 
     const handleTableauClick = () => {
         setShowTableauPopup(true);
@@ -18,6 +20,10 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
 
     const handleCloseTableauPopup = () => {
         setShowTableauPopup(false);
+    };
+
+    const handleAlertesClick = () => {
+        setShowAlertesPopup(true);
     };
 
     const handleDetailsClick = () => {
@@ -66,7 +72,7 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
                 <button onClick={handleTableauClick}>Tableau</button>
             </div> 
             <div className="button-container">
-                <button>Alertes</button>
+                <button onClick={handleAlertesClick}>Alertes</button>
                 <button onClick={handleSelectionChange}>Appliquer Sélection</button>
             </div>
 
@@ -103,6 +109,24 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
                         </div>
                         <div className="p-6 overflow-auto max-h-[calc(90vh-60px)]">
                             <TableauVersionProfDetail anneeId={selectedAnnee.id} />
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showAlertesPopup && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                    <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] relative">
+                        <div className="sticky top-0 bg-white z-10 flex justify-between items-center p-4 border-b">
+                            
+                            <button 
+                                onClick={() => setShowAlertesPopup(false)} 
+                                className="text-2xl font-bold hover:text-red-600">
+                                &times;
+                            </button>
+                        
+                            <div className="p-6 overflow-auto max-h-[calc(90vh-60px)]">
+                            <AlertesVersionProf />
+                            </div>
                         </div>
                     </div>
                 </div>
