@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Eye } from 'lucide-react';
 import MenuAnnee from './MenuAnnee';
 import EnseignementListeVersionProf from './EnseignementListeVersionProf';
 import TableauVersionProf from './TableauVersionProf';
@@ -54,13 +55,13 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
                     setIsAllEnseignementsSelected={setIsAllEnseignementsSelected}
                 />
             )}
-            <div className="flex items-center">
-                <label className="flex items-center">
+            <div className="p-4 pt-0">
+                <label>
                     <input 
                         type="checkbox" 
                         checked={showGroupes}
                         onChange={() => setShowGroupes(!showGroupes)}  
-                        className="mr-2"
+                        className="mr-2 p-[5px] rounded border-2 border-[#564787] scale-125"
                     />
                     Groupes
                 </label>
@@ -70,7 +71,13 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
                 <button onClick={handleAlertesClick}>Alertes</button>
             </div> 
             <div className="button-container">
-                <button onClick={handleSelectionChange}>Appliquer Sélection</button>
+                <button 
+                    onClick={handleSelectionChange} 
+                    className="flex items-center justify-center space-x-2"
+                >
+                    <Eye color="#ffffff" />
+                    <span>Visualiser</span>
+                </button>
             </div>
 
             {showTableauPopup && selectedAnnee && (
