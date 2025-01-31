@@ -15,6 +15,10 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
     const [showAlertesPopup,setShowAlertesPopup] = useState(false);
 
+    const handleAnneeSelect = (annee) => {
+        setSelectedAnnee(annee);
+    };
+
     const handleTableauClick = () => {
         setShowTableauPopup(true);
     };
@@ -46,7 +50,8 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
     return (
         <div>
             <MenuAnnee 
-                onAnneeSelect={setSelectedAnnee} 
+                selectedAnnee={selectedAnnee} 
+                onAnneeSelect={handleAnneeSelect} 
             />
             {selectedAnnee && (
                 <EnseignementListeVersionProf 
