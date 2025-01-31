@@ -45,7 +45,7 @@ function UpdatePopup({ setShowUpdatePopup, initialData, selectedGroups, handleUp
     const handleConfirmClick = () => {
         const updatedData = [];
 
-        Object.keys(groupedCells).forEach((groupeId, index) => {
+        sortedGroupIds.forEach((groupeId, index) => {
             const [hours, minutes] = heures[index].split(':').map(Number);
             const enseignantId = selectedEnseignants[index];
             const enseignantCode = enseignantsMap[enseignantId];
@@ -79,9 +79,22 @@ function UpdatePopup({ setShowUpdatePopup, initialData, selectedGroups, handleUp
         return acc;
     }, {});
 
-    console.log('selectedGroups', selectedGroups);
+    // Trier les IDs des groupes en fonction des noms et du type de groupe, en commençant par TD et TP
+    const sortedGroupIds = Object.keys(groupedCells).sort((a, b) => {
+        const typeOrder = { 'TD': 1, 'TP': 2, 'CM': 3 };
+        const typeA = groupedCells[a][0].type;
+        const typeB = groupedCells[b][0].type;
+        if (typeOrder[typeA] !== typeOrder[typeB]) {
+            return typeOrder[typeA] - typeOrder[typeB];
+        }
+        const nameA = groupedCells[a][0].name.toLowerCase();
+        const nameB = groupedCells[b][0].name.toLowerCase();
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        return 0;
+    });
 
-    console.log('groupedCells', groupedCells);
+    console.log('sortedGroupIds', sortedGroupIds);
 
     return (
         <div className="popup-overlay" style={overlayStyle}>
@@ -89,14 +102,14 @@ function UpdatePopup({ setShowUpdatePopup, initialData, selectedGroups, handleUp
                 <h2>Modifier</h2>
                 <div style={inputContainerStyle}>
                     <div style={columnHeaderStyle}>
-                        {Object.keys(groupedCells).map((groupeId, index) => (
+                        {sortedGroupIds.map((groupeId, index) => (
                             <div key={`header-${index}`} style={columnStyle}>
                                 <label style={labelStyle}>{groupedCells[groupeId][0].name}</label>
                             </div>
                         ))}
                     </div>
                     <div style={columnHeaderStyle}>
-                        {Object.keys(groupedCells).map((groupeId, index) => (
+                        {sortedGroupIds.map((groupeId, index) => (
                             <div key={`input-${index}`} style={columnStyle}>
                                 <input
                                     type="time"

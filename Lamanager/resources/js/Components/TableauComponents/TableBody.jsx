@@ -16,8 +16,7 @@ function TableBody({
     clickedCells,
     enseignantId,
     enseignement,
-    groupesID,
-    groupNames,
+    groupes,
     enseignantCode,
     heures,
     minutes,
@@ -61,7 +60,7 @@ function TableBody({
 
     const handleDeleteConfirmClick = (deleteOption, customRows) => {
         setIsLoading(true);
-        handleDeleteConfirm(clickedCells, semainesID, groupesID, setClickedCells, setShowDeletePopup, deleteOption, 
+        handleDeleteConfirm(clickedCells, semainesID, groupes.map(g => g.id), setClickedCells, setShowDeletePopup, deleteOption, 
             customRows, enseignement)
             .finally(() => setIsLoading(false));
     };
@@ -75,7 +74,7 @@ function TableBody({
     const handleDuplicateConfirmClick = () => {
         setIsLoading(true);
         handleDuplicateConfirm(
-            clickedCells, filteredSemainesID, enseignement, groupesID, setClickedCells, setIsLoading, setShowDuplicatePopup, handleCloseContextMenu, 
+            clickedCells, filteredSemainesID, enseignement, groupes.map(g => g.id), setClickedCells, setIsLoading, setShowDuplicatePopup, handleCloseContextMenu, 
             duplicateOption, customWeeks, parseWeeks, setErrorMessage
         ).finally(() => setIsLoading(false));
     };
@@ -83,13 +82,13 @@ function TableBody({
     const handleMoveConfirmClick = (selectedWeek) => {
         setIsLoading(true);
         handleMoveConfirm(
-            selectedWeek, clickedCells, filteredSemainesID, enseignement, groupesID, setClickedCells, setIsLoading, setShowMovePopup, handleCloseContextMenu
+            selectedWeek, clickedCells, filteredSemainesID, enseignement, groupes.map(g => g.id), setClickedCells, setIsLoading, setShowMovePopup, handleCloseContextMenu
         ).finally(() => setIsLoading(false));
     };
 
     const handleUpdateConfirmClick = (updatedData) => {
         setIsLoading(true);
-        handleUpdateConfirm(updatedData, clickedCells, setClickedCells, semainesID, enseignantId, enseignement, groupesID, 
+        handleUpdateConfirm(updatedData, clickedCells, setClickedCells, filteredSemainesID, enseignantId, enseignement, groupes.map(g => g.id), 
              enseignantCode, setShowUpdatePopup, setIsLoading
         ).finally(() => setIsLoading(false));
     };
@@ -110,7 +109,7 @@ function TableBody({
                                 style={{ height: '70px', cursor: contextMenu ? 'default' : 'pointer', position: 'relative' }}
                                 onClick={() => handleClick(
                                     rowIndex + startIndex, 0, null, null, true, contextMenu, enseignantId, onCellClick, 
-                                    showIcons, setClickedCells, nbGroupe, enseignement, groupesID, filteredSemainesID, 
+                                    showIcons, setClickedCells, nbGroupe, enseignement, groupes.map(g => g.id), filteredSemainesID, 
                                     enseignantCode, heures, minutes, clickedCells, handleCellClick
                                 )}
                             >
@@ -140,9 +139,9 @@ function TableBody({
                                     }`}
                                     style={{ cursor: contextMenu ? 'default' : 'pointer', width: `${100 / (nbGroupe+2)}%`, position: 'relative' }}
                                     onClick={() => handleClick(
-                                        rowIndex + startIndex, index, filteredSemainesID[rowIndex], groupesID[index], false, contextMenu, 
+                                        rowIndex + startIndex, index, filteredSemainesID[rowIndex], groupes.map(g => g.id)[index], false, contextMenu, 
                                         enseignantId, onCellClick, showIcons, setClickedCells, nbGroupe, enseignement, 
-                                        groupesID, filteredSemainesID, enseignantCode, heures, minutes, clickedCells, handleCellClick
+                                        groupes.map(g => g.id), filteredSemainesID, enseignantCode, heures, minutes, clickedCells, handleCellClick
                                     )}
                                     onContextMenu={(event) => handleContextMenu(event, rowIndex + startIndex, index, showIcons, clickedCells, setContextMenu)}
                                 >
@@ -173,7 +172,7 @@ function TableBody({
                 <ContextMenu
                     contextMenu={contextMenu}
                     handleDuplicate={handleDuplicateClick}
-                    handleEdit={() => handleUpdate(setShowUpdatePopup, setSelectedGroups, clickedCells, groupNames, groupesID, filteredSemainesID)}
+                    handleEdit={() => handleUpdate(setShowUpdatePopup, setSelectedGroups, clickedCells, groupes, filteredSemainesID)}
                     handleMove={() => handleMove(setShowMovePopup)}
                     handleDelete={handleDeleteClick}
                     handleCloseContextMenu={() => handleCloseContextMenu(setContextMenu)}
@@ -208,7 +207,7 @@ function TableBody({
                     setShowUpdatePopup={setShowUpdatePopup}
                     initialData={{ heures, minutes, enseignant: enseignantCode }}
                     selectedGroups={selectedGroups}
-                    groupesID={groupesID}
+                    groupesID={groupes.map(g => g.id)}
                     handleUpdateConfirm={handleUpdateConfirmClick}
                     enseignementId={enseignement.id}
                     semainesID={filteredSemainesID}

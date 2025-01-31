@@ -4,8 +4,7 @@ import { fetchGroupes, fetchSemaines, fetchEnseignant, fetchCases, fetchEnseigna
 function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId, activeTableau, setActiveTableau) {
     const [semainesID, setSemainesID] = useState([]);
     const [semaines, setSemaines] = useState([]);
-    const [groupesID, setGroupesID] = useState([]);
-    const [groupNames, setGroupNames] = useState([]);
+    const [groupes, setGroupes] = useState([]);
     const [nbCM, setNbCM] = useState(0);
     const [nbTP, setNbTP] = useState(0);
     const [nbTD, setNbTD] = useState(0);
@@ -16,22 +15,24 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
     const [casesData, setCasesData] = useState([]);
     const [clickedCells, setClickedCells] = useState({});
 
-    const processGroupes = (cmGroups, tdGroups, tpGroups, groupesIDs, groupesData) => {
-
+    const processGroupes = (cmGroups, tdGroups, tpGroups, groupesData) => {
         const sortedGroupesData = [...cmGroups, ...tdGroups, ...tpGroups];
 
         const countCM = cmGroups.length;
         const countTP = tpGroups.length;
         const countTD = tdGroups.length;
 
-        const names = sortedGroupesData.map((g) => g.nom);
+        const groupes = sortedGroupesData.map((g) => ({
+            id: g.id,
+            name: g.nom,
+            type: g.type
+        }));
 
         setNbCM(countCM);
         setNbTP(countTP);
         setNbTD(countTD);
         setNbGroupe(groupesData.length);
-        setGroupesID(groupesIDs);
-        setGroupNames(names);
+        setGroupes(groupes);
     };
 
     const handleCasesData = async (enseignementId, ids, semainesData) => {
@@ -90,9 +91,9 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
 
                 groupesData = [...cmGroups, ...tdGroups, ...tpGroups];
 
-                const groupesIDs = groupesData.map((g) => g.id);
+                processGroupes(cmGroups, tdGroups, tpGroups, groupesData);
 
-                processGroupes(cmGroups, tdGroups, tpGroups, groupesIDs, groupesData);
+                console.log('groupesData', groupesData);
 
                 const semainesData = await fetchSemaines();
                 setSemainesID(semainesData.map((s) => s.id));
@@ -106,7 +107,7 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
                 if (activeTableau) {
                     const enseignementId = selectedEnseignements.find((e) => e.nom === activeTableau)?.id;
                     if (enseignementId) {
-                        await handleCasesData(enseignementId, groupesIDs, semainesData);
+                        await handleCasesData(enseignementId, groupesData.map(g => g.id), semainesData);
                     }
                 }
             } catch (error) {
@@ -120,12 +121,11 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
     return {
         semainesID,
         semaines,
-        groupesID,
-        groupNames,
         nbCM,
         nbTP,
         nbTD,
         nbGroupe,
+        groupes,
         enseignantCode,
         heures,
         minutes,

@@ -139,10 +139,6 @@ export const handleDuplicateConfirm = async (
 
     let weeksToDuplicate = [];
 
-    console.log('semainesID', semainesID);
-
-    console.log('selectedRows', selectedRows);
-
     if (selectedRows.length === 1) {
         if (duplicateOption === 'pairs') {
             weeksToDuplicate = semainesID.filter((_, index) => index % 2 !== 0);
@@ -157,7 +153,6 @@ export const handleDuplicateConfirm = async (
 
     // Vérifier si toutes les valeurs de weeksToDuplicate sont présentes dans semainesID
     const invalidWeeks = weeksToDuplicate.filter(week => !semainesID.includes(week));
-    console.log('invalidWeeks', invalidWeeks);
     if (invalidWeeks.length > 0) {
         setErrorMessage(`Les semaines suivantes ne sont pas valides: ${invalidWeeks.join(', ')}`);
         setIsLoading(false);
@@ -170,8 +165,6 @@ export const handleDuplicateConfirm = async (
         setIsLoading(false);
         return;
     }
-
-    console.log('weeksToDuplicate', weeksToDuplicate); 
 
     for (const cellKey of selectedCells) {
         const [rowIndex, colIndex] = cellKey.split('-').map(Number);
@@ -342,27 +335,21 @@ export const handleDeleteConfirm = async (
     setShowDeletePopup(false);
 };
 
-export const handleUpdate = (setShowUpdatePopup, setSelectedGroups, clickedCells, groupNames, groupIds, semainesID) => {
+export const handleUpdate = (setShowUpdatePopup, setSelectedGroups, clickedCells, groupes, semainesID) => {
     const selectedGroups = Object.keys(clickedCells)
         .filter(key => clickedCells[key]?.selected && clickedCells[key]?.clicked)
         .map(key => {
             const [rowIndex, colIndex] = key.split('-').map(Number);
             return {
                 cellKey: key,
-                semaineId: semainesID[rowIndex],
-                groupeId: groupIds[colIndex],
-                name: groupNames[colIndex]
+                semaineId: rowIndex + 1,
+                groupeId: groupes.map(g => g.id)[colIndex],
+                name: groupes.map(g => g.name)[colIndex],
+                type: groupes.map(g => g.type)[colIndex],
             };
         });
 
-    // Trier les groupes par nom et type de cours
-    const sortedGroups = selectedGroups.sort((a, b) => {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return 0;
-    });
-
-    setSelectedGroups(sortedGroups);
+    setSelectedGroups(selectedGroups);
     setShowUpdatePopup(true);
 };
 
@@ -374,6 +361,8 @@ export const handleUpdateConfirm = async (updatedData, clickedCells, setClickedC
         const [rowB, colB] = b.split('-').map(Number);
         return colA - colB || rowA - rowB;
     });
+
+    console.log(updatedData);
 
     for (const { groupeId, heures, minutes, enseignantId, enseignementId, semaineId } of updatedData) {
         await deleteCellFromDatabase(semaineId, groupeId, enseignementId);
