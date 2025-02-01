@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "../../css/AlertesVersionProf.css"; // Ajustez le chemin d'importation
 
-function AlertesVersionProf() {
+function AlertesVersionProf({ onAlertesUpdated }) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -18,18 +17,27 @@ function AlertesVersionProf() {
 
                 const response = await axios.get(`/api/alertes/${userId}`);
                 console.log("alertes mon pote", response.data);
-                setData(response.data); // Stocker les données dans l'état
+                setData(response.data); 
 
             } catch (err) {
                 console.error('Erreur lors de la récupération des données', err);
                 setError('Erreur lors de la récupération des données');
             } finally {
-                setLoading(false); // Assurez-vous que le chargement est terminé
+                setLoading(false);
             }
         };
 
         fetchCaseTableauDataAll();
     }, []);
+
+    useEffect(() => {
+        if (editIndex !== null) {
+            setEditData(prevEditData => ({
+                ...prevEditData,
+                couleur: prevEditData.couleur.toLowerCase()
+            }));
+        }
+    }, [editIndex]);
 
     const handleEditClick = (index) => {
         setEditIndex(index);
@@ -43,11 +51,14 @@ function AlertesVersionProf() {
 
     const handleSaveClick = async () => {
         try {
-            await axios.put(`/api/alertes/${editData.id}`, editData);
-            const updatedData = [...data];
-            updatedData[editIndex] = editData;
-            setData(updatedData);
+            const updatedData = { ...editData, couleur: editData.couleur.toUpperCase() };
+            await axios.put(`/api/alertes/${editData.id}`, updatedData);
+            const newData = [...data];
+            newData[editIndex] = updatedData;
+            setData(newData);
+            console.log('updatedData:', updatedData);
             setEditIndex(null);
+            onAlertesUpdated();
         } catch (err) {
             console.error('Erreur lors de la mise à jour des données', err);
             setError('Erreur lors de la mise à jour des données');
@@ -75,40 +86,16 @@ function AlertesVersionProf() {
                             {editIndex === index ? (
                                 <>
                                     <td className="border p-2">
-                                        <input
-                                            type="text"
-                                            name="nom"
-                                            value={editData.nom}
-                                            onChange={handleInputChange}
-                                            className="w-full"
-                                        />
+                                        <input type="text" name="nom" value={editData.nom} onChange={handleInputChange} className="w-full"/>
                                     </td>
                                     <td className="border p-2">
-                                        <input
-                                            type="number"
-                                            name="heure_min"
-                                            value={editData.heure_min}
-                                            onChange={handleInputChange}
-                                            className="w-full"
-                                        />
+                                        <input type="number" name="heure_min" value={editData.heure_min} onChange={handleInputChange} className="w-full" />
                                     </td>
                                     <td className="border p-2">
-                                        <input
-                                            type="number"
-                                            name="heure_max"
-                                            value={editData.heure_max}
-                                            onChange={handleInputChange}
-                                            className="w-full"
-                                        />
+                                        <input type="number"  name="heure_max" value={editData.heure_max} onChange={handleInputChange} className="w-full" />
                                     </td>
                                     <td className="border p-2">
-                                        <input
-                                            type="color"
-                                            name="couleur"
-                                            value={editData.couleur}
-                                            onChange={handleInputChange}
-                                            className="w-full"
-                                        />
+                                        <input type="color" name="couleur" value={editData.couleur.toUpperCase()} onChange={handleInputChange} className="w-full" />
                                     </td>
                                     <td className="border p-2">
                                         <button onClick={handleSaveClick} className="bg-blue-500 text-white p-2">Enregistrer</button>
@@ -119,10 +106,8 @@ function AlertesVersionProf() {
                                     <td className="border p-2">{alerte.nom}</td>
                                     <td className="border p-2">{alerte.heure_min}</td>
                                     <td className="border p-2">{alerte.heure_max}</td>
-                                    <td className="border p-2" style={{ backgroundColor: `#${alerte.couleur}` }}></td>
+                                    <td className="border p-2" style={{ backgroundColor: `${alerte.couleur}` }}></td>
                                     <button onClick={() => handleEditClick(index)} className="p-2">Modifier</button>
-                                        
-                                    
                                 </>
                             )}
                         </tr>

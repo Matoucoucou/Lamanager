@@ -38,7 +38,7 @@ const Histogramme = ({ data }) => {
         x="semaine"
         y="heures"
         barWidth={barWidth}
-        style={{ data: { fill: "#AD71C1" } }}
+        style={{ data: { fill: ({ datum }) => datum.couleur } }}
         labels={({ datum }) => `${datum.heures}h`}
         labelComponent={<VictoryTooltip style={{ fontSize: 20 }} />}
       />
