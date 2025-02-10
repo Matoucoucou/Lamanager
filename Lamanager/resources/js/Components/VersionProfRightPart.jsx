@@ -37,7 +37,7 @@ export default function VersionProfRightPart({ selections }) {
       const sessionResponse = await axios.get('/api/session');
       const userId = sessionResponse.data.userId;
       const response = await axios.get(`/api/alertes/${userId}`);
-      console.log('alertes:', response.data);
+      //console.log('alertes:', response.data);
       setAlertes(response.data);
       setAlertesLoaded(true);
     } catch (err) {
@@ -78,17 +78,17 @@ export default function VersionProfRightPart({ selections }) {
     }
   };
   const getCouleurForHeures = (heure) => {
-    console.log('Heure:', heure);
+    //console.log('Heure:', heure);
     if (alertes.length === 0) {
-        console.log('Aucune alerte disponible');
+        //console.log('Aucune alerte disponible');
         return '#AD71C1'; 
     }
     for (let alerte of alertes) {
-        console.log('Alerte:', alerte);
-        console.log('Heure min:', alerte.heure_min);
-        console.log('Heure max:', alerte.heure_max); 
+        //console.log('Alerte:', alerte);
+        //console.log('Heure min:', alerte.heure_min);
+        //console.log('Heure max:', alerte.heure_max); 
         if (heure >= alerte.heure_min && heure <= alerte.heure_max) {
-            console.log('Match found:', alerte);
+            //console.log('Match found:', alerte);
             return `${alerte.couleur}`;
         }
     }
@@ -181,7 +181,7 @@ export default function VersionProfRightPart({ selections }) {
           <HistogrammeTousEnseignements data={dataForEnseignements} />
         ) : (
           dataForChart.length >=   1 && (
-            <Histogramme data={dataForChart} />
+            <Histogramme data={dataForChart} alertes={alertes}/>
           )
         )
       )}
