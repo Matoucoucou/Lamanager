@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function AlertesVersionProf({ onAlertesUpdated }) {
+function AlertesVersionProf() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -58,7 +58,7 @@ function AlertesVersionProf({ onAlertesUpdated }) {
             setData(newData);
             console.log('updatedData:', updatedData);
             setEditIndex(null);
-            onAlertesUpdated();
+            window.location.reload(); // Refresh the page
         } catch (err) {
             console.error('Erreur lors de la mise à jour des données', err);
             setError('Erreur lors de la mise à jour des données');
