@@ -125,17 +125,12 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
             {showAlertesPopup && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] relative">
-                        <div className="sticky top-0 bg-white z-10 flex justify-between items-center p-4 border-b">
-                            
-                            <button 
-                                onClick={() => setShowAlertesPopup(false)} 
-                                className="text-2xl font-bold hover:text-red-600">
-                                &times;
-                            </button>
-                        
-                            <div className="p-6 overflow-auto max-h-[calc(90vh-60px)]">
+                        <button className="absolute top-0 right-0 text-2xl font-bold hover:text-red-600 m-4"
+                            onClick={() => setShowAlertesPopup(false)}>
+                            &times;
+                        </button>
+                        <div className="p-6 overflow-auto max-h-[calc(90vh-60px)]">
                             <AlertesVersionProf />
-                            </div>
                         </div>
                     </div>
                 </div>
