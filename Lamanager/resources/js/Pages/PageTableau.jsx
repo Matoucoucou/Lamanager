@@ -90,7 +90,7 @@ export default function PageTableau() {
 
     return (
         <>
-            <Header ComposantProp={() => <BarreOutils lockButton = {false} toggleIcons={toggleIcons} />} />
+            <Header ComposantProp={() => <BarreOutils lockButton = {false} toggleIcons={toggleIcons} />} isAdmin={true}/>
             <div className="app">
                 <LeftPart ComposantProp={ListesEnseignementsEnseignantsWithProps} />
                 <RightPart ComposantProp={TableauWithProps} />

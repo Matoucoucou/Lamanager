@@ -8,6 +8,7 @@ export default function ProfilRightPart({ userData = {} }) {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [showGestionCompte, setShowGestionCompte] = useState(false);
 
     const handlePasswordChange = async (e) => {
         e.preventDefault();
@@ -15,10 +16,6 @@ export default function ProfilRightPart({ userData = {} }) {
             setError('Les nouveaux mots de passe ne correspondent pas.');
             return;
         }
-
-        console.log('Current Password:', currentPassword);
-        console.log('New Password:', newPassword);
-        console.log('Confirm Password:', confirmPassword);
 
         try {
             const response = await axios.post('/password-reset', {
@@ -46,8 +43,6 @@ export default function ProfilRightPart({ userData = {} }) {
             setSuccess('');
         }
     };
-
-    const [showGestionCompte, setShowGestionCompte] = useState(false);
 
     return (
         <>
@@ -118,14 +113,16 @@ export default function ProfilRightPart({ userData = {} }) {
                             </form>
                         </div>
                     </div>
-                    <div className="fixed bottom-4 right-4">
-                        <button 
-                            className="bg-pink-100 text-gray-700 px-4 py-2 rounded-md hover:bg-pink-200"
-                            onClick={() => setShowGestionCompte(true)}
-                        >
-                            Gestion des comptes
-                        </button>
-                    </div>
+                    {userData.admin == true && (
+                        <div className="fixed bottom-4 right-4">
+                            <button 
+                                className="bg-pink-100 text-gray-700 px-4 py-2 rounded-md hover:bg-pink-200"
+                                onClick={() => setShowGestionCompte(true)}
+                            >
+                                Gestion des comptes
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </>
