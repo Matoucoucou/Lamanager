@@ -33,6 +33,26 @@ describe('utils.js', function () {
         });
     });
 
+    describe('addCellToDatabase', function () {
+
+        it('devrait lancer une erreur et la consigner en cas d\'ajout échoué', async function () {
+            const error = new Error('Échec de l\'ajout');
+            axiosPostStub.rejects(error);
+            const consoleErrorStub = sinon.stub(console, 'error');
+
+            try {
+                await addCellToDatabase(1, 1, 1, 1, 1, 0);
+            } catch (e) {
+                expect(e).to.equal(error);
+                expect(consoleErrorStub.calledOnce).to.be.true;
+                expect(consoleErrorStub.calledWith('Erreur lors de l\'ajout à la base de données:', error)).to.be.true;
+            }
+
+            consoleErrorStub.restore();
+        });
+
+    });
+
     describe('deleteCellFromDatabase', function () {
         it('devrait retourner les données de réponse en cas de suppression réussie', async function () {
             const responseData = { success: true };
