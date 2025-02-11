@@ -4,8 +4,7 @@ import { fetchGroupes, fetchSemaines, fetchEnseignant, fetchCases, fetchEnseigna
 function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId, activeTableau, setActiveTableau) {
     const [semainesID, setSemainesID] = useState([]);
     const [semaines, setSemaines] = useState([]);
-    const [groupesID, setGroupesID] = useState([]);
-    const [groupNames, setGroupNames] = useState([]);
+    const [groupes, setGroupes] = useState([]);
     const [nbCM, setNbCM] = useState(0);
     const [nbTP, setNbTP] = useState(0);
     const [nbTD, setNbTD] = useState(0);
@@ -16,24 +15,24 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
     const [casesData, setCasesData] = useState([]);
     const [clickedCells, setClickedCells] = useState({});
 
-    const processGroupes = (groupesData) => {
-        const countCM = groupesData.filter((g) => g.type === 'CM').length;
-        const countTP = groupesData.filter((g) => g.type === 'TP').length;
-        const countTD = groupesData.filter((g) => g.type === 'TD').length;
+    const processGroupes = (cmGroups, tdGroups, tpGroups, groupesData) => {
+        const sortedGroupesData = [...cmGroups, ...tdGroups, ...tpGroups];
 
-        const cmGroups = groupesData.filter((g) => g.type === 'CM');
-        const tdGroups = groupesData.filter((g) => g.type === 'TD');
-        const tpGroups = groupesData.filter((g) => g.type === 'TP');
+        const countCM = cmGroups.length;
+        const countTP = tpGroups.length;
+        const countTD = tdGroups.length;
 
-        const ids = [...cmGroups.map((g) => g.id), ...tdGroups.map((g) => g.id), ...tpGroups.map((g) => g.id)];
-        const names = [...cmGroups.map((g) => g.nom), ...tdGroups.map((g) => g.nom), ...tpGroups.map((g) => g.nom)];
+        const groupes = sortedGroupesData.map((g) => ({
+            id: g.id,
+            name: g.nom,
+            type: g.type
+        }));
 
         setNbCM(countCM);
         setNbTP(countTP);
         setNbTD(countTD);
         setNbGroupe(groupesData.length);
-        setGroupesID(ids);
-        setGroupNames(names);
+        setGroupes(groupes);
     };
 
     const handleCasesData = async (enseignementId, ids, semainesData) => {
@@ -84,8 +83,17 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
                     setActiveTableau(dernierEnseignement.nom);
                 }
 
-                const groupesData = await fetchGroupes(promoId);
-                processGroupes(groupesData);
+                let groupesData = await fetchGroupes(promoId);
+                
+                const cmGroups = groupesData.filter((g) => g.type === 'CM').sort((a, b) => a.nom.localeCompare(b.nom));
+                const tdGroups = groupesData.filter((g) => g.type === 'TD').sort((a, b) => a.nom.localeCompare(b.nom));
+                const tpGroups = groupesData.filter((g) => g.type === 'TP').sort((a, b) => a.nom.localeCompare(b.nom));
+
+                groupesData = [...cmGroups, ...tdGroups, ...tpGroups];
+
+                processGroupes(cmGroups, tdGroups, tpGroups, groupesData);
+
+                console.log('groupesData', groupesData);
 
                 const semainesData = await fetchSemaines();
                 setSemainesID(semainesData.map((s) => s.id));
@@ -99,7 +107,7 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
                 if (activeTableau) {
                     const enseignementId = selectedEnseignements.find((e) => e.nom === activeTableau)?.id;
                     if (enseignementId) {
-                        await handleCasesData(enseignementId, groupesData.map((g) => g.id), semainesData);
+                        await handleCasesData(enseignementId, groupesData.map(g => g.id), semainesData);
                     }
                 }
             } catch (error) {
@@ -113,12 +121,11 @@ function useFetchData(selectedTime, selectedEnseignements, promoId, enseignantId
     return {
         semainesID,
         semaines,
-        groupesID,
-        groupNames,
         nbCM,
         nbTP,
         nbTD,
         nbGroupe,
+        groupes,
         enseignantCode,
         heures,
         minutes,

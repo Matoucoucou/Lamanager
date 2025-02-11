@@ -69,7 +69,7 @@ export const handleCellClick = async (rowIndex, colIndex, semaineId, enseignantI
 
                 for (let i = 0; i < groupesID.length; i++) {
                     try {
-                        deleteCellFromDatabase(semainesID[rowIndex], groupesID[i], enseignementId);
+                        deleteCellFromDatabase(rowIndex+1, groupesID[i], enseignementId);
                     } catch (error) {
                     }
                 }
@@ -90,7 +90,7 @@ export const handleCellClick = async (rowIndex, colIndex, semaineId, enseignantI
                         minutes: minutes,
                         enseignantCode: enseignantCode};
                         try {
-                            addCellToDatabase(semainesID[rowIndex], enseignantIdInt, enseignementId, groupesID[i], heures, minutes);
+                            addCellToDatabase(rowIndex+1, enseignantIdInt, enseignementId, groupesID[i], heures, minutes);
                         } catch (error) {
                             console.error('Erreur lors de l\'ajout:', error);
                         }

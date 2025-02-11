@@ -12,7 +12,7 @@ class EnseignementController extends Controller
     // EnseignementController.php
     public function index($promo_id, $annee_id): JsonResponse
     {
-        $query = Enseignement::select('enseignements.id', 'enseignements.nom', 'enseignements.nombre_heures_cm', 'enseignements.nombre_heures_td', 'enseignements.nombre_heures_tp')
+        $query = Enseignement::select('enseignements.id', 'enseignements.nom', 'enseignements.semestre', 'enseignements.nombre_heures_cm', 'enseignements.nombre_heures_td', 'enseignements.nombre_heures_tp')
             ->join('promos', 'enseignements.promo_id', '=', 'promos.id')
             ->where('promos.id', $promo_id)
             ->where('promos.annee_id', $annee_id);

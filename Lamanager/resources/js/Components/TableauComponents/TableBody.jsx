@@ -16,8 +16,7 @@ function TableBody({
     clickedCells,
     enseignantId,
     enseignement,
-    groupesID,
-    groupNames,
+    groupes,
     enseignantCode,
     heures,
     minutes,
@@ -35,6 +34,13 @@ function TableBody({
     const [customWeeks, setCustomWeeks] = useState('');
     const [isLoading, setIsLoadingState] = useState(false);
     const [selectedGroups, setSelectedGroups] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const isEvenSemester = enseignement.semestre % 2 === 0;
+    const midIndex = Math.ceil(semaines.length / 2);
+    const filteredSemaines = isEvenSemester ? semaines.slice(midIndex) : semaines.slice(0, midIndex);
+    const filteredSemainesID = isEvenSemester ? semainesID.slice(midIndex) : semainesID.slice(0, midIndex);
+    const startIndex = filteredSemainesID[0]-1;
 
     useEffect(() => {
         const handleClickOutside = () => {
@@ -54,29 +60,35 @@ function TableBody({
 
     const handleDeleteConfirmClick = (deleteOption, customRows) => {
         setIsLoading(true);
-        handleDeleteConfirm(clickedCells, semainesID, groupesID, setClickedCells, setShowDeletePopup, deleteOption, 
+        handleDeleteConfirm(clickedCells, semainesID, groupes.map(g => g.id), setClickedCells, setShowDeletePopup, deleteOption, 
             customRows, enseignement)
             .finally(() => setIsLoading(false));
+    };
+
+    const handleDuplicateClick = () => {
+        setErrorMessage('');
+        setCustomWeeks('');
+        setShowDuplicatePopup(true);
     };
 
     const handleDuplicateConfirmClick = () => {
         setIsLoading(true);
         handleDuplicateConfirm(
-            clickedCells, semainesID, enseignement, groupesID, setClickedCells, setIsLoading, setShowDuplicatePopup, handleCloseContextMenu, 
-            duplicateOption, customWeeks, parseWeeks
+            clickedCells, filteredSemainesID, enseignement, groupes.map(g => g.id), setClickedCells, setIsLoading, setShowDuplicatePopup, handleCloseContextMenu, 
+            duplicateOption, customWeeks, parseWeeks, setErrorMessage
         ).finally(() => setIsLoading(false));
     };
 
     const handleMoveConfirmClick = (selectedWeek) => {
         setIsLoading(true);
         handleMoveConfirm(
-            selectedWeek, clickedCells, semainesID, enseignement, groupesID, setClickedCells, setIsLoading, setShowMovePopup, handleCloseContextMenu
+            selectedWeek, clickedCells, filteredSemainesID, enseignement, groupes.map(g => g.id), setClickedCells, setIsLoading, setShowMovePopup, handleCloseContextMenu
         ).finally(() => setIsLoading(false));
     };
 
     const handleUpdateConfirmClick = (updatedData) => {
         setIsLoading(true);
-        handleUpdateConfirm(updatedData, clickedCells, setClickedCells, semainesID, enseignantId, enseignement, groupesID, 
+        handleUpdateConfirm(updatedData, clickedCells, setClickedCells, filteredSemainesID, enseignantId, enseignement, groupes.map(g => g.id), 
              enseignantCode, setShowUpdatePopup, setIsLoading
         ).finally(() => setIsLoading(false));
     };
@@ -90,19 +102,19 @@ function TableBody({
             )}
             {!isLoading && (
                 <tbody>
-                    {semaines.map((semaine, rowIndex) => (
+                    {filteredSemaines.map((semaine, rowIndex) => (
                         <tr key={semaine}>
                             <td
                                 className="border border-black p-2"
                                 style={{ height: '70px', cursor: contextMenu ? 'default' : 'pointer', position: 'relative' }}
                                 onClick={() => handleClick(
-                                    rowIndex, 0, null, null, true, contextMenu, enseignantId, onCellClick, 
-                                    showIcons, setClickedCells, nbGroupe, enseignement, groupesID, semainesID, 
+                                    rowIndex + startIndex, 0, null, null, true, contextMenu, enseignantId, onCellClick, 
+                                    showIcons, setClickedCells, nbGroupe, enseignement, groupes.map(g => g.id), filteredSemainesID, 
                                     enseignantCode, heures, minutes, clickedCells, handleCellClick
                                 )}
                             >
                                 {semaine}
-                                {showIcons && Object.keys(clickedCells).some(key => key.startsWith(`${rowIndex}-`) && clickedCells[key]?.text) && (
+                                {showIcons && Object.keys(clickedCells).some(key => key.startsWith(`${rowIndex + startIndex}-`) && clickedCells[key]?.text) && (
                                     <div 
                                         style={{ 
                                             position: 'absolute', 
@@ -112,7 +124,7 @@ function TableBody({
                                             height: '8px', 
                                             borderRadius: '50%', 
                                             border: '1px solid black', 
-                                            backgroundColor: clickedCells[`semaine-${rowIndex}`]?.selected ? 'black' : 'transparent' 
+                                            backgroundColor: clickedCells[`semaine-${rowIndex + startIndex}`]?.selected ? 'black' : 'transparent' 
                                         }} 
                                     />
                                 )}
@@ -121,19 +133,19 @@ function TableBody({
                                 <td
                                     key={index}
                                     className={`border border-black p-2 ${
-                                        clickedCells[`${rowIndex}-${index}`]?.clicked 
+                                        clickedCells[`${rowIndex + startIndex}-${index}`]?.clicked 
                                             ? getColorClass(index, nbCM, nbTD) 
                                             : ''
                                     }`}
                                     style={{ cursor: contextMenu ? 'default' : 'pointer', width: `${100 / (nbGroupe+2)}%`, position: 'relative' }}
                                     onClick={() => handleClick(
-                                        rowIndex, index, semainesID[rowIndex], groupesID[index], false, contextMenu, 
+                                        rowIndex + startIndex, index, filteredSemainesID[rowIndex], groupes.map(g => g.id)[index], false, contextMenu, 
                                         enseignantId, onCellClick, showIcons, setClickedCells, nbGroupe, enseignement, 
-                                        groupesID, semainesID, enseignantCode, heures, minutes, clickedCells, handleCellClick
+                                        groupes.map(g => g.id), filteredSemainesID, enseignantCode, heures, minutes, clickedCells, handleCellClick
                                     )}
-                                    onContextMenu={(event) => handleContextMenu(event, rowIndex, index, showIcons, clickedCells, setContextMenu)}
+                                    onContextMenu={(event) => handleContextMenu(event, rowIndex + startIndex, index, showIcons, clickedCells, setContextMenu)}
                                 >
-                                    {showIcons && clickedCells[`${rowIndex}-${index}`]?.text && (
+                                    {showIcons && clickedCells[`${rowIndex + startIndex}-${index}`]?.text && (
                                         <div 
                                             style={{ 
                                                 position: 'absolute', 
@@ -143,12 +155,12 @@ function TableBody({
                                                 height: '8px', 
                                                 borderRadius: '50%', 
                                                 border: '1px solid black', 
-                                                backgroundColor: clickedCells[`${rowIndex}-${index}`]?.selected ? 'black' : 'transparent' 
+                                                backgroundColor: clickedCells[`${rowIndex + startIndex}-${index}`]?.selected ? 'black' : 'transparent' 
                                             }} 
                                         />
                                     )}
-                                    {clickedCells[`${rowIndex}-${index}`]?.text && (
-                                        <h3>{clickedCells[`${rowIndex}-${index}`].text}</h3>
+                                    {clickedCells[`${rowIndex + startIndex}-${index}`]?.text && (
+                                        <h3>{clickedCells[`${rowIndex + startIndex }-${index}`].text}</h3>
                                     )}
                                 </td>
                             ))}
@@ -159,8 +171,8 @@ function TableBody({
             {contextMenu && (
                 <ContextMenu
                     contextMenu={contextMenu}
-                    handleDuplicate={() => handleDuplicate(setShowDuplicatePopup)}
-                    handleEdit={() => handleUpdate(setShowUpdatePopup, setSelectedGroups, clickedCells, groupNames, groupesID, semainesID)}
+                    handleDuplicate={handleDuplicateClick}
+                    handleEdit={() => handleUpdate(setShowUpdatePopup, setSelectedGroups, clickedCells, groupes, filteredSemainesID)}
                     handleMove={() => handleMove(setShowMovePopup)}
                     handleDelete={handleDeleteClick}
                     handleCloseContextMenu={() => handleCloseContextMenu(setContextMenu)}
@@ -174,6 +186,7 @@ function TableBody({
                     setCustomWeeks={setCustomWeeks}
                     handleDuplicateConfirm={handleDuplicateConfirmClick}
                     setShowDuplicatePopup={setShowDuplicatePopup}
+                    errorMessage={errorMessage}
                 />
             )}
             {showDeletePopup && (
@@ -184,7 +197,7 @@ function TableBody({
             )}
             {showMovePopup && (
                 <MovePopup
-                    semaines={semaines}
+                    semaines={filteredSemaines}
                     handleMoveConfirm={handleMoveConfirmClick}
                     setShowMovePopup={setShowMovePopup}
                 />
@@ -194,10 +207,10 @@ function TableBody({
                     setShowUpdatePopup={setShowUpdatePopup}
                     initialData={{ heures, minutes, enseignant: enseignantCode }}
                     selectedGroups={selectedGroups}
-                    groupesID={groupesID}
+                    groupesID={groupes.map(g => g.id)}
                     handleUpdateConfirm={handleUpdateConfirmClick}
                     enseignementId={enseignement.id}
-                    semainesID={semainesID}
+                    semainesID={filteredSemainesID}
                 />
             )}
         </>

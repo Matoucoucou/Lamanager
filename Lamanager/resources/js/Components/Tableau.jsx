@@ -15,8 +15,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
     const {
         semainesID,
         semaines,
-        groupesID,
-        groupNames,
+        groupes,
         nbCM,
         nbTP,
         nbTD,
@@ -105,7 +104,7 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                                     nbCM={nbCM}
                                     nbTD={nbTD}
                                     nbTP={nbTP}
-                                    groupNames={groupNames}
+                                    groupNames={groupes.map(g => g.name)}
                                 />
                                 </thead>
                                 <TableBody
@@ -117,9 +116,8 @@ function EnseignementComponent({ promoId, selectedEnseignements, onRemoveEnseign
                                     clickedCells={clickedCells}
                                     enseignantId={enseignantId}
                                     enseignement={enseignement}
-                                    groupesID={groupesID}
-                                    groupNames={groupNames}
                                     enseignantCode={enseignantCode}
+                                    groupes={groupes}
                                     heures={heures}
                                     minutes={minutes}
                                     setClickedCells={setClickedCells}

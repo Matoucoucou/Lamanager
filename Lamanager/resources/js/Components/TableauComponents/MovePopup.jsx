@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 function MovePopup({ semaines, handleMoveConfirm, setShowMovePopup }) {
     const [selectedWeek, setSelectedWeek] = useState('');
 
+    console.log('selectedWeek:', selectedWeek);
+
     return (
         <div className="popup-overlay" style={overlayStyle}>
             <div className="popup-content" style={contentStyle}>

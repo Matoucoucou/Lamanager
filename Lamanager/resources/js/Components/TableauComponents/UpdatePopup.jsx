@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function UpdatePopup({ setShowUpdatePopup, initialData, selectedGroups, handleUpdateConfirm, enseignementId }) {
+    console.log('initialData', selectedGroups);
     const [heures, setHeures] = useState(selectedGroups.map(() => `${initialData.heures}:${initialData.minutes}`));
     const [enseignants, setEnseignants] = useState([]);
     const [enseignantsMap, setEnseignantsMap] = useState({});
@@ -44,7 +45,7 @@ function UpdatePopup({ setShowUpdatePopup, initialData, selectedGroups, handleUp
     const handleConfirmClick = () => {
         const updatedData = [];
 
-        Object.keys(groupedCells).forEach((groupeId, index) => {
+        sortedGroupIds.forEach((groupeId, index) => {
             const [hours, minutes] = heures[index].split(':').map(Number);
             const enseignantId = selectedEnseignants[index];
             const enseignantCode = enseignantsMap[enseignantId];
@@ -78,20 +79,37 @@ function UpdatePopup({ setShowUpdatePopup, initialData, selectedGroups, handleUp
         return acc;
     }, {});
 
+    // Trier les IDs des groupes en fonction des noms et du type de groupe, en commençant par TD et TP
+    const sortedGroupIds = Object.keys(groupedCells).sort((a, b) => {
+        const typeOrder = { 'TD': 1, 'TP': 2, 'CM': 3 };
+        const typeA = groupedCells[a][0].type;
+        const typeB = groupedCells[b][0].type;
+        if (typeOrder[typeA] !== typeOrder[typeB]) {
+            return typeOrder[typeA] - typeOrder[typeB];
+        }
+        const nameA = groupedCells[a][0].name.toLowerCase();
+        const nameB = groupedCells[b][0].name.toLowerCase();
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        return 0;
+    });
+
+    console.log('sortedGroupIds', sortedGroupIds);
+
     return (
         <div className="popup-overlay" style={overlayStyle}>
             <div className="popup-content" style={contentStyle}>
                 <h2>Modifier</h2>
                 <div style={inputContainerStyle}>
                     <div style={columnHeaderStyle}>
-                        {Object.keys(groupedCells).map((groupeId, index) => (
+                        {sortedGroupIds.map((groupeId, index) => (
                             <div key={`header-${index}`} style={columnStyle}>
                                 <label style={labelStyle}>{groupedCells[groupeId][0].name}</label>
                             </div>
                         ))}
                     </div>
                     <div style={columnHeaderStyle}>
-                        {Object.keys(groupedCells).map((groupeId, index) => (
+                        {sortedGroupIds.map((groupeId, index) => (
                             <div key={`input-${index}`} style={columnStyle}>
                                 <input
                                     type="time"
