@@ -28,7 +28,7 @@ function TimeSelector({ defaultTime, onTimeSelect }) {
     };
 
     return (
-        <div className="flex items-center space-x-2">
+        <div className="menu-wrapper flex items-center space-x-2">
             <div className="w-full">
                 <input
                     type="text"

@@ -40,12 +40,12 @@ function SwitchAlternant({ promoId, onSwitchChange }) {
     return (
         <div className="form-check form-switch">
             <input
-                className="form-check-input"
                 type="checkbox"
                 role="switch"
                 id={`alternantSwitch-${promoId}`}
                 checked={isChecked}
                 onChange={handleChange}
+                className="mr-2 p-[5px] rounded border-2 border-[#564787] scale-125"
             />
             <label className="form-check-label" htmlFor={`alternantSwitch-${promoId}`}>
                 Alternant

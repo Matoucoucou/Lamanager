@@ -11,8 +11,15 @@ export default function VersionProfRightPart({ selections }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isAllEnseignementsSelected, setIsAllEnseignementsSelected] = useState(false);
+  const [alertes, setAlertes] = useState([]);
+  const [alertesLoaded, setAlertesLoaded] = useState(false);
 
   useEffect(() => {
+    fetchAlertes();
+  }, []);
+
+  useEffect(() => {
+    if (alertesLoaded) {
     if (selections.selectedAnnee && selections.selectedEnseignement) {
       fetchCaseTableauData(selections.selectedAnnee.id, selections.selectedEnseignement.id);
     }
@@ -21,8 +28,20 @@ export default function VersionProfRightPart({ selections }) {
       fetchCaseTableauDataAll(selections.selectedAnnee.id);
     } else {
       setIsAllEnseignementsSelected(false);
+    }}
+  }, [alertesLoaded,selections]);
+
+  const fetchAlertes = async () => {
+    try {
+      const sessionResponse = await axios.get('/api/session');
+      const userId = sessionResponse.data.userId;
+      const response = await axios.get(`/api/alertes/${userId}`);
+      setAlertes(response.data);
+      setAlertesLoaded(true);
+    } catch (err) {
+      console.error('Erreur lors de la récupération des alertes', err);
     }
-  }, [selections]);
+  };
 
   const fetchCaseTableauData = async (anneeId, enseignementId) => {
     setLoading(true);
@@ -54,6 +73,17 @@ export default function VersionProfRightPart({ selections }) {
       setError('Erreur lors de la récupération des données');
       setLoading(false);
     }
+  };
+  const getCouleurForHeures = (heure) => {
+    if (alertes.length === 0) {
+        return '#AD71C1'; 
+    }
+    for (let alerte of alertes) {
+        if (heure >= alerte.heure_min && heure <= alerte.heure_max) {
+            return `${alerte.couleur}`;
+        }
+    }
+    return '#AD71C1'; 
   };
 
   const processData = (cases, isAllEnseignementsSelected) => {
@@ -91,6 +121,7 @@ export default function VersionProfRightPart({ selections }) {
     const formattedData = Object.keys(weeksData).map(weekId => ({
       semaine: `S${weekId}`,
       heures: weeksData[weekId].total,
+      couleur: getCouleurForHeures(weeksData[weekId].total)
     }));
 
     const formattedEnseignementsData = Object.keys(weeksData).map(weekId => {
@@ -107,8 +138,6 @@ export default function VersionProfRightPart({ selections }) {
       TD: groupesData[weekId].TD,
       TP: groupesData[weekId].TP,
     }));
-
-    //console.log('Formatted Data:', formattedData);
   
     if (isAllEnseignementsSelected) {
       setDataForEnseignements(formattedEnseignementsData);
@@ -118,8 +147,18 @@ export default function VersionProfRightPart({ selections }) {
     setDataForGroupes(formattedGroupesData);
   };
 
+  const refreshData = () => {
+    if (selections.selectedAnnee && selections.selectedEnseignement) {
+      fetchCaseTableauData(selections.selectedAnnee.id, selections.selectedEnseignement.id);
+    }
+    if (selections.all === "all") {
+      fetchCaseTableauDataAll(selections.selectedAnnee.id);
+    }
+  };
+
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>{error}</div>;
+
 
   return (
     <div className='histogramme'>
@@ -129,8 +168,8 @@ export default function VersionProfRightPart({ selections }) {
         isAllEnseignementsSelected ? (
           <HistogrammeTousEnseignements data={dataForEnseignements} />
         ) : (
-          dataForChart.length > 1 && (
-            <Histogramme data={dataForChart} />
+          dataForChart.length >=   1 && (
+            <Histogramme data={dataForChart} alertes={alertes}/>
           )
         )
       )}

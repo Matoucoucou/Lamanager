@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\SemaineController;
 use App\Http\Controllers\CaseController;
+use App\Http\Controllers\AlerteController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnneeController;
@@ -99,6 +100,9 @@ Route::post('/api/groupes', [GroupeController::class, 'stored'])->name('api.grou
     Route::put('/api/enseignants/{id}', [EnseignantController::class, 'update'])->name('api.enseignants.update');
     Route::delete('/api/enseignants/{id}', [EnseignantController::class, 'destroy'])->name('api.enseignants.destroy');
 
+    Route::get('/api/alertes/{enseignant_id}', [AlerteController::class, 'index'])->name('api.alertes');
+    Route::put('/api/alertes/{id}', [AlerteController::class, 'update'])->name('api.alertes.update');
+});
 
 Route::get('/login', function () {
     return Inertia::render('Login');

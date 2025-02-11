@@ -3,12 +3,26 @@ import { VictoryChart, VictoryStack, VictoryBar, VictoryAxis, VictoryTheme, Vict
 
 const HistogrammeGroupe = ({ data }) => {
 
+  const sanitizeData = (data) => {
+  return data.map(item => {
+    const sanitizedItem = { ...item };
+    ['CM', 'TD', 'TP'].forEach(type => {
+      if (isNaN(sanitizedItem[type])) {
+        sanitizedItem[type] = 0;
+      }
+    });
+    return sanitizedItem;
+  });
+};
+
+  const sanitizedData = sanitizeData(data);
+
   const chartWidth = window.innerWidth * 0.9;
   const chartHeight = window.innerHeight * 0.9;
   const numberOfBars = data.length;
   const dynamicDomainPadding = Math.max(10, chartWidth / (numberOfBars * 2)); 
   
-  const formattedData = data.map(item => ({
+  const formattedData = sanitizedData.map(item => ({
     semaine: item.semaine,
     CM: item.CM,
     TD: item.TD,
