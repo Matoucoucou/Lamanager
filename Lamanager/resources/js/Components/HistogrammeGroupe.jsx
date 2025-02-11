@@ -17,8 +17,6 @@ const HistogrammeGroupe = ({ data }) => {
 
   const sanitizedData = sanitizeData(data);
 
-  console.log("les data pour l'histogramme groupe", sanitizedData);
-
   const chartWidth = window.innerWidth * 0.9;
   const chartHeight = window.innerHeight * 0.9;
   const numberOfBars = data.length;

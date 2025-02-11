@@ -16,7 +16,6 @@ function AlertesVersionProf() {
                 const userId = sessionResponse.data.userId;
 
                 const response = await axios.get(`/api/alertes/${userId}`);
-                console.log("alertes mon pote", response.data);
                 setData(response.data); 
 
             } catch (err) {
@@ -56,7 +55,6 @@ function AlertesVersionProf() {
             const newData = [...data];
             newData[editIndex] = updatedData;
             setData(newData);
-            console.log('updatedData:', updatedData);
             setEditIndex(null);
             window.location.reload(); // Refresh the page
         } catch (err) {

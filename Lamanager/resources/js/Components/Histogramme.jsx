@@ -2,7 +2,6 @@ import React from "react";
 import { VictoryChart, VictoryBar, VictoryAxis, VictoryTheme, VictoryTooltip, VictoryVoronoiContainer, VictoryLabel ,VictoryLegend } from 'victory';
 
 const Histogramme = ({ data, alertes }) => {
-  console.log("les data pour l'histogramme", data);
   const chartWidth = window.innerWidth * 0.9;
   const chartHeight = window.innerHeight * 0.9;
   const numberOfBars = data.length;const dynamicDomainPadding = numberOfBars === 1 ? chartWidth / 2 : Math.max(10, chartWidth / (numberOfBars * 2));
@@ -17,7 +16,6 @@ const Histogramme = ({ data, alertes }) => {
       height={chartHeight}
     >
       <VictoryLegend
-        centerTitle
         orientation="horizontal"
         gutter={20}
         style={{ border: { stroke : "black" },title: { fontSize: 20 }, labels: { fontSize: 18 } }}

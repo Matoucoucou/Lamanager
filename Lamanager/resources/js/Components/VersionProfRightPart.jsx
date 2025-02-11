@@ -20,7 +20,6 @@ export default function VersionProfRightPart({ selections }) {
 
   useEffect(() => {
     if (alertesLoaded) {
-    //console.log('Enseignement sélectionné right:', selections);
     if (selections.selectedAnnee && selections.selectedEnseignement) {
       fetchCaseTableauData(selections.selectedAnnee.id, selections.selectedEnseignement.id);
     }
@@ -37,7 +36,6 @@ export default function VersionProfRightPart({ selections }) {
       const sessionResponse = await axios.get('/api/session');
       const userId = sessionResponse.data.userId;
       const response = await axios.get(`/api/alertes/${userId}`);
-      //console.log('alertes:', response.data);
       setAlertes(response.data);
       setAlertesLoaded(true);
     } catch (err) {
@@ -52,7 +50,6 @@ export default function VersionProfRightPart({ selections }) {
       const userId = sessionResponse.data.userId;
 
       const response = await axios.get(`/api/cases/recherche/${anneeId}/${enseignementId}/${userId}`);
-      //console.log('data:', response.data);
       processData(response.data, false);
       setLoading(false);
     } catch (err) {
@@ -78,17 +75,11 @@ export default function VersionProfRightPart({ selections }) {
     }
   };
   const getCouleurForHeures = (heure) => {
-    //console.log('Heure:', heure);
     if (alertes.length === 0) {
-        //console.log('Aucune alerte disponible');
         return '#AD71C1'; 
     }
     for (let alerte of alertes) {
-        //console.log('Alerte:', alerte);
-        //console.log('Heure min:', alerte.heure_min);
-        //console.log('Heure max:', alerte.heure_max); 
         if (heure >= alerte.heure_min && heure <= alerte.heure_max) {
-            //console.log('Match found:', alerte);
             return `${alerte.couleur}`;
         }
     }
@@ -147,9 +138,6 @@ export default function VersionProfRightPart({ selections }) {
       TD: groupesData[weekId].TD,
       TP: groupesData[weekId].TP,
     }));
-
-    //console.log('data groupes:', formattedGroupesData);
-    //console.log('data histogramme:', formattedData);
   
     if (isAllEnseignementsSelected) {
       setDataForEnseignements(formattedEnseignementsData);
