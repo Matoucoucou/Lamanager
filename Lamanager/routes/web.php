@@ -86,14 +86,14 @@ require __DIR__.'/auth.php';
 
     Route::post('/api/promos/update', [PromoController::class, 'updatePromos'])->name('api.promos.update');
 
-Route::get('/api/liaison_groupes/{groupe_td_id}', [LiaisonGroupeController::class, 'getSubGroups']);
-Route::get('/api/liaison_groupes', [LiaisonGroupeController::class, 'index']);
-Route::post('/api/liaison_groupes', [LiaisonGroupeController::class, 'store']);
+    Route::get('/api/liaison_groupes/{groupe_td_id}', [LiaisonGroupeController::class, 'getSubGroups']);
+    Route::get('/api/liaison_groupes', [LiaisonGroupeController::class, 'index']);
+    Route::post('/api/liaison_groupes', [LiaisonGroupeController::class, 'store']);
 
-Route::put('/api/groupes/{id}', [GroupeController::class, 'update'])->name('api.groupes.update');
-Route::post('/api/update-groupes', [GroupeController::class, 'updateGroupes'])->name('api.update-groupes');
+    Route::put('/api/groupes/{id}', [GroupeController::class, 'update'])->name('api.groupes.update');
+    Route::post('/api/update-groupes', [GroupeController::class, 'updateGroupes'])->name('api.update-groupes');
 
-Route::post('/api/groupes', [GroupeController::class, 'stored'])->name('api.groupes.store');
+    Route::post('/api/groupes', [GroupeController::class, 'stored'])->name('api.groupes.store');
 
     Route::post('/api/enseignants', [EnseignantController::class, 'store'])->name('api.enseignants.store');
     Route::get('/api/enseignants/{annee_id}/{id}', [EnseignantController::class, 'listeEnseignementParEnseignant']);
@@ -102,7 +102,7 @@ Route::post('/api/groupes', [GroupeController::class, 'stored'])->name('api.grou
 
     Route::get('/api/alertes/{enseignant_id}', [AlerteController::class, 'index'])->name('api.alertes');
     Route::put('/api/alertes/{id}', [AlerteController::class, 'update'])->name('api.alertes.update');
-});
+    Route::post('api/groupes', [GroupeController::class, 'store']);
 
 Route::get('/login', function () {
     return Inertia::render('Login');
@@ -117,6 +117,5 @@ Route::middleware('auth')->group(function () {
     Route::post('password-reset', [EnseignantController::class, 'changementMdp'])->name('password-reset');
 });
 
-require __DIR__.'/auth.php';
 
-Route::post('api/groupes', [GroupeController::class, 'store']);
+
