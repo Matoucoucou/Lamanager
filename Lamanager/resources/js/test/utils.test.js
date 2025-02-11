@@ -51,6 +51,14 @@ describe('utils.js', function () {
             consoleErrorStub.restore();
         });
 
+        it('devrait retourner les données de réponse en cas d\'ajout réussi', async function () {
+            const responseData = { success: true };
+            axiosPostStub.resolves({ data: responseData });
+
+            const result = await addCellToDatabase(1, 1, 1, 1, 1, 0);
+            expect(result).to.equal(responseData);
+        });
+
     });
 
     describe('deleteCellFromDatabase', function () {
