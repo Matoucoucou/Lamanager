@@ -38,10 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/test', function () {
-    return Inertia::render('Test');
-})->name('test');
-
 Route::get('/login', function () {
     return Inertia::render('Login');
 })->name('login');
@@ -104,9 +100,6 @@ require __DIR__.'/auth.php';
     Route::put('/api/alertes/{id}', [AlerteController::class, 'update'])->name('api.alertes.update');
     Route::post('api/groupes', [GroupeController::class, 'store']);
 
-Route::get('/login', function () {
-    return Inertia::render('Login');
-})->name('login');
 
 Route::get('/versionProf', function () {
     return Inertia::render('PageVersionProf');
