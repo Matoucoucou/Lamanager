@@ -4,7 +4,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "test": "mocha \"resources/js/test/**/*.js\" --require chai/register-assert --require chai/register-expect --require chai/register-should"
+        "test": "jest"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.26.7",
@@ -23,7 +23,6 @@
         "esm": "^3.2.25",
         "jest": "^29.7.0",
         "laravel-vite-plugin": "^1.0",
-        "mocha": "^11.1.0",
         "postcss": "^8.4.31",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",

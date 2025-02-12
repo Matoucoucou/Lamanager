@@ -1,0 +1,5 @@
+--require chai/register-assert
+--require chai/register-expect
+--require chai/register-should
+resources/js/test/**/*.js
+--loader ts-node/esm

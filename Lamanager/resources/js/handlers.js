@@ -395,6 +395,7 @@ export const handleUpdateConfirm = async (updatedData, clickedCells, setClickedC
 };
 
 const parseRows = (rowsString) => {
+    if (!rowsString) return [];
     const rows = [];
     const ranges = rowsString.split(',');
     ranges.forEach(range => {
@@ -410,7 +411,8 @@ const parseRows = (rowsString) => {
     return rows;
 };
 
-export const parseWeeks = (weeksString) => {
+const parseWeeks = (weeksString) => {
+    if (!weeksString) return [];
     const weeks = [];
     const ranges = weeksString.split(',');
     ranges.forEach(range => {
@@ -425,4 +427,6 @@ export const parseWeeks = (weeksString) => {
     });
     return weeks;
 };
+
+export { parseRows, parseWeeks };
 
