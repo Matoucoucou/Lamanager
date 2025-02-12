@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from '../Components/Header';
 import LeftPart from '../Components/LeftPart';
 import RightPart from '../Components/RightPart';
-import PromoRightPart from '@/Components/PromoRightPart';
+import PromoRightPart from '@/Components/GestionPromo/PromoRightPart.jsx';
 import HeaderNeutre from '@/Components/HeaderNeutre';
 import MenuAnnee from '@/Components/MenuAnnee';
 import AddAnneeForm from '@/Components/AddAnneeForm';

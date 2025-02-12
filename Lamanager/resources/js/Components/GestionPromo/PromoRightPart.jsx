@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import ChoixPromo from "./ChoixPromo";
-import AjoutPromo from "@/Components/AjoutPromo.jsx";
-import BoutonModificationsPromos from "./BoutonsModificationsPromos";
+import ChoixPromo from "../ChoixPromo.jsx";
+import AjoutPromo from "@/Components/GestionPromo/AjoutPromo.jsx";
+import BoutonModificationsPromos from "./BoutonsModificationsPromos.jsx";
 import { Trash2, Edit } from "lucide-react";
 import { Link } from '@inertiajs/react';
-import PopupModifPromo from "./PopupModifPromo";
-import PopupSuppression from "./popupSuppression"; // Importez le composant PopupSuppression
+import PopupModifPromo from "./PopupModifPromo.jsx";
+import PopupSuppression from "./popupSuppression.jsx"; // Importez le composant PopupSuppression
 
 function PromoRightPart({ selectedAnnee }) {
     const [promos, setPromos] = useState([]);
@@ -45,7 +45,7 @@ function PromoRightPart({ selectedAnnee }) {
             temp.push(promos[i]);
         }
     }
-    
+
     temp.sort((a, b) => {
         // Extract the number from the 'nom' attribute
         const numA = parseInt(a.nom.replace(/\D/g, ''), 10);

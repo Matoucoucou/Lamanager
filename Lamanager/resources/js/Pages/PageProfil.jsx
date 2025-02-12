@@ -3,9 +3,9 @@ import axios from 'axios';
 import Header from '@/Components/Header';
 import LeftPart from '@/Components/LeftPart';
 import RightPart from '@/Components/RightPart';
-import BarreOutils from '@/Components/BarreOutils';
-import ProfilLeftPart from '@/Components/ProfilLeftPart';
-import ProfilRightPart from '@/Components/ProfilRightPart';
+import BarreOutils from '@/Components/BarreOutils/BarreOutils.jsx';
+import ProfilLeftPart from '@/Components/Profil/ProfilLeftPart.jsx';
+import ProfilRightPart from '@/Components/Profil/ProfilRightPart.jsx';
 import GestionCompte from '@/Components/GestionCompte';
 
 export default function PageProfil() {

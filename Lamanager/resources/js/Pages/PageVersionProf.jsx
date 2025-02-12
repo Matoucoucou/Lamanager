@@ -3,9 +3,9 @@ import axios from 'axios';
 import Header from '@/Components/Header';
 import LeftPart from '@/Components/LeftPart';
 import RightPart from '@/Components/RightPart';
-import BarreOutils from '@/Components/BarreOutils';
-import VersionProfLeftPart from '@/Components/VersionProfLeftPart';
-import VersionProfRightPart from '@/Components/VersionProfRightPart';
+import BarreOutils from '@/Components/BarreOutils/BarreOutils.jsx';
+import VersionProfLeftPart from '@/Components/VersionProf/VersionProfLeftPart.jsx';
+import VersionProfRightPart from '@/Components/VersionProf/VersionProfRightPart.jsx';
 
 export default function PageVersionProf() {
   const [selections, setSelections] = useState({});

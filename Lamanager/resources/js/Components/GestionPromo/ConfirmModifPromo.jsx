@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/inputconfirmmodifpromo.css";
+import "../../../css/inputconfirmmodifpromo.css";
 
 function ConfirmModifPromo({ isOpen, onClose, onConfirm, message }) {
     if (!isOpen) return null;

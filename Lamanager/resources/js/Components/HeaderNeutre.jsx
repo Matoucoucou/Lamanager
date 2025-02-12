@@ -1,7 +1,7 @@
 import React from "react";
 import logo from '../../img/testlogo.png';
 import { Link } from '@inertiajs/react';
-import BoutonProfil from "@/Components/BoutonProfil.jsx";
+import BoutonProfil from "@/Components/Profil/BoutonProfil.jsx";
 
 
 function HeaderNeutre({ }) {

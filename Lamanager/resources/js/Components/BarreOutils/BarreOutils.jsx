@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import logo from '../../img/testlogo.png';
+import logo from '../../../img/testlogo.png';
 import { Link } from '@inertiajs/react';
 import { Table, ChartColumnIncreasing, MousePointer2, Settings, BookUser, FileUser, Download } from "lucide-react";
 import axios from 'axios';
-import ImportPopup from "@/Components/ImportPopup.jsx";
+import ImportPopup from "@/Components/BarreOutils/ImportPopup.jsx";
 import RolePopup from "@/Components/RolePopup.jsx";
 import colors from "tailwindcss/colors.js";
 
@@ -150,7 +150,7 @@ function BarreOutils({ lockButton,toggleIcons }) {
                     {popupInfoButton.text}
                 </div>
             )}
-                
+
 
             {window.location.pathname === '/tableau' && (
                 <div className="NomPromo">

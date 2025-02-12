@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../css/inputconfirmmodifpromo.css";
+import "../../../css/inputconfirmmodifpromo.css";
 function InputModifPromo({ isOpen, onClose, onSubmit, title, label }) {
     const [inputValue, setInputValue] = useState("");
 

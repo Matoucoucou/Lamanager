@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import HistogrammeGroupe from '@/Components/HistogrammeGroupe';
-import HistogrammeTousEnseignements from '@/Components/HistogrammeTousEnseignements';
-import Histogramme from '@/Components/Histogramme';
+import HistogrammeGroupe from '@/Components/VersionProf/HistogrammeGroupe.jsx';
+import HistogrammeTousEnseignements from '@/Components/VersionProf/HistogrammeTousEnseignements.jsx';
+import Histogramme from '@/Components/VersionProf/Histogramme.jsx';
 
 export default function VersionProfRightPart({ selections }) {
   const [dataForChart, setDataForChart] = useState([]);
@@ -76,32 +76,32 @@ export default function VersionProfRightPart({ selections }) {
   };
   const getCouleurForHeures = (heure) => {
     if (alertes.length === 0) {
-        return '#AD71C1'; 
+        return '#AD71C1';
     }
     for (let alerte of alertes) {
         if (heure >= alerte.heure_min && heure <= alerte.heure_max) {
             return `${alerte.couleur}`;
         }
     }
-    return '#AD71C1'; 
+    return '#AD71C1';
   };
 
   const processData = (cases, isAllEnseignementsSelected) => {
     const weeksData = {};
     const groupesData = {};
     const enseignements = new Set();
-  
+
     cases.forEach((caseItem) => {
       const weekId = caseItem.semaine_id;
       const hours = caseItem.nombre_heure;
       const minutes = caseItem.nombre_minute || 0;
       const type = caseItem.type;
       const enseignement = caseItem.nom;
-  
+
       if (!weeksData[weekId]) {
         weeksData[weekId] = {total: 0};
       }
-      
+
       weeksData[weekId].total += hours + minutes / 60;
       enseignements.add(enseignement);
 
@@ -109,7 +109,7 @@ export default function VersionProfRightPart({ selections }) {
         weeksData[weekId][enseignement] = 0;
       }
       weeksData[weekId][enseignement] += hours + minutes / 60;
-      
+
       if (!groupesData[weekId]) {
         groupesData[weekId] = { CM: 0, TD: 0, TP: 0 };
       }
@@ -117,7 +117,7 @@ export default function VersionProfRightPart({ selections }) {
     });
 
     const allEnseignements = Array.from(enseignements);
-    
+
     const formattedData = Object.keys(weeksData).map(weekId => ({
       semaine: `S${weekId}`,
       heures: weeksData[weekId].total,
@@ -138,7 +138,7 @@ export default function VersionProfRightPart({ selections }) {
       TD: groupesData[weekId].TD,
       TP: groupesData[weekId].TP,
     }));
-  
+
     if (isAllEnseignementsSelected) {
       setDataForEnseignements(formattedEnseignementsData);
     } else {

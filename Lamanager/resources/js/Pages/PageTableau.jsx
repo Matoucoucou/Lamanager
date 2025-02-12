@@ -4,8 +4,8 @@ import ListesEnseignementsEnseignants from '../Components/TableauLeftPart/Listes
 import LeftPart from '@/Components/LeftPart';
 import RightPart from '@/Components/RightPart';
 import Tableau from '@/Components/Tableau';
-import BarreOutils from '@/Components/BarreOutils';
-import BoutonProfil from '@/Components/BoutonProfil';
+import BarreOutils from '@/Components/BarreOutils/BarreOutils.jsx';
+import BoutonProfil from '@/Components/Profil/BoutonProfil.jsx';
 
 export default function PageTableau() {
     // Déplacer la déclaration de urlParams avant son utilisation

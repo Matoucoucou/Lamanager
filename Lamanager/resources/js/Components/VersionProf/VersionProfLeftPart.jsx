@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Eye } from 'lucide-react';
-import MenuAnnee from './MenuAnnee';
-import EnseignementListeVersionProf from './EnseignementListeVersionProf';
-import TableauVersionProf from './TableauVersionProf';
-import TableauVersionProfDetail from './TableauVersionProfDetail';
-import AlertesVersionProf from './AlertesVersionProf';
+import MenuAnnee from '../MenuAnnee.jsx';
+import EnseignementListeVersionProf from './EnseignementListeVersionProf.jsx';
+import TableauVersionProf from './TableauVersionProf.jsx';
+import TableauVersionProfDetail from './TableauVersionProfDetail.jsx';
+import AlertesVersionProf from './AlertesVersionProf.jsx';
 
 export default function VersionProfLeftPart({ onSelectionChange }) {
     const [selectedAnnee, setSelectedAnnee] = useState(null);
-    const [selectedEnseignement, setSelectedEnseignement] = useState(null);  
+    const [selectedEnseignement, setSelectedEnseignement] = useState(null);
     const [isAllEnseignementsSelected, setIsAllEnseignementsSelected] = useState(false);
     const [showGroupes, setShowGroupes] = useState(false);
     const [showTableauPopup, setShowTableauPopup] = useState(false);
@@ -40,7 +40,7 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
     };
 
     const handleSelectionChange = () => {
-        if (selectedAnnee && selectedEnseignement) {    
+        if (selectedAnnee && selectedEnseignement) {
             onSelectionChange({ selectedAnnee, selectedEnseignement, showGroupes });
         }
         if (isAllEnseignementsSelected) {
@@ -49,35 +49,35 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
     };
     return (
         <div>
-            <MenuAnnee 
-                selectedAnnee={selectedAnnee} 
-                onAnneeSelect={handleAnneeSelect} 
+            <MenuAnnee
+                selectedAnnee={selectedAnnee}
+                onAnneeSelect={handleAnneeSelect}
             />
             {selectedAnnee && (
-                <EnseignementListeVersionProf 
-                    anneeId={selectedAnnee.id} 
-                    onEnseignementSelect={setSelectedEnseignement} 
+                <EnseignementListeVersionProf
+                    anneeId={selectedAnnee.id}
+                    onEnseignementSelect={setSelectedEnseignement}
                     setIsAllEnseignementsSelected={setIsAllEnseignementsSelected}
                 />
             )}
             <div className="p-4 pt-0">
                 <label>
-                    <input 
-                        type="checkbox" 
+                    <input
+                        type="checkbox"
                         checked={showGroupes}
-                        onChange={() => setShowGroupes(!showGroupes)}  
+                        onChange={() => setShowGroupes(!showGroupes)}
                         className="mr-2 p-[5px] rounded border-2 border-[#564787] scale-125"
                     />
                     Groupes
                 </label>
             </div>
-            <div className="button-container">  
+            <div className="button-container">
                 <button onClick={handleTableauClick}>Tableau</button>
                 <button onClick={handleAlertesClick}>Alertes</button>
-            </div> 
+            </div>
             <div className="button-container">
-                <button 
-                    onClick={handleSelectionChange} 
+                <button
+                    onClick={handleSelectionChange}
                     className="flex items-center justify-center space-x-2"
                 >
                     <Eye color="#ffffff" />
@@ -89,8 +89,8 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto relative">
                     <div className="sticky top-0 bg-white z-10 flex justify-between items-center p-4 border-b">
-                        <button 
-                            onClick={handleCloseTableauPopup} 
+                        <button
+                            onClick={handleCloseTableauPopup}
                             className="absolute top-4 right-4 text-2xl font-bold hover:text-red-600"
                         >
                             &times;
@@ -110,8 +110,8 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
                     <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] relative">
                         <div className="sticky top-0 bg-white z-10 flex justify-between items-center p-4 border-b">
                             <h2 className="text-2xl font-bold">Détail Semaine</h2>
-                            <button 
-                                onClick={handleCloseDetailsPopup} 
+                            <button
+                                onClick={handleCloseDetailsPopup}
                                 className="text-2xl font-bold hover:text-red-600">
                                 &times;
                                 </button>

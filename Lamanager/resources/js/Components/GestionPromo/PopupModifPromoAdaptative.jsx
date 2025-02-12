@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import InputModifPromo from "./InputModifPromo.jsx";
 import ConfirmModifPromo from "./ConfirmModifPromo.jsx";
-import "../../css/modifpromoadapt.css";
+import "../../../css/modifpromoadapt.css";
 
 function PopupModifPromoAdaptative({ onClose, promoName, promos, updatePromoData, refreshPromoData }) {
     const promo = promos.find(promo => promo.nom === promoName);

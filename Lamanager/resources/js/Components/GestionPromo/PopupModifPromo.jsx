@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PopupModifPromoAdaptative from "./PopupModifPromoAdaptative.jsx";
 import axios from "axios";
-import "../../css/modifpromo.css";
+import "../../../css/modifpromo.css";
 
 function PopupModifPromo({ onClose, promos, selectedAnnee }) {
     const [showPopup, setShowPopup] = useState(false);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
-import BarreOutils from './BarreOutils';
-import BoutonProfil from './BoutonProfil';
+import BarreOutils from './BarreOutils/BarreOutils.jsx';
+import BoutonProfil from './Profil/BoutonProfil.jsx';
 
 export default function Header({ ComposantProp, isAdmin }) {
     return (
