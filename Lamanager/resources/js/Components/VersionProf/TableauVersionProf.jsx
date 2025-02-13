@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTableauVersionProf } from '../hooks/useTableauVersionProf';
+import { useTableauVersionProf } from '../../hooks/useTableauVersionProf';
 
 export default function TableauVersionProf({ anneeId }) {
   const { processedData, loading, error } = useTableauVersionProf(anneeId);
