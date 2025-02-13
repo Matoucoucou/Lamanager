@@ -49,7 +49,7 @@ export default function ProfilRightPart({ userData = {} }) {
             {showGestionCompte ? (
                 <GestionCompte />
             ) : (
-                <div className="w-3/4 bg-white rounded-lg shadow-md p-6">
+                <div className="w-3/4 h-4/5 bg-white rounded-lg shadow-md p-6 overflow-auto">
                     <div className="space-y-4">
                         <div className="flex flex-col">
                             <label className="text-gray-600">Nom</label>

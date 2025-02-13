@@ -66,17 +66,18 @@ function PromoRightPart({ selectedAnnee }) {
                 ))}
                 <li onClick={() => setShowCustomPopup(true)}><ChoixPromo className="but-class" title="+"/></li>
             </ul>
+
         </div>
         <div className="ModificationsPromos">
             <BoutonModificationsPromos
-            className="btn-modif-class"
-            Icon={Trash2}
-            onClick={() => setShowDeletePopup(true)}
+                className="btn-modif-class"
+                Icon={Trash2}
+                onClick={() => setShowDeletePopup(true)}
             />
             <BoutonModificationsPromos
-            className="btn-modif-class"
-            Icon={Edit}
-            onClick={() => setShowEditPopup(true)}
+                className="btn-modif-class"
+                Icon={Edit}
+                onClick={() => setShowEditPopup(true)}
             />
         </div>
 

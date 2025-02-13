@@ -179,20 +179,28 @@ p {
     height: 85vh;
     width: 100%;
     background-color: #ffffff;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+}
+
+.Promos::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
 }
 
 .promos-list {
     list-style-type: none;
-    padding: 0;
-    margin: 0;
+    margin-bottom: 50px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 50px;
+
+
 }
 
 .promos-list li {
-    width: calc(50% - 40px);
+    width: 480px;
+
 }
 
 .but-class {
@@ -212,9 +220,8 @@ p {
 }
 
 .but-class:hover {
-    border: 2px solid #564787;
-    transform: scale(1.1);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    background: #f2f2f2;
+    transform: scale(1.05);
 }
 
 .ModificationsPromos {
@@ -226,6 +233,7 @@ p {
     height: 15vh;
     width: 100%;
     background-color: #ffffff;
+
 }
 
 .btn-modif-class {
@@ -1081,4 +1089,10 @@ button[disabled]
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.circle-user {
+    width: 3%;
+    height: auto;
+
 }
