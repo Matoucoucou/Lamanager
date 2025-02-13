@@ -91,11 +91,6 @@ function BarreOutils({ lockButton,toggleIcons }) {
                 <li className="barre-outils-item" onClick={() => setShowRolePopup(true)}
                     onMouseEnter={(e) => handleMouseEnter(e, "Gestion des rôles")}
                     onMouseLeave={handleMouseLeave}><FileUser/></li>
-
-                <li className="barre-outils-item-lock" onClick={handleClickDownload}
-                    onMouseEnter={(e) => handleMouseEnter(e, "Téléchargement du prévisionel")}
-                    onMouseLeave={handleMouseLeave}>
-                    <Download/></li>
             </ul>
         }
         else{
@@ -116,11 +111,6 @@ function BarreOutils({ lockButton,toggleIcons }) {
                 <li className="barre-outils-item" onClick={() => setShowRolePopup(true)}
                     onMouseEnter={(e) => handleMouseEnter(e, "Gestion des rôles")}
                     onMouseLeave={handleMouseLeave}><FileUser/></li>
-
-                <li className="barre-outils-item" onClick={handleClickDownload}
-                    onMouseEnter={(e) => handleMouseEnter(e, "Téléchargement du prévisionel")}
-                    onMouseLeave={handleMouseLeave}>
-                    <Download/></li>
 
             </ul>
         }
