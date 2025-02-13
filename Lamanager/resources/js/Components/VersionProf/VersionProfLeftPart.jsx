@@ -5,6 +5,8 @@ import EnseignementListeVersionProf from './EnseignementListeVersionProf.jsx';
 import TableauVersionProf from './TableauVersionProf.jsx';
 import TableauVersionProfDetail from './TableauVersionProfDetail.jsx';
 import AlertesVersionProf from './AlertesVersionProf.jsx';
+import { useTableauVersionProf } from '../hooks/useTableauVersionProf';
+import { usePDFDownload } from '../hooks/usePDFDownload';
 
 export default function VersionProfLeftPart({ onSelectionChange }) {
     const [selectedAnnee, setSelectedAnnee] = useState(null);
@@ -13,7 +15,21 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
     const [showGroupes, setShowGroupes] = useState(false);
     const [showTableauPopup, setShowTableauPopup] = useState(false);
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+    const [processedTableauData, setProcessedTableauData] = useState([]);
+    const [processedDetailsData, setProcessedDetailsData] = useState([]);
+
+    const { processedData } = useTableauVersionProf(selectedAnnee?.id);
+    const { downloadTableauRecapitulatif, downloadTableauDetails } = usePDFDownload();
     const [showAlertesPopup,setShowAlertesPopup] = useState(false);
+
+    useEffect(() => {
+        // Only update if processedData has changed and is not empty
+        if (processedData.length > 0 && 
+            JSON.stringify(processedData) !== JSON.stringify(processedTableauData)) {
+            setProcessedTableauData(processedData);
+        }
+    }, [processedData]);
+
 
     const handleAnneeSelect = (annee) => {
         setSelectedAnnee(annee);
@@ -37,6 +53,18 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
 
     const handleCloseDetailsPopup = () => {
         setShowDetailsPopup(false);
+    };
+
+    const handleDownloadTableauClick = () => {
+        downloadTableauRecapitulatif(processedTableauData);
+    };
+
+    const handleDownloadDetailsClick = () => {
+        downloadTableauDetails(processedDetailsData);
+    };
+
+    const handleDetailsDataReady = (data) => {
+        setProcessedDetailsData(data);
     };
 
     const handleSelectionChange = () => {
@@ -100,6 +128,7 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
                         <TableauVersionProf anneeId={selectedAnnee.id} />
                         <div className="button-container">
                             <button onClick={handleDetailsClick}>Détail Semaine</button>
+                            <button onClick={handleDownloadTableauClick}>Télécharger PDF</button>
                         </div>
                     </div>
                 </div>
@@ -117,7 +146,13 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
                                 </button>
                         </div>
                         <div className="p-6 overflow-auto max-h-[calc(90vh-60px)]">
-                            <TableauVersionProfDetail anneeId={selectedAnnee.id} />
+                            <TableauVersionProfDetail 
+                                anneeId={selectedAnnee.id} 
+                                onDataReady={handleDetailsDataReady} 
+                            />
+                            <div className="button-container">
+                                <button onClick={handleDownloadDetailsClick}>Télécharger PDF</button>
+                            </div>
                         </div>
                     </div>
                 </div>
