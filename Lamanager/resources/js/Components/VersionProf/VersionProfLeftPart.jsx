@@ -5,8 +5,8 @@ import EnseignementListeVersionProf from './EnseignementListeVersionProf.jsx';
 import TableauVersionProf from './TableauVersionProf.jsx';
 import TableauVersionProfDetail from './TableauVersionProfDetail.jsx';
 import AlertesVersionProf from './AlertesVersionProf.jsx';
-import { useTableauVersionProf } from '../hooks/useTableauVersionProf';
-import { usePDFDownload } from '../hooks/usePDFDownload';
+import { useTableauVersionProf } from '../../hooks/useTableauVersionProf';
+import { usePDFDownload } from '../../hooks/usePDFDownload';
 
 export default function VersionProfLeftPart({ onSelectionChange }) {
     const [selectedAnnee, setSelectedAnnee] = useState(null);
