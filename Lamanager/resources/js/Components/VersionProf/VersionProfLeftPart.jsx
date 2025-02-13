@@ -7,6 +7,7 @@ import TableauVersionProfDetail from './TableauVersionProfDetail.jsx';
 import AlertesVersionProf from './AlertesVersionProf.jsx';
 import { useTableauVersionProf } from '../../hooks/useTableauVersionProf';
 import { usePDFDownload } from '../../hooks/usePDFDownload';
+import { useTableauVersionProfDetail } from '../../hooks/useTableauVersionProfDetail';
 
 export default function VersionProfLeftPart({ onSelectionChange }) {
     const [selectedAnnee, setSelectedAnnee] = useState(null);
@@ -20,6 +21,7 @@ export default function VersionProfLeftPart({ onSelectionChange }) {
 
     const { processedData } = useTableauVersionProf(selectedAnnee?.id);
     const { downloadTableauRecapitulatif, downloadTableauDetails } = usePDFDownload();
+    const { tableauVersionProfDetail } = useTableauVersionProfDetail();
     const [showAlertesPopup,setShowAlertesPopup] = useState(false);
 
     useEffect(() => {

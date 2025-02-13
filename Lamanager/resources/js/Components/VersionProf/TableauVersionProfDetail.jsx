@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useTableauVersionProfDetail } from '../hooks/useTableauVersionProfDetail';
+import { useTableauVersionProfDetail } from '../../hooks/useTableauVersionProfDetail';
 
 export default function TableauVersionProfDetail({ 
   anneeId, 
