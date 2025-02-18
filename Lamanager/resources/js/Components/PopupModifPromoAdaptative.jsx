@@ -10,8 +10,8 @@ function PopupModifPromoAdaptative({ onClose, promoName, promos, updatePromoData
     const [liaisons, setLiaisons] = useState([]);
     const [isInputModalOpen, setInputModalOpen] = useState(false);
     const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
-    const [modalType, setModalType] = useState("");
-    const [tdGroupName, setTdGroupName] = useState("");
+    const [modalType] = useState("");
+    const [tdGroupName] = useState("");
     const [tdGroupToDelete, setTdGroupToDelete] = useState(null);
 
     useEffect(() => {
@@ -23,6 +23,10 @@ function PopupModifPromoAdaptative({ onClose, promoName, promos, updatePromoData
                 console.error("Error fetching groupes:", error);
             }
         };
+
+        fetchGroupes().then(() => {
+            setGroupesData(prevGroupesData => prevGroupesData.sort((a, b) => a.nom.localeCompare(b.nom, undefined, { numeric: true })));
+        });
 
         const fetchLiaisons = async () => {
             try {
@@ -197,8 +201,7 @@ function PopupModifPromoAdaptative({ onClose, promoName, promos, updatePromoData
                 </div>
 
                 <div className="td-blocks-container">
-                    {groupesData.filter(groupe => groupe.type === 'TD').map((groupeTD) => (
-                        <div key={groupeTD.id} className="td-block">
+                    {groupesData.filter(groupe => groupe.type === 'TD').sort((a, b) => a.nom.localeCompare(b.nom, undefined, { numeric: true })).map((groupeTD) => (                        <div key={groupeTD.id} className="td-block">
                             <div className="td-group">
                                 <input
                                     type="text"
