@@ -10,7 +10,7 @@ function PopupModifPromo({ onClose, promos, selectedAnnee }) {
         ...promo,
         nombre_td: promo.nombre_td || 0,
         nombre_tp: promo.nombre_tp || 0
-    })));
+    })).sort((a, b) => a.nom.localeCompare(b.nom, undefined, { numeric: true })));
 
     useEffect(() => {
         const fetchGroupesForPromos = async () => {
@@ -50,7 +50,7 @@ function PopupModifPromo({ onClose, promos, selectedAnnee }) {
     const refreshPromoData = async () => {
         try {
             const response = await axios.get(`/api/promos/${selectedAnnee.id}`);
-            setPromoData(response.data);
+            setPromoData(response.data.sort((a, b) => a.nom.localeCompare(b.nom, undefined, { numeric: true })));
         } catch (error) {
             console.error("Error refreshing promo data:", error);
         }
