@@ -41,6 +41,6 @@ public function store(Request $request): JsonResponse
         'id' => $annee->id,
         'annee_scolaire' => $debut . '-' . $fin,
         'annee' => $annee->annee
-    ]);
+    ],201); //Précise le code de statut 201
 }
 }
