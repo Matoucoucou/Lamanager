@@ -29,26 +29,13 @@ function AlertesVersionProf() {
         fetchCaseTableauDataAll();
     }, []);
 
-    useEffect(() => {
-        if (editIndex !== null) {
-            setEditData(prevEditData => ({
-                ...prevEditData,
-                couleur: prevEditData.couleur.toLowerCase()
-            }));
-
-            // Set heure_min to heure_max + 1 of the previous alerte
-            if (editIndex > 0) {
-                setEditData(prevEditData => ({
-                    ...prevEditData,
-                    heure_min: data[editIndex - 1].heure_max + 1
-                }));
-            }
-        }
-    }, [editIndex]);
-
     const handleEditClick = (index) => {
         setEditIndex(index);
-        setEditData(data[index]);
+        const newEditData = { ...data[index] };
+        if (index > 0) {
+            newEditData.heure_min = Number(data[index - 1].heure_max) + 1;
+        }
+        setEditData(newEditData);
     };
 
     const handleInputChange = (e) => {
@@ -69,7 +56,6 @@ function AlertesVersionProf() {
             newData[editIndex] = updatedData;
             setData(newData);
             setEditIndex(null);
-            window.location.reload(); // Refresh the page
         } catch (err) {
             console.error('Erreur lors de la mise à jour des données', err);
             setError('Erreur lors de la mise à jour des données');
@@ -89,6 +75,7 @@ function AlertesVersionProf() {
                         <th className="border p-2">Heure minimum</th>
                         <th className="border p-2">Heure maximum</th>
                         <th className="border p-2">Couleur</th>
+                        <th className="border p-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,22 +83,17 @@ function AlertesVersionProf() {
                         <tr key={alerte.id}>
                             {editIndex === index ? (
                                 <>
-                                    {error && (
-                                        <tr>
-                                            <td colSpan="5" className="border p-2 text-red-500">{error}</td>
-                                        </tr>
-                                    )}
                                     <td className="border p-2">
                                         <input type="text" name="nom" value={editData.nom} onChange={handleInputChange} className="w-full"/>
                                     </td>
                                     <td className="border p-2">
-                                        <input type="number" name="heure_min" value={editData.heure_min} className="w-full" disabled />
+                                        <input type="number" name="heure_min" value={editData.heure_min} onChange={handleInputChange} className="w-full" disabled={index > 0} />
                                     </td>
                                     <td className="border p-2">
-                                        <input type="number"  name="heure_max" value={editData.heure_max} onChange={handleInputChange} className="w-full" />
+                                        <input type="number" name="heure_max" value={editData.heure_max} onChange={handleInputChange} className="w-full" />
                                     </td>
                                     <td className="border p-2">
-                                        <input type="color" name="couleur" value={editData.couleur.toUpperCase()} onChange={handleInputChange} className="w-full" />
+                                        <input type="color" name="couleur" value={editData.couleur} onChange={handleInputChange} className="w-full" />
                                     </td>
                                     <td className="border p-2">
                                         <button onClick={handleSaveClick} className="bg-blue-500 text-white p-2">Enregistrer</button>
@@ -123,11 +105,12 @@ function AlertesVersionProf() {
                                     <td className="border p-2">{alerte.heure_min}</td>
                                     <td className="border p-2">{alerte.heure_max}</td>
                                     <td className="border p-2" style={{ backgroundColor: `${alerte.couleur}` }}></td>
-                                    <button onClick={() => handleEditClick(index)} className="p-2">Modifier</button>
+                                    <td className="border p-2">
+                                        <button onClick={() => handleEditClick(index)} className="p-2">Modifier</button>
+                                    </td>
                                 </>
                             )}
                         </tr>
-                        
                     ))}
                 </tbody>
             </table>
