@@ -35,6 +35,14 @@ function AlertesVersionProf() {
                 ...prevEditData,
                 couleur: prevEditData.couleur.toLowerCase()
             }));
+
+            // Set heure_min to heure_max + 1 of the previous alerte
+            if (editIndex > 0) {
+                setEditData(prevEditData => ({
+                    ...prevEditData,
+                    heure_min: data[editIndex - 1].heure_max + 1
+                }));
+            }
         }
     }, [editIndex]);
 
@@ -49,6 +57,11 @@ function AlertesVersionProf() {
     };
 
     const handleSaveClick = async () => {
+        if (editData.heure_min >= editData.heure_max) {
+            setError('Heure minimum doit être inférieure à heure maximum');
+            return;
+        }
+
         try {
             const updatedData = { ...editData, couleur: editData.couleur.toUpperCase() };
             await axios.put(`/api/alertes/${editData.id}`, updatedData);
@@ -83,11 +96,16 @@ function AlertesVersionProf() {
                         <tr key={alerte.id}>
                             {editIndex === index ? (
                                 <>
+                                    {error && (
+                                        <tr>
+                                            <td colSpan="5" className="border p-2 text-red-500">{error}</td>
+                                        </tr>
+                                    )}
                                     <td className="border p-2">
                                         <input type="text" name="nom" value={editData.nom} onChange={handleInputChange} className="w-full"/>
                                     </td>
                                     <td className="border p-2">
-                                        <input type="number" name="heure_min" value={editData.heure_min} onChange={handleInputChange} className="w-full" />
+                                        <input type="number" name="heure_min" value={editData.heure_min} className="w-full" disabled />
                                     </td>
                                     <td className="border p-2">
                                         <input type="number"  name="heure_max" value={editData.heure_max} onChange={handleInputChange} className="w-full" />
